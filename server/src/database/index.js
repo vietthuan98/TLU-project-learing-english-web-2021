@@ -8,3 +8,11 @@ mongoose.connect(process.env.MONGO_DB_URL, {
     useFindAndModify: false,
     useCreateIndex: true,
 });
+const db = mongoose.connection;
+
+db.on('error', () => {
+    console.log('Connection error');
+});
+db.once('open', function () {
+    console.log('DB is connected');
+});
