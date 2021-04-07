@@ -15,7 +15,6 @@ export const sendVerifyEmail = async (email, user, link) => {
 
         </strong>`,
     });
-    console.log('result', result);
     return result;
 };
 

@@ -61,8 +61,9 @@ export const register = async (req, res) => {
         });
         await verification.save();
 
-        // const link = `${req.protocol}://${req.hostname}:${process.env.PORT}/api/auth/verify?token=${verification.token}`; //TODO check here on production
-        // await sendVerifyEmail(user.email, user, link);
+        const link = `${req.protocol}://${req.hostname}:${process.env.PORT}/api/auth/verify?token=${verification.token}`; //TODO check here on production
+        const sendEmailResponse = await sendVerifyEmail(user.email, user, link);
+
         res.status(200).send(
             new Response(200, 'User created successfully', {
                 user,

@@ -5,6 +5,7 @@ export const attrArticles = [
     'title',
     'paragraph',
     'likes',
+    'image',
     'comments',
     'author',
     'createdAt',
@@ -18,6 +19,11 @@ export async function findArticles(attr, limit, page, query) {
     const articles = await Article.find(query)
         .limit(_limit)
         .skip(_skip)
-        .select(attr);
+        .select(attr)
+        .populate('author', ['name']);
     return articles;
+}
+
+export async function updateArticle() {
+    //
 }
