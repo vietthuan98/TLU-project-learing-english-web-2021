@@ -4,6 +4,7 @@ import {
     getMyArticles,
     getArticleDetail,
     updateArticle,
+    uploadArticleImage,
 } from './article.controller';
 import { authenticate } from '../../middleware/auth.middleware';
 import {
@@ -17,10 +18,15 @@ const articleRoute = (router) => {
     router.get('/articles/me', authenticate, getMyArticles);
     router.get('/articles/:id', authenticate, getArticleDetail);
     router.post(
+        '/articles/image',
+        authenticate,
+        uploadImage,
+        uploadArticleImage
+    );
+    router.post(
         '/articles',
         authenticate,
-        // validateCreateArticle,
-        uploadImage,
+        validateCreateArticle,
         createArticle
     );
     router.patch(

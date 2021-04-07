@@ -1,6 +1,7 @@
 import Response from '../../helpers/commonResponse';
 import Article from './article.model';
 import { findArticles, attrArticles } from './article.service';
+import { uploadImage } from '../../plugins/cloudinary';
 
 export const getArticles = async (req, res) => {
     try {
@@ -24,20 +25,18 @@ export const getArticles = async (req, res) => {
 
 export const createArticle = async (req, res) => {
     try {
-        const { body, user, file } = req;
-        console.log('28: ', file);
-        res.json(file);
-        // const article = new Article(body);
-        // article.author = user._id;
-        // user.articles.push(article._id);
-        // await Promise.all([article.save(), user.save()]);
+        const { body, user } = req;
+        const article = new Article(body);
+        article.author = user._id;
+        user.articles.push(article._id);
+        await Promise.all([article.save(), user.save()]);
 
-        // return res.status(200).send(
-        //     new Response(200, 'Article created successfully', {
-        //         user,
-        //         article,
-        //     })
-        // );
+        return res.status(200).send(
+            new Response(200, 'Article created successfully', {
+                user,
+                article,
+            })
+        );
     } catch (err) {
         console.log('Error in createArticle func', err);
         return res.status(400).send(new Response(400, err.message));
@@ -147,5 +146,22 @@ export const updateArticle = async (req, res) => {
     } catch (err) {
         console.log('Error in updateArticle func', err);
         return res.status(500).send(new Response(500, err.message));
+    }
+};
+
+export const uploadArticleImage = async (req, res) => {
+    try {
+        const { file } = req;
+        if (!file) {
+            return res.status(500).send(new Response(500, 'Something wrongs'));
+        }
+        const { url } = await uploadImage(file.buffer);
+
+        return res
+            .status(200)
+            .send(new Response(200, 'File uploaded.', { url }));
+    } catch (err) {
+        console.log('Error in uploadArticleImage func: ', err);
+        return res.status(500).send(new Response(500, err));
     }
 };

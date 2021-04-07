@@ -45,3 +45,29 @@ export const getProfile = async (req, res) => {
         res.status(400).send(new Response(400, err.message));
     }
 };
+
+export const updateUser = async (req, res) => {
+    try {
+        const { user, body } = req;
+        const { name, phone, address, password } = body;
+        if (name) {
+            user.name = name;
+        }
+        if (phone) {
+            user.phone = phone;
+        }
+        if (address) {
+            user.address = address;
+        }
+        if (password) {
+            user.password = password;
+        }
+        await user.save();
+        return res
+            .status(200)
+            .send(new Response(200, 'User has been updated', user));
+    } catch (err) {
+        console.log('Error in updateUser func: ', err);
+        return res.status(500).send(new Response(500, err.message));
+    }
+};
