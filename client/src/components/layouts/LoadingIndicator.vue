@@ -18,6 +18,9 @@ export default class LoadingIndicator extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.v-progress-linear {
+  z-index: 400;
+}
 .progress {
   position: fixed;
 }

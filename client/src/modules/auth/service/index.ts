@@ -1,8 +1,13 @@
-import axios from '@/plugins/axios';
-import { IRegisterBody, ILoginBody } from '@/modules/auth/constants';
+import axios, { Response } from '@/plugins/axios';
+import { IRegisterBody, ILoginBody, IAuthUser } from '@/modules/auth/constants';
 
 const API_URL = process.env.VUE_APP_API_URL;
-
+export interface AuthResponse extends Response {
+    data: {
+        token: string;
+        user: IAuthUser;
+    }
+}
 class AuthAPI {
     prefix: string;
     url: string;
@@ -12,12 +17,12 @@ class AuthAPI {
         this.url = `${API_URL}${this.prefix}`;
     }
 
-    async login(param: ILoginBody) {
+    async login(param: ILoginBody): Promise<AuthResponse> {
         const url = `${this.url}/login`;
         return await axios.post(url, param);
     }
 
-    async register(data: IRegisterBody) {
+    async register(data: IRegisterBody): Promise<AuthResponse> {
         console.log('BASE_URL: ', process.env)
         const url = `${this.url}/register`;
         console.log('url:', url)

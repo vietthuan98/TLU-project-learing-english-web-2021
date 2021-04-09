@@ -30,6 +30,7 @@ export async function uploadImage(file) {
             folder: 'articleImages',
             unique_filename: true,
         });
+        console.log('response', response);
         return response;
     } catch (err) {
         console.log('Error in uploadImage func: ', err);

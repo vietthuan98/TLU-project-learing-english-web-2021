@@ -1,6 +1,13 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import TokenServices from '@/helpers/token';
 
+export interface Response extends AxiosResponse {
+  success: boolean;
+  message: string;
+  data: {};
+  code: number;
+}
+
 const axiosInstance = axios.create({
   baseURL: "/",
   headers: {},

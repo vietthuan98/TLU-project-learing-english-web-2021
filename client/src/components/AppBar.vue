@@ -22,7 +22,9 @@
     <template v-slot:extension>
       <v-tabs align-with-title>
         <template v-for="tab in tabs">
-          <v-tab :key="tab.name">{{ tab.name }}</v-tab>
+          <v-tab :key="tab.name" @click="changeTab(tab.to)">{{
+            tab.name
+          }}</v-tab>
         </template>
       </v-tabs>
     </template>
@@ -42,11 +44,25 @@ import SearchEngine from "./SearchEngine.vue";
 export default class AppBar extends Vue {
   // @Prop({ default: null }) private value!: string;
   isShowSeachInput = false;
-  tabs = [{ name: "Artical" }, { name: "Exams" }, { name: "Video" }];
+  tabs = [
+    { name: "Home", to: "/home" },
+    { name: "Artical", to: "/articles" },
+    { name: "Exams", to: "/exams" },
+    { name: "Video", to: "/videos" },
+  ];
+
+  changeTab(to: string) {
+    this.$router.push(to).catch((err) => {
+      //
+    });
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+header {
+  z-index: 100;
+}
 ::v-deep .v-app-bar-title__content {
   width: auto !important;
 }

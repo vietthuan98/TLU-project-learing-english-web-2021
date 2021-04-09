@@ -3,10 +3,11 @@ import Vuex, { ActionContext, ActionTree } from 'vuex';
 
 //modules
 import auth from '@/modules/auth/store';
+import articles from '@/modules/articles/store';
 
 Vue.use(Vuex);
 
-interface RootState {
+export interface RootState {
   isShowLoadingIndicator: boolean,
   searchEngine: {
     keyword?: string;
@@ -53,6 +54,7 @@ export default new Vuex.Store<RootState>({
   mutations: rootMutations,
   actions: rootActions,
   modules: {
-    auth
+    auth,
+    articles
   }
 });

@@ -32,6 +32,7 @@ export default class App extends Vue {
 html {
   font-size: 1rem;
   overflow-y: auto;
+  font-family: "arial";
 }
 #app {
 }
