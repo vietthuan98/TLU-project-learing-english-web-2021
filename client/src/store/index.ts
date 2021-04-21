@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex, { ActionContext, ActionTree } from 'vuex';
+import { genId } from '../helpers/functions';
 
 //modules
 import auth from '@/modules/auth/store';
@@ -13,19 +14,26 @@ export interface RootState {
     keyword?: string;
     searchBy?: string;
   }
-
+  popupMessage: {
+    id: string;
+    message: string,
+    isError: boolean
+  }[];
 }
 
-const rootState = {
+const rootState: RootState = {
   isShowLoadingIndicator: false,
   searchEngine: {
     keyword: '',
-  }
+  },
+  popupMessage: [],
 }
 
 export enum ROOT_MUTATION {
   SET_LOADING = 'SET_LOADING',
   SET_SEARCH_ENGINE = 'SET_SEARCH_ENGINE',
+  SET_POPUP_MESSAGE = 'SET_POPUP_MESSAGE',
+  DELETE_POPUP_MESSAGE = 'DELETE_POPUP_MESSAGE',
 }
 
 const rootMutations = {
@@ -38,7 +46,22 @@ const rootMutations = {
       keyword: data.keyword || '',
       searchBy: data.searchBy || '',
     };
-  }
+  },
+  [ROOT_MUTATION.SET_POPUP_MESSAGE](state: RootState, data: { message: string, isError: boolean }) {
+    state.popupMessage.push({
+      id: genId(),
+      message: data.message || '',
+      isError: data.isError,
+    })
+    if (state.popupMessage.length > 3) {
+      state.popupMessage.splice(1, 1)
+    }
+  },
+  [ROOT_MUTATION.DELETE_POPUP_MESSAGE](state: RootState, index: number) {
+    state.popupMessage.splice(index, 1);
+  },
+
+
 }
 
 const rootActions: ActionTree<RootState, RootState> = {

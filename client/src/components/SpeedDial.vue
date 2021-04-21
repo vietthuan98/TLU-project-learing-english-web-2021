@@ -41,7 +41,7 @@ export default class SpeedDial extends Vue {
   fab = false;
 
   openArticleCreationPopup() {
-    bus.$emit(BUS_EVENTS.OPEN_ARTICLE_CREATION_POPUP);
+    bus.$emit(BUS_EVENTS.OPEN_ARTICLE_FORM_POPUP);
   }
 }
 </script>

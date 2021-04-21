@@ -6,9 +6,12 @@ import vuetify from "./plugins/vuetify";
 import vClickOutSide from 'v-click-outside';
 import './plugins/commonComponents';
 
+import './mixins/util.mixin';
+
 Vue.use(vClickOutSide);
 
 Vue.config.productionTip = false;
+
 
 new Vue({
   router,

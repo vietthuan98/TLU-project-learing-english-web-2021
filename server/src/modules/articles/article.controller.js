@@ -106,6 +106,7 @@ export const updateArticle = async (req, res) => {
         const {
             title,
             paragraph,
+            description,
             image,
             like,
             comment,
@@ -132,6 +133,9 @@ export const updateArticle = async (req, res) => {
 
         if (title) {
             article.title = title;
+        }
+        if (description) {
+            article.description = description;
         }
         if (paragraph) {
             article.paragraph = paragraph;

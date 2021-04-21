@@ -1,7 +1,6 @@
 import axios, { Response } from '@/plugins/axios';
-import { IRegisterBody, ILoginBody, IAuthUser } from '@/modules/auth/constants';
 import BaseAPI from '@/plugins/service.base';
-import { ArticleDetail } from '../constants';
+import { ArticleDetail, ArticleForm } from '../constants';
 
 const API_URL = process.env.VUE_APP_API_URL;
 export interface ArticleResponse extends Response {
@@ -28,12 +27,25 @@ class ArticleAPI extends BaseAPI {
         return await axios.get(this.url, { params });
     }
 
-    async uploadImage(file: Record<string, unknown>): Promise<FileResponse> {
+    async detail(id: string): Promise<Response> {
+        return await axios.get(this.url + '/' + id);
+    }
+
+
+    async uploadImage(file: FormData): Promise<FileResponse> {
         return await axios.post(`${this.url}/image`, file, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         });
+    }
+
+    async create(data: ArticleForm): Promise<Response> {
+        return await axios.post(this.url, data);
+    }
+
+    async update(id: string, data: ArticleForm): Promise<Response> {
+        return await axios.patch(this.url + '/' + id, data);
     }
 }
 

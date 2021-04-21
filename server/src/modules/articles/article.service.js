@@ -4,6 +4,7 @@ export const attrArticles = [
     '_id',
     'title',
     'paragraph',
+    'description',
     'likes',
     'image',
     'comments',

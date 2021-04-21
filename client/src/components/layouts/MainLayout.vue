@@ -3,7 +3,7 @@
     <AppBar />
     <router-view />
     <SpeedDial id="speed-dial" />
-    <ArticleCreationPopup />
+    <ArticleFormPopup />
     <Footer />
   </v-main>
 </template>
@@ -14,14 +14,14 @@ import { Component, Prop } from "vue-property-decorator";
 import SpeedDial from "../SpeedDial.vue";
 import AppBar from "../AppBar.vue";
 import Footer from "../Footer.vue";
-import ArticleCreationPopup from "../../modules/articles/components/ArticleCreationPopup.vue";
+import ArticleFormPopup from "../../modules/articles/components/article-form-popup/ArticleFormPopup.vue";
 
 @Component({
   components: {
     AppBar,
     Footer,
     SpeedDial,
-    ArticleCreationPopup,
+    ArticleFormPopup,
   },
 })
 export default class MainLayout extends Vue {

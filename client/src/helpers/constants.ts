@@ -3,5 +3,5 @@ export const PHONE_REGEX = /^\d{10,11}$/;
 export const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,30}$/;
 
 export enum BUS_EVENTS {
-    OPEN_ARTICLE_CREATION_POPUP = 'OPEN_ARTICLE_CREATION_POPUP',
+    OPEN_ARTICLE_FORM_POPUP = 'OPEN_ARTICLE_FORM_POPUP',
 }

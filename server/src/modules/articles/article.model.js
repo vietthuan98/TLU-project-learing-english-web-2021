@@ -7,6 +7,10 @@ const articleSchema = new mongoose.Schema(
             required: true,
             trim: true,
         },
+        description: {
+            type: String,
+            trim: true,
+        },
         paragraph: [
             {
                 type: String,
