@@ -1,34 +1,37 @@
 export interface ArticleDetail {
-    author: {
-        name: string;
+    author?: {
+        name?: string;
         _id?: string;
     }
-    comments: {
+    comments?: {
         _id?: string;
         message?: string;
     }[];
     image?: string;
-    likes: {
+    likes?: {
         _id?: string;
         userId?: string;
     }[];
     title?: string;
     _id?: string;
-    paragraph: string[];
-    description: string | null;
+    paragraph?: string[];
+    description?: string | null;
     yours?: boolean;
 }
 
 export interface ArticleForm {
     _id?: string | null;
-    title: string | null;
-    paragraph: string[];
-    description: string | null;
+    title?: string | null;
+    paragraph?: string[];
+    description?: string | null;
     image?: string | null;
+    deletedCommentId?: string | null;
+    comment?: string;
 }
 
 export interface ArticleState {
     articleList: ArticleDetail[];
+    articleDetail: ArticleDetail;
     params: ArticleParams;
     total: number;
 }

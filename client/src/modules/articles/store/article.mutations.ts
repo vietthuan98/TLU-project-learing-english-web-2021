@@ -11,6 +11,9 @@ const mutations = {
     },
     setTotal(state: ArticleState, total: number) {
         Vue.set(state, 'total', total);
+    },
+    setDetail(state: ArticleState, data: ArticleDetail) {
+        Vue.set(state, 'articleDetail', data);
     }
 }
 

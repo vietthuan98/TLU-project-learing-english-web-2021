@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import { Component, Watch } from "vue-property-decorator";
 import SearchEngine from "./SearchEngine.vue";
 
 @Component({
@@ -42,13 +42,12 @@ import SearchEngine from "./SearchEngine.vue";
   },
 })
 export default class AppBar extends Vue {
-  // @Prop({ default: null }) private value!: string;
   isShowSeachInput = false;
   tabs = [
-    { name: "Home", to: "/home" },
-    { name: "Artical", to: "/articles" },
-    { name: "Exams", to: "/exams" },
-    { name: "Video", to: "/videos" },
+    { id: 0, name: "Home", to: "/home" },
+    { id: 1, name: "Artical", to: "/articles" },
+    { id: 2, name: "Exams", to: "/exams" },
+    { id: 3, name: "Video", to: "/videos" },
   ];
 
   changeTab(to: string) {

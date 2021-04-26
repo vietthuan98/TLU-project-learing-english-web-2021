@@ -28,3 +28,11 @@ export async function findArticles(attr, limit, page, query) {
 export async function updateArticle() {
     //
 }
+
+export async function findArticleDetail(data) {
+    const article = await Article.findOne(data)
+        .populate('author', ['phone', 'name', 'email'])
+        .populate('likes', ['name'])
+        .populate('comments.userId', ['name']);
+    return article;
+}

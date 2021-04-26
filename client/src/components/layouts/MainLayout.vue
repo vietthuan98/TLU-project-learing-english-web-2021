@@ -33,7 +33,8 @@ export default class MainLayout extends Vue {
 .main-layout {
   position: relative;
   .v-speed-dial {
-    position: absolute;
+    position: fixed;
+    transform: translateY(-100%);
   }
 }
 </style>

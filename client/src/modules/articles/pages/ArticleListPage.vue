@@ -32,7 +32,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Prop, Watch } from "vue-property-decorator";
+import { Component, Prop } from "vue-property-decorator";
 import ArticleItem from "../components/ArticleItem.vue";
 import { ArticleDetail, ArticleParams } from "../constants";
 
@@ -41,7 +41,7 @@ import { ArticleDetail, ArticleParams } from "../constants";
     ArticleItem,
   },
 })
-export default class ArticlePage extends Vue {
+export default class ArticleListPage extends Vue {
   @Prop({ default: null }) private value!: string;
 
   async created() {

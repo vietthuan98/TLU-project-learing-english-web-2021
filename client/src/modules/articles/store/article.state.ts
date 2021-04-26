@@ -6,6 +6,7 @@ const state: ArticleState = {
         page: 1,
         limit: 8
     },
+    articleDetail: {},
     total: 0
 }
 

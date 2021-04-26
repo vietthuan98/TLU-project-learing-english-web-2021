@@ -201,15 +201,15 @@ export default class ArticleFormPopup extends Vue {
   }
 
   addMoreParagraph() {
-    this.article.paragraph.push("");
+    this.article?.paragraph?.push("");
   }
 
   deleteParagraph(index: number) {
-    this.article.paragraph.splice(1, index);
+    this.article?.paragraph?.splice(1, index);
   }
 
   get canAddMoreParagraph() {
-    return this.article.paragraph.length < 5;
+    return (this.article?.paragraph || []).length < 5;
   }
 
   getParagrapRules(index: number) {

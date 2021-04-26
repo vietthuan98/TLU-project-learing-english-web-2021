@@ -58,7 +58,7 @@ export default class ArticleItem extends Vue {
   }
 
   viewDetail() {
-    console.log("viewDetail", this.article);
+    this.$router.push(`/articles/${this.article._id}`);
   }
 }
 </script>

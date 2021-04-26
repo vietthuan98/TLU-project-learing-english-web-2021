@@ -6,7 +6,11 @@ const articleRouters = {
     children: [
         {
             path: '/articles',
-            component: () => import('@/modules/articles/pages/ArticlePage.vue')
+            component: () => import('@/modules/articles/pages/ArticleListPage.vue')
+        },
+        {
+            path: '/articles/:id',
+            component: () => import('@/modules/articles/pages/ArticleDetailPage.vue')
         },
     ]
 }

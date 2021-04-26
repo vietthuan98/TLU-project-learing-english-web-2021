@@ -1,6 +1,10 @@
 import Response from '../../helpers/commonResponse';
 import Article from './article.model';
-import { findArticles, attrArticles } from './article.service';
+import {
+    findArticles,
+    attrArticles,
+    findArticleDetail,
+} from './article.service';
 import { uploadImage } from '../../plugins/cloudinary';
 
 export const getArticles = async (req, res) => {
@@ -69,13 +73,10 @@ export const getMyArticles = async (req, res) => {
 export const getArticleDetail = async (req, res) => {
     try {
         const { user } = req;
-        const article = await Article.findOne({
+        const article = await findArticleDetail({
             _id: req.params.id,
             author: user._id,
-        })
-            .populate('author', ['phone', 'name', 'email'])
-            .populate('likes', ['name'])
-            .populate('comments.userId', ['name']);
+        });
         if (!article) {
             return res
                 .status(404)
@@ -144,9 +145,13 @@ export const updateArticle = async (req, res) => {
             article.image = image;
         }
         await article.save();
+        const articleData = await findArticleDetail({
+            _id: req.params.id,
+            author: user._id,
+        });
         return res
             .status(200)
-            .send(new Response(200, 'Your article updated', article));
+            .send(new Response(200, 'Your article updated', articleData));
     } catch (err) {
         console.log('Error in updateArticle func', err);
         return res.status(500).send(new Response(500, err.message));
