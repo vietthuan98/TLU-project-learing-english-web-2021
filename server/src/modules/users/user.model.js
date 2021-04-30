@@ -47,12 +47,41 @@ const userSchema = new mongoose.Schema(
                 ref: 'Article',
             },
         ],
+        examples: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Example',
+            },
+        ],
+        doneExamples: [
+            {
+                example: {
+                    type: Schema.Types.ObjectId,
+                    ref: 'Example',
+                },
+                score: {
+                    type: Number,
+                    required: true,
+                },
+            },
+        ],
     },
     { timestamps: true }
 );
 
 userSchema.statics.findCredentials = async (email, password) => {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select([
+        '_id',
+        'accessToken',
+        'isActive',
+        'email',
+        'phone',
+        'name',
+        'createdAt',
+        'updatedAt',
+        'address',
+        'password',
+    ]);
     if (!user) {
         return {
             error: 'User does not exist',

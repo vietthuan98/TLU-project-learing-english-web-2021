@@ -15,9 +15,13 @@ export const login = async (req, res) => {
                 .status(400)
                 .send(new Response(400, 'Please check and verify your email.'));
         const token = await user.generateAuthToken();
+        const _user = user.toObject();
+        delete _user.password;
         return res
             .status(200)
-            .send(new Response(200, 'Login successfully', { user, token }));
+            .send(
+                new Response(200, 'Login successfully', { user: _user, token })
+            );
     } catch (err) {
         console.log('Error in login func: ', err);
         return res.status(400).send(new Response(400, err.message));

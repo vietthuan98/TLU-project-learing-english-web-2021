@@ -9,7 +9,7 @@ export const articleSchema = Joi.object({
     likes: Joi.array().items(Joi.string()),
     comments: Joi.array().items(
         Joi.object({
-            message: Joi.string().required(),
+            message: Joi.string().min(1).max(500).required(),
             userId: Joi.string().allow(null),
         })
     ),
@@ -21,7 +21,7 @@ export const updateArticleSchema = Joi.object({
     paragraph: Joi.array().items(Joi.string().max(700)),
     image: Joi.string().allow(null),
     like: Joi.boolean(),
-    comment: Joi.string().max(100),
+    comment: Joi.string().min(1).max(500),
     deletedCommentId: Joi.string().allow(null),
 });
 

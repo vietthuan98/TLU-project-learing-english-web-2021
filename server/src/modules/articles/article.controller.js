@@ -4,6 +4,7 @@ import {
     findArticles,
     attrArticles,
     findArticleDetail,
+    updateArticleToDB,
 } from './article.service';
 import { uploadImage } from '../../plugins/cloudinary';
 
@@ -72,10 +73,8 @@ export const getMyArticles = async (req, res) => {
 
 export const getArticleDetail = async (req, res) => {
     try {
-        const { user } = req;
         const article = await findArticleDetail({
             _id: req.params.id,
-            author: user._id,
         });
         if (!article) {
             return res
@@ -94,6 +93,7 @@ export const getArticleDetail = async (req, res) => {
 export const updateArticle = async (req, res) => {
     try {
         const { user, body } = req;
+        body.user = user;
         const article = await Article.findOne({
             _id: req.params.id,
             author: user._id,
@@ -104,51 +104,14 @@ export const updateArticle = async (req, res) => {
                 .send(new Response(404, 'Article is not found'));
         }
 
-        const {
-            title,
-            paragraph,
-            description,
-            image,
-            like,
-            comment,
-            deletedCommentId,
-        } = body;
-        if (typeof like === 'boolean') {
-            if (!article.likes.includes(user._id) && like) {
-                article.likes.push(user._id);
-            } else if (article.likes.length) {
-                article.likes.pull({ _id: user._id });
-            }
+        if (body.title || body.description || body.paragraph?.length) {
+            if (article.author.toString() !== user._id.toString())
+                return res
+                    .status(403)
+                    .send(new Response(403, 'You do not have permission'));
         }
 
-        if (comment) {
-            article.comments.push({
-                message: comment,
-                userId: user._id,
-            });
-        }
-
-        if (deletedCommentId && article.comments.length) {
-            article.comments.pull({ _id: deletedCommentId });
-        }
-
-        if (title) {
-            article.title = title;
-        }
-        if (description) {
-            article.description = description;
-        }
-        if (paragraph) {
-            article.paragraph = paragraph;
-        }
-        if (image) {
-            article.image = image;
-        }
-        await article.save();
-        const articleData = await findArticleDetail({
-            _id: req.params.id,
-            author: user._id,
-        });
+        const articleData = await updateArticleToDB(body, article);
         return res
             .status(200)
             .send(new Response(200, 'Your article updated', articleData));

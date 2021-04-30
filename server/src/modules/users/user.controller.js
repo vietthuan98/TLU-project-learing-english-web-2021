@@ -1,6 +1,6 @@
 import Response from '../../helpers/commonResponse';
 import User from './user.model';
-import { attrProfile, findUserById } from './user.service';
+import { attrProfile, findUserById, findUserDetail } from './user.service';
 
 export const getUsers = async (req, res) => {
     try {
@@ -36,7 +36,7 @@ export const createUser = async (req, res) => {
 
 export const getProfile = async (req, res) => {
     try {
-        const user = await findUserById(req.user._id, attrProfile);
+        const user = await findUserDetail({ _id: req.user._id });
         res.status(200).send(
             new Response(200, 'Get profile successfully', user)
         );

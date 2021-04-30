@@ -15,6 +15,7 @@ const articleSchema = new mongoose.Schema(
             {
                 type: String,
                 required: true,
+                trim: true,
             },
         ],
         author: {
@@ -38,6 +39,9 @@ const articleSchema = new mongoose.Schema(
                 message: {
                     type: String,
                     required: true,
+                    trim: true,
+                    minLength: 1,
+                    maxLength: 500,
                 },
                 userId: {
                     type: Schema.Types.ObjectId,
