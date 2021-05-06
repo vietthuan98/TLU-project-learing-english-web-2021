@@ -1,7 +1,8 @@
 <template>
   <div id="home-page">
     HomePage
-    <UploadExcelButton @onUploadFile="onUploadFile" />
+    <DownloadTempFile />
+    <UploadExcelButton />
   </div>
 </template>
 
@@ -9,14 +10,15 @@
 import Vue from "vue";
 import { Component, Prop, Mixins } from "vue-property-decorator";
 import UploadExcelButton from "../../example/components/UploadExcelButton.vue";
-import ExampleMixins from "../../example/mixins/example.mixins";
+import DownloadTempFile from "../../example/components/DownloadTempFile.vue";
 
 @Component({
   components: {
-    UploadExcelButton
-  }
+    UploadExcelButton,
+    DownloadTempFile,
+  },
 })
-export default class HomePage extends Mixins(ExampleMixins) {
+export default class HomePage extends Vue {
   @Prop({ default: null }) private value!: string;
 }
 </script>

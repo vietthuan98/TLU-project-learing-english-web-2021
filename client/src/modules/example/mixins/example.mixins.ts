@@ -5,7 +5,7 @@ import camelCase from "lodash/camelCase";
 
 interface PreviewModal {
   isShow: boolean;
-  errors: { message?: string }[];
+  errors: string[];
 }
 
 interface CellData {
@@ -13,23 +13,50 @@ interface CellData {
   error?: string;
 }
 
-interface RowData {
+export interface RowData {
   [key: string]: CellData;
 }
 
 
 @Component({})
 export default class ExampleMixins extends Vue {
+  dialog = false;
   previewModal: PreviewModal = {
     isShow: false,
     errors: []
   };
   isShowPreviewModal = false;
-  data: string[][] = [];
+  excelData: RowData[] = [];
   headers: string[] = [];
+
+  title = '';
+  description = '';
+
 
   get rowDataKey() {
     return Object.keys(EXCEL_HEADERS).map(item => camelCase(item));
+  }
+
+  openDialog() {
+    this.dialog = true;
+  }
+
+  close() {
+    this.dialog = false;
+    this.resetDialog();
+  }
+
+  resetDialog() {
+    this.title = '';
+    this.description = '';
+    this.previewModal = {
+      isShow: false,
+      errors: []
+    };
+    this.isShowPreviewModal = false;
+    this.excelData = [];
+    this.headers = [];
+
   }
 
   onUploadFile({
@@ -39,18 +66,16 @@ export default class ExampleMixins extends Vue {
     headers: string[];
     data: string[][];
   }) {
-    this.data = data;
     this.headers = headers;
-    console.log("data", this.data);
-    console.log("header", this.headers);
-    this.parseData(data);
+    this.excelData = this.parseData(data);
+    this.showPreviewModel({ isShow: true })
   }
 
   parseData(data: string[][]) {
     if (!data.length)
       this.showPreviewModel({
         isShow: true,
-        errors: [{ message: "Excel data is empty" }]
+        errors: ["Excel data is empty"]
       });
 
     const tableData: RowData[] = [];
@@ -59,22 +84,10 @@ export default class ExampleMixins extends Vue {
       tableData.push(rowData);
     })
     console.log('tableData', tableData);
-  }
-
-  showPreviewModel({
-    isShow = false,
-    errors = []
-  }: {
-    isShow: boolean;
-    errors: { message?: string }[];
-  }) {
-    this.previewModal.isShow = isShow;
-    this.previewModal.errors = errors;
+    return tableData;
   }
 
   makeRowData(data: string[]): RowData {
-    console.log('data', data);
-    console.log('rowDataKey', this.rowDataKey);
     const rowData: RowData = {};
     this.rowDataKey.forEach((key, index) => {
       rowData[key] = {
@@ -101,10 +114,43 @@ export default class ExampleMixins extends Vue {
         if (ANSWERS.includes((value as string).toLowerCase())) return 'Answer must be one of A, B, C or D.';
         break;
       case camelCase(EXCEL_HEADERS.EXPLANATION):
-        if (value && (value as string).length < 3 || (value as string).length > 500) return 'Explanation must be 3 - 500 characters.';
+        if (value && (value as string)?.length < 3 || (value as string)?.length > 500) return 'Explanation must be 3 - 500 characters.';
         break;
       default:
     }
   }
 
+  onSubmit() {
+    const params = this.makeParams();
+    console.log('params', params);
+  }
+
+  makeParams() {
+    const params = {
+      title: this.title,
+      description: this.description,
+      questions: this.excelData.map(item => ({
+        question: item[camelCase(EXCEL_HEADERS.QUESTION)].value,
+        options: [
+          item[camelCase(EXCEL_HEADERS.OPTION_1)].value,
+          item[camelCase(EXCEL_HEADERS.OPTION_2)].value,
+          item[camelCase(EXCEL_HEADERS.OPTION_3)].value,
+          item[camelCase(EXCEL_HEADERS.OPTION_4)].value,
+        ],
+        answer: ANSWERS.findIndex(answer => item[camelCase(EXCEL_HEADERS.ANSWER)].value === answer)
+      })),
+    }
+    return params;
+  }
+
+  showPreviewModel({
+    isShow = false,
+    errors = []
+  }: {
+    isShow: boolean;
+    errors?: string[];
+  }) {
+    this.previewModal.isShow = isShow;
+    this.previewModal.errors = errors;
+  }
 }

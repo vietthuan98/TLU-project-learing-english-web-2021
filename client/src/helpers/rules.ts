@@ -21,7 +21,15 @@ const Rules = {
     "Article description must be 3-150 characters.",
   aParagraphLength: (value: string) =>
     value.length < 700 ||
-    "Each article paragraph must be less than 700 characters."
+    "Each article paragraph must be less than 700 characters.",
+
+  //Example
+  eTitleLength: (value: string) =>
+    (value.length > 3 && value.length < 500) ||
+    "Example title must be 3-500 characters.",
+  eDescriptionLength: (value: string) =>
+    (value.length > 3 && value.length < 500) ||
+    "Example description must be 3-500 characters.",
 };
 
 export default Rules;

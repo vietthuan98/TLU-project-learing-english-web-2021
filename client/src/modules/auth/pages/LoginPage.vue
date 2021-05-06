@@ -1,7 +1,11 @@
 <template>
   <div class="login-page">
     <v-card width="500px">
-      <common-error-text class="ma-3 pa-1" v-if="message" :message="message" />
+      <common-error-text
+        class="ma-3 pa-1"
+        v-if="message"
+        :messageList="[message]"
+      />
       <v-form ref="form">
         <v-card-title>Register</v-card-title>
         <v-card-text>
@@ -70,7 +74,7 @@ export default class LoginPage extends Vue {
     if (!isValid) return;
     const params: ILoginBody = {
       email: this.email,
-      password: this.password
+      password: this.password,
     };
     await this.$store.dispatch("setLoading", true);
     const response = await authApi.login(params);

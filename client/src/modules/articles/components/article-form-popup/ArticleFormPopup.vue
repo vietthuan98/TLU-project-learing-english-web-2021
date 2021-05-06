@@ -32,9 +32,8 @@
               @change="uploadImage"
             ></v-file-input>
             <template v-else>
-              <common-image
+              <common-v-image
                 :src="article.image"
-                aspect-ratio
                 max-height="300"
                 class="mb-4"
               />

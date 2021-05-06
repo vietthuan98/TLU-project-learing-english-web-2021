@@ -1,11 +1,5 @@
 <template>
-  <v-img
-    :src="src"
-    :lazy-src="lazySrc"
-    :height="height"
-    :maxHeight="maxHeight"
-    :aspectRatio="aspectRatio"
-  >
+  <v-img :src="src" :lazy-src="lazySrc" :height="height" :maxHeight="maxHeight">
     <template v-slot:placeholder>
       <v-row class="fill-height ma-0" align="center" justify="center">
         <v-progress-circular
@@ -22,12 +16,11 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 
 @Component({})
-export default class Image extends Vue {
+export default class VImage extends Vue {
   @Prop({ default: "" }) src!: string;
   @Prop({ default: null }) height!: string;
   @Prop({ default: null }) maxHeight!: string;
   @Prop({ default: "" }) lazySrc!: string;
-  @Prop({ default: false }) aspectRatio!: boolean;
 }
 </script>
 

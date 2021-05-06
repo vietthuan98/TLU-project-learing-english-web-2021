@@ -3,7 +3,7 @@ import ErrorText from "@/commonComponents/ErrorText.vue";
 import TextInput from "@/commonComponents/TextInput.vue";
 import Heart from "@/commonComponents/Heart.vue";
 import Comment from "@/commonComponents/Comment.vue";
-import Image from "@/commonComponents/Image.vue";
+import VImage from "@/commonComponents/VImage.vue";
 
 const components = [
   {
@@ -23,8 +23,8 @@ const components = [
     component: Comment
   },
   {
-    name: "Image",
-    component: Image
+    name: "VImage",
+    component: VImage
   }
 ];
 
