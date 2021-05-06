@@ -21,8 +21,8 @@ import ArticleFormPopup from "../../modules/articles/components/article-form-pop
     AppBar,
     Footer,
     SpeedDial,
-    ArticleFormPopup,
-  },
+    ArticleFormPopup
+  }
 })
 export default class MainLayout extends Vue {
   @Prop({ default: null }) private value!: string;

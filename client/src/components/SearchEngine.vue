@@ -41,7 +41,7 @@ export default class SearchEngine extends Vue {
   onSearch() {
     this.$store.commit(`${ROOT_MUTATION.SET_SEARCH_ENGINE}`, {
       keyword: this.keyword,
-      searchBy: this.searchBy,
+      searchBy: this.searchBy
     });
     console.log("onsearch"); //TODO search here
   }

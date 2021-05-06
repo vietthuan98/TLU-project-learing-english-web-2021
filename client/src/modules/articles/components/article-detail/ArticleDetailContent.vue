@@ -30,8 +30,8 @@ import TokenService from "../../../../helpers/token";
 
 @Component({
   components: {
-    ArticleDetailLayout,
-  },
+    ArticleDetailLayout
+  }
 })
 export default class ArticleDetailContent extends Vue {
   @Prop({ default: null }) private value!: string;
@@ -65,7 +65,7 @@ export default class ArticleDetailContent extends Vue {
   }
 
   get isLiked() {
-    return this.likes.some((like) => like._id === TokenService.getUser()._id);
+    return this.likes.some(like => like._id === TokenService.getUser()._id);
   }
 
   like() {

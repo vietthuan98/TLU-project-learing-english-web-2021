@@ -38,8 +38,8 @@ import { ArticleDetail, ArticleParams } from "../constants";
 
 @Component({
   components: {
-    ArticleItem,
-  },
+    ArticleItem
+  }
 })
 export default class ArticleListPage extends Vue {
   @Prop({ default: null }) private value!: string;
@@ -79,7 +79,7 @@ export default class ArticleListPage extends Vue {
   async onChangePage(page: number) {
     this.$store.commit("articles/setParams", {
       ...this.params,
-      page,
+      page
     });
     await this.getArticleList();
   }

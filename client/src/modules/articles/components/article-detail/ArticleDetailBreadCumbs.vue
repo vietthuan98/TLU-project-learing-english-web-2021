@@ -21,11 +21,11 @@ export default class ArticleDetailBreadCrumbs extends Vue {
   items = [
     {
       text: "Article list",
-      to: "/articles",
+      to: "/articles"
     },
     {
-      text: "Article detail",
-    },
+      text: "Article detail"
+    }
   ];
 
   toArticlePage() {

@@ -1,3 +1,3 @@
-import Vue from 'vue';
+import Vue from "vue";
 
-export default new Vue({ name: 'bus' });
+export default new Vue({ name: "bus" });

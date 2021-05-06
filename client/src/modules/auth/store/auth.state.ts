@@ -1,5 +1,5 @@
 const state = {
-    userName: '',
-}
+  userName: ""
+};
 
 export default state;

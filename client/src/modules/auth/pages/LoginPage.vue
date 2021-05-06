@@ -70,7 +70,7 @@ export default class LoginPage extends Vue {
     if (!isValid) return;
     const params: ILoginBody = {
       email: this.email,
-      password: this.password,
+      password: this.password
     };
     await this.$store.dispatch("setLoading", true);
     const response = await authApi.login(params);

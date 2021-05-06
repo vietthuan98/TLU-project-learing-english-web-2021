@@ -18,8 +18,8 @@ import { ArticleForm } from "../constants";
   components: {
     ArticleDetailContent,
     ArticleDetailAction,
-    ArticleDetailBreadCrumbs,
-  },
+    ArticleDetailBreadCrumbs
+  }
 })
 export default class ArticleDetailPage extends Vue {
   async created() {

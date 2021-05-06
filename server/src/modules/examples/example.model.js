@@ -45,6 +45,10 @@ const exampleSchema = new mongoose.Schema(
                     required: true,
                     trim: true,
                 },
+                explanation: {
+                    type: String,
+                    trim: true,
+                },
             },
         ],
         author: {

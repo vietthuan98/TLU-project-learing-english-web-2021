@@ -7,12 +7,13 @@ export const createExampleSchema = Joi.object({
     questions: Joi.array()
         .items(
             Joi.object({
-                question: Joi.string().required(),
+                question: Joi.string().min(3).max(500).required(),
                 options: Joi.array()
                     .items(Joi.string().max(500))
                     .length(4)
                     .required(),
                 answer: Joi.number().integer().min(0).max(3),
+                explanation: Joi.string().min(3).max(500),
             })
         )
         .required(),
@@ -30,6 +31,7 @@ export const updateExampleSchema = Joi.object({
                 .length(4)
                 .required(),
             answer: Joi.number().integer().min(0).max(3),
+            explanation: Joi.string().min(3).max(500),
         })
     ),
     deletedCommentId: Joi.string().allow(null),
