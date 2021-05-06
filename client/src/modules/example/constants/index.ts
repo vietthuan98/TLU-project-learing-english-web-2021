@@ -1,5 +1,4 @@
 export enum EXCEL_HEADERS {
-  INDEX = "Index",
   QUESTION = "Question",
   OPTION_1 = "Option 1",
   OPTION_2 = "Option 2",
@@ -9,3 +8,4 @@ export enum EXCEL_HEADERS {
   EXPLANATION = "Explanation"
 }
 
+export const ANSWERS = ['A', 'B', 'C', 'D'];
