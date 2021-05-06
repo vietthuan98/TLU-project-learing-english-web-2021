@@ -32,12 +32,12 @@
               @change="uploadImage"
             ></v-file-input>
             <template v-else>
-              <v-img
+              <common-image
                 :src="article.image"
                 aspect-ratio
                 max-height="300"
                 class="mb-4"
-              ></v-img>
+              />
             </template>
             <v-text-field
               label="Description"
@@ -109,7 +109,7 @@ export default class ArticleFormPopup extends Vue {
     title: "",
     paragraph: [""],
     description: "",
-    image: ""
+    image: "",
   };
 
   get form() {
@@ -168,7 +168,7 @@ export default class ArticleFormPopup extends Vue {
         title: data.title || "",
         paragraph: data.paragraph || [""],
         description: data.description || "",
-        image: data.image || ""
+        image: data.image || "",
       });
     }
   }
@@ -195,7 +195,7 @@ export default class ArticleFormPopup extends Vue {
       title: "",
       paragraph: [""],
       description: "",
-      image: ""
+      image: "",
     };
     this.isVisible = false;
   }

@@ -1,6 +1,6 @@
 <template>
   <v-card @mouseover="showEditIcon = true" @mouseleave="showEditIcon = false">
-    <v-img :src="image" height="200px"></v-img>
+    <common-image :src="image" height="200px" />
     <v-card-title>
       {{ article.title }}
     </v-card-title>
