@@ -26,7 +26,7 @@ export async function findUserDetail(data) {
             'likes',
             'author',
         ])
-        .populate('examples', ['title', 'description', 'author', 'comments'])
-        .populate('doneExamples.example', ['title']);
+        .populate('exams', ['title', 'description', 'author', 'comments'])
+        .populate('doneExams.exam', ['title']);
     return user;
 }

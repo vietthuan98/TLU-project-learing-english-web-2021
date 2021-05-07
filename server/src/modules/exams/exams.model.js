@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-const exampleSchema = new mongoose.Schema(
+const examSchema = new mongoose.Schema(
     {
         title: {
             type: String,
@@ -71,5 +71,5 @@ const exampleSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-const Example = mongoose.model('Example', exampleSchema);
-export default Example;
+const Exam = mongoose.model('Exam', examSchema);
+export default Exam;

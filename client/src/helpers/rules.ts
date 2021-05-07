@@ -23,13 +23,13 @@ const Rules = {
     (!value || value.length < 700) ||
     "Each article paragraph must be less than 700 characters.",
 
-  //Example
+  //Exam
   eTitleLength: (value: string) =>
     (value.length > 3 && value.length < 500) ||
-    "Example title must be 3-500 characters.",
+    "Exam title must be 3-500 characters.",
   eDescriptionLength: (value: string) =>
     (!value || value.length > 3 && value.length < 500) ||
-    "Example description must be 3-500 characters.",
+    "Exam description must be 3-500 characters.",
 };
 
 export default Rules;

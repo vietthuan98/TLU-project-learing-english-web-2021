@@ -1,14 +1,14 @@
 import MainLayout from "@/components/layouts/MainLayout.vue";
 
-const exampleRouters = {
+const examRouters = {
     path: "/",
     component: MainLayout,
     children: [
         {
             path: "/examples",
-            component: () => import("@/modules/example/pages/ExampleListPage.vue")
+            component: () => import("@/modules/exams/pages/ExamListPage.vue")
         },
     ]
 };
 
-export default exampleRouters;
+export default examRouters;

@@ -5,7 +5,7 @@ import authRouters from "@/modules/auth/router";
 import homeRouters from "@/modules/home/router";
 import articleRouters from "@/modules/articles/router";
 import commonRouters from "@/modules/common/router";
-import exampleRouters from "@/modules/example/router";
+import examRouters from "@/modules/exams/router";
 
 import TokenServices from "@/helpers/token";
 import intersection from "lodash/intersection";
@@ -22,7 +22,7 @@ const routes: Array<RouteConfig> = [
   homeRouters,
   articleRouters,
   commonRouters,
-  exampleRouters
+  examRouters
 ];
 
 const router = new VueRouter({

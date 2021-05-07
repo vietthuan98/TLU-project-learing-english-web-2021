@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" persistent width="1200">
     <v-card>
       <v-card-title>
-        Preview your example
+        Preview your exam
       </v-card-title>
       <v-card-subtitle>
         <h3>{{ title }}</h3>
@@ -53,7 +53,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
-import { RowData } from "../mixins/example.mixins";
+import { RowData } from "../mixins/exam.mixins";
 import { EXCEL_HEADERS } from "../constants";
 
 @Component({})

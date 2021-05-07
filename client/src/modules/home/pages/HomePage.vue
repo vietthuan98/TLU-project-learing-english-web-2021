@@ -9,8 +9,8 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop, Mixins } from "vue-property-decorator";
-import UploadExcelButton from "../../example/components/UploadExcelButton.vue";
-import DownloadTempFile from "../../example/components/DownloadTempFile.vue";
+import UploadExcelButton from "../../exams/components/UploadExcelButton.vue";
+import DownloadTempFile from "../../exams/components/DownloadTempFile.vue";
 
 @Component({
   components: {

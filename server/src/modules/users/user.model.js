@@ -47,17 +47,17 @@ const userSchema = new mongoose.Schema(
                 ref: 'Article',
             },
         ],
-        examples: [
+        exams: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'Example',
+                ref: 'Exam',
             },
         ],
-        doneExamples: [
+        doneExams: [
             {
-                example: {
+                exam: {
                     type: Schema.Types.ObjectId,
-                    ref: 'Example',
+                    ref: 'Exam',
                 },
                 score: {
                     type: Number,

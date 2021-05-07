@@ -38,8 +38,8 @@
             @change="uploadExel"
           ></v-file-input>
           <span class="caption"
-            >You must fill <strong>title field</strong> before upload your
-            example excel file.
+            >You must fill <strong>title field</strong> before upload your exam
+            excel file.
           </span>
         </v-form>
         <v-card-actions class="d-flex">
@@ -48,7 +48,7 @@
       </v-card>
     </v-dialog>
     <v-btn color="white" @click="openDialog"
-      ><v-icon class="mr-2">mdi-file-upload</v-icon> Upload your example</v-btn
+      ><v-icon class="mr-2">mdi-file-upload</v-icon> Upload your exam</v-btn
     >
   </div>
 </template>
@@ -58,7 +58,7 @@ import { Component, Prop, Mixins } from "vue-property-decorator";
 import UploadExcelModal from "./UploadExcelModal.vue";
 import XLSX from "xlsx";
 import { EXCEL_HEADERS, ExampleForm } from "../constants";
-import ExampleMixins from "../mixins/example.mixins";
+import ExampleMixins from "../mixins/exam.mixins";
 import Rules from "../../../helpers/rules";
 import exampleAPI from "../service";
 
@@ -145,10 +145,10 @@ export default class UploadExcelButton extends Mixins(ExampleMixins) {
     const response = await exampleAPI.create(params);
     await this.$store.dispatch("setLoading", false);
     if (response.success) {
-      this.showPopupMessage("Your example has been uploaded", true);
+      this.showPopupMessage("Your exam has been uploaded", true);
       this.dialog = false;
     } else {
-      this.showPopupMessage("Your example uploaded fail", true);
+      this.showPopupMessage("Your exam uploaded fail", true);
     }
   }
 }
