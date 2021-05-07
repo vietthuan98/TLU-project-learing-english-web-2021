@@ -6,6 +6,8 @@
           v-model="previewModal.isShow"
           :errors="previewModal.errors"
           :excelData="excelData"
+          :title="title"
+          :description="description"
           @on-submit="onSubmit"
         />
         <v-text-field
@@ -15,24 +17,31 @@
           persistent-hint
           outlined
           dense
+          class="required"
         />
-        <v-text-field
-          label="Description"
-          v-model="description"
-          :rules="[Rules.eDescriptionLength]"
-          persistent-hint
-          outlined
-          dense
-        />
-        <v-file-input
-          :disabled="disabled"
-          placeholder="File input"
-          dense
-          show-size
-          :accept="acceptFile"
-          name="excel"
-          @change="uploadExel"
-        ></v-file-input>
+        <v-form ref="form">
+          <v-textarea
+            label="Description"
+            v-model="description"
+            :rules="[Rules.eDescriptionLength]"
+            persistent-hint
+            outlined
+            dense
+          />
+          <v-file-input
+            :disabled="disabled"
+            placeholder="File input"
+            dense
+            show-size
+            :accept="acceptFile"
+            name="excel"
+            @change="uploadExel"
+          ></v-file-input>
+          <span class="caption"
+            >You must fill <strong>title field</strong> before upload your
+            example excel file.
+          </span>
+        </v-form>
         <v-card-actions class="d-flex">
           <v-btn class="white ml-auto" @click="close">Close</v-btn>
         </v-card-actions>
@@ -48,9 +57,10 @@
 import { Component, Prop, Mixins } from "vue-property-decorator";
 import UploadExcelModal from "./UploadExcelModal.vue";
 import XLSX from "xlsx";
-import { EXCEL_HEADERS } from "../constants";
+import { EXCEL_HEADERS, ExampleForm } from "../constants";
 import ExampleMixins from "../mixins/example.mixins";
 import Rules from "../../../helpers/rules";
+import exampleAPI from "../service";
 
 @Component({
   components: {
@@ -69,7 +79,18 @@ export default class UploadExcelButton extends Mixins(ExampleMixins) {
   }
 
   get disabled() {
-    return !this.title;
+    const validTitle =
+      this.title && this.title.length > 3 && this.title.length < 500;
+    const validDescription =
+      !this.description ||
+      (this.description &&
+        this.description.length > 3 &&
+        this.description.length < 500);
+    return !validTitle || !validDescription;
+  }
+
+  get form() {
+    return this.$refs.form as Vue & { validate: () => boolean };
   }
 
   async uploadExel(file: any) {
@@ -116,6 +137,19 @@ export default class UploadExcelButton extends Mixins(ExampleMixins) {
   checkValidContent(data: string[][]) {
     if (this.rowMax < data.length) return false;
     return true;
+  }
+
+  async onSubmit() {
+    const params = this.makeParams();
+    await this.$store.dispatch("setLoading", true);
+    const response = await exampleAPI.create(params);
+    await this.$store.dispatch("setLoading", false);
+    if (response.success) {
+      this.showPopupMessage("Your example has been uploaded", true);
+      this.dialog = false;
+    } else {
+      this.showPopupMessage("Your example uploaded fail", true);
+    }
   }
 }
 </script>

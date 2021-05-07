@@ -15,6 +15,7 @@
             :rules="[Rules.required, Rules.validEmail]"
             persistent-hint
             outlined
+            class="required"
           />
           <v-text-field
             v-model="password"
@@ -26,6 +27,7 @@
             @click:append="showPassword = !showPassword"
             persistent-hint
             outlined
+            class="required"
           />
         </v-card-text>
         <v-card-subtitle>

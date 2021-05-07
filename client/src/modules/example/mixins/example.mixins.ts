@@ -1,6 +1,6 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-import { EXCEL_HEADERS, ANSWERS } from "../constants";
+import { EXCEL_HEADERS, ANSWERS, ExampleForm } from "../constants";
 import camelCase from "lodash/camelCase";
 
 interface PreviewModal {
@@ -120,13 +120,8 @@ export default class ExampleMixins extends Vue {
     }
   }
 
-  onSubmit() {
-    const params = this.makeParams();
-    console.log('params', params);
-  }
-
   makeParams() {
-    const params = {
+    const params: ExampleForm = {
       title: this.title,
       description: this.description,
       questions: this.excelData.map(item => ({
@@ -137,7 +132,8 @@ export default class ExampleMixins extends Vue {
           item[camelCase(EXCEL_HEADERS.OPTION_3)].value,
           item[camelCase(EXCEL_HEADERS.OPTION_4)].value,
         ],
-        answer: ANSWERS.findIndex(answer => item[camelCase(EXCEL_HEADERS.ANSWER)].value === answer)
+        answer: ANSWERS.findIndex(answer => item[camelCase(EXCEL_HEADERS.ANSWER)].value === answer),
+        explanation: item[camelCase(EXCEL_HEADERS.EXPLANATION)].value
       })),
     }
     return params;

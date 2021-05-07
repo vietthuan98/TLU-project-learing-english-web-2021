@@ -24,8 +24,8 @@ import PopupMessage from "./components/PopupMessage.vue";
   components: {
     LoadingIndicator,
     AppBar,
-    PopupMessage
-  }
+    PopupMessage,
+  },
 })
 export default class App extends Vue {
   get isShowLoadingIndicator() {
@@ -49,5 +49,9 @@ html {
   font-family: "arial";
 }
 #app {
+}
+
+.required label::after {
+  content: "*";
 }
 </style>

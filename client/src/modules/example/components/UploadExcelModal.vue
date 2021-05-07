@@ -4,11 +4,12 @@
       <v-card-title>
         Preview your example
       </v-card-title>
-      <v-card-text>
-        <common-error-text
-          v-if="errorMessageList.length"
-          :messageList="errorMessageList"
-        />
+      <v-card-subtitle>
+        <h3>{{ title }}</h3>
+        <h5>{{ description }}</h5>
+      </v-card-subtitle>
+      <v-card-text v-if="errorMessageList.length">
+        <common-error-text :messageList="errorMessageList" />
       </v-card-text>
       <v-card-text v-if="!errors.length">
         <v-simple-table class="excel-table" fixed-header height="60vh">
@@ -60,6 +61,8 @@ export default class UploadExcelModal extends Vue {
   @Prop({ default: false }) private value!: boolean;
   @Prop({ default: () => [] }) errors!: string[];
   @Prop({ default: () => [] }) excelData!: RowData[];
+  @Prop({ default: "" }) title!: string;
+  @Prop({ default: "" }) description!: string;
 
   get dialog() {
     return this.value;

@@ -9,6 +9,7 @@ export const attrExamples = [
     'author',
     'users',
     'questions',
+    'explanation',
     'createdAt',
     'updatedAt',
 ];
@@ -49,7 +50,6 @@ async function calculateScore(userId, score, example) {
             const exampleIndex = user.doneExamples.indexOf({
                 example: example._id,
             });
-            console.log('exampleIndex', exampleIndex);
             const exampleData = {
                 example: example._id,
                 score,

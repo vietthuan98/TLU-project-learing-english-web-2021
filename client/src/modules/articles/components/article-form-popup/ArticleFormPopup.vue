@@ -21,6 +21,7 @@
               persistent-hint
               outlined
               dense
+              class="required"
             />
             <v-file-input
               v-if="!article.image"
@@ -45,6 +46,7 @@
               persistent-hint
               outlined
               dense
+              class="required"
             />
             <template v-for="(item, index) in article.paragraph">
               <div class="paragraph" :key="index">
@@ -55,6 +57,7 @@
                   persistent-hint
                   outlined
                   dense
+                  :class="{ required: index === 0 }"
                 />
                 <div class="paragraph__actions">
                   <v-btn
