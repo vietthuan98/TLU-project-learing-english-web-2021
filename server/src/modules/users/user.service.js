@@ -6,8 +6,8 @@ export const attrProfile = [
     'name',
     'phone',
     'articles',
-    'examples',
-    'doneExamples',
+    'exams',
+    'doneExams',
     'createdAt',
     'updatedAt',
 ];

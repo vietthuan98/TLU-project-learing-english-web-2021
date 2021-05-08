@@ -3,7 +3,7 @@ import Exam from './exams.model';
 import {
     findExams,
     attrExams,
-    findExamsDetail,
+    findExamDetail,
     updateArticleToDB,
 } from './exams.service';
 
@@ -101,7 +101,11 @@ export const updateExam = async (req, res) => {
                     .status(404)
                     .send(new Response(403, 'You do not have permission'));
         }
-        if (body.score > exam.questions.length) {
+        if (
+            body.score &&
+            ((body.questions.length && body.score > body.questions.length) ||
+                (!body.questions.length && body.score > exam.questions.length))
+        ) {
             return res
                 .status(422)
                 .send(
@@ -111,7 +115,6 @@ export const updateExam = async (req, res) => {
                     )
                 );
         }
-
         const examResult = await updateArticleToDB(body, exam);
 
         return res

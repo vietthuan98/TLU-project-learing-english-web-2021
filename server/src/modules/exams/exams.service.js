@@ -47,17 +47,19 @@ async function calculateScore(userId, score, exam) {
     try {
         const user = await findUserById(userId);
         if (user) {
-            const examIndex = user.doneExams.indexOf({
-                exam: exam._id,
-            });
+            const examIndex = user.doneExams?.findIndex(
+                (item) => String(item.exam) === String(exam._id)
+            );
             const examData = {
                 exam: exam._id,
                 score,
             };
             if (examIndex > -1) user.doneExams.set(examIndex, examData);
-            else user.doneExams.push(examData);
+            else user.doneExams?.push(examData);
             //
-            const userIndex = exam.users.indexOf({ user: user._id });
+            const userIndex = exam.users?.findIndex(
+                (item) => String(item.user._id) === String(user._id)
+            );
             const userData = {
                 user: user._id,
                 score,

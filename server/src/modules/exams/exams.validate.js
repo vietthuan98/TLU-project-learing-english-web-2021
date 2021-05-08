@@ -32,7 +32,7 @@ export const updateExamSchema = Joi.object({
                 .required(),
             answer: Joi.number().integer().min(0).max(3),
             explanation: Joi.string().min(3).max(500),
-        })
+        }).required()
     ),
     deletedCommentId: Joi.string().allow(null),
     score: Joi.number().min(0).allow(null),
