@@ -43,36 +43,50 @@
           </span>
         </v-form>
         <v-card-actions class="d-flex">
-          <v-btn class="white ml-auto" @click="close">Close</v-btn>
+          <DownloadTempFile class="ml-auto mr-4" />
+          <v-btn class="white" @click="close">Close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-btn color="white" @click="openDialog"
-      ><v-icon class="mr-2">mdi-file-upload</v-icon> Upload your exam</v-btn
-    >
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Mixins } from "vue-property-decorator";
 import UploadExcelModal from "./UploadExcelModal.vue";
+import DownloadTempFile from "./DownloadTempFile.vue";
 import XLSX from "xlsx";
-import { EXCEL_HEADERS, ExampleForm } from "../constants";
-import ExampleMixins from "../mixins/exam.mixins";
+import { EXCEL_HEADERS, ExamForm } from "../constants";
+import ExamMixins from "../mixins/exam.mixins";
 import Rules from "../../../helpers/rules";
-import exampleAPI from "../service";
+import examAPI from "../service";
+import bus from "../../../helpers/bus";
+import { BUS_EVENTS } from "../../../helpers/constants";
 
 @Component({
   components: {
     UploadExcelModal,
+    DownloadTempFile,
   },
 })
-export default class UploadExcelButton extends Mixins(ExampleMixins) {
+export default class UploadExcelPopup extends Mixins(ExamMixins) {
   @Prop({ default: null }) private value!: string;
   rowMax = 100;
   acceptFile = "ods, xls";
 
   dialog = false;
+
+  mounted() {
+    bus.$on(BUS_EVENTS.OPEN_EXAM_UPLOAD_EXCEL, this.onOpen);
+  }
+
+  beforeDestroy() {
+    //
+  }
+
+  onOpen() {
+    this.openDialog();
+  }
 
   get Rules() {
     return Rules;
@@ -142,7 +156,7 @@ export default class UploadExcelButton extends Mixins(ExampleMixins) {
   async onSubmit() {
     const params = this.makeParams();
     await this.$store.dispatch("setLoading", true);
-    const response = await exampleAPI.create(params);
+    const response = await examAPI.create(params);
     await this.$store.dispatch("setLoading", false);
     if (response.success) {
       this.showPopupMessage("Your exam has been uploaded", true);

@@ -4,6 +4,7 @@
     <router-view />
     <SpeedDial id="speed-dial" />
     <ArticleFormPopup />
+    <UploadExcelPopup />
     <Footer />
   </v-main>
 </template>
@@ -15,14 +16,16 @@ import SpeedDial from "../SpeedDial.vue";
 import AppBar from "../AppBar.vue";
 import Footer from "../Footer.vue";
 import ArticleFormPopup from "../../modules/articles/components/article-form-popup/ArticleFormPopup.vue";
+import UploadExcelPopup from "../../modules/exams/components/UploadExcelPopup.vue";
 
 @Component({
   components: {
     AppBar,
     Footer,
     SpeedDial,
-    ArticleFormPopup
-  }
+    ArticleFormPopup,
+    UploadExcelPopup,
+  },
 })
 export default class MainLayout extends Vue {
   @Prop({ default: null }) private value!: string;

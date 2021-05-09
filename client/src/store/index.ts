@@ -5,6 +5,7 @@ import { genId } from "../helpers/functions";
 //modules
 import auth from "@/modules/auth/store";
 import articles from "@/modules/articles/store";
+import exams from "@/modules/exams/store";
 
 Vue.use(Vuex);
 
@@ -80,6 +81,7 @@ export default new Vuex.Store<RootState>({
   actions: rootActions,
   modules: {
     auth,
-    articles
+    articles,
+    exams
   }
 });

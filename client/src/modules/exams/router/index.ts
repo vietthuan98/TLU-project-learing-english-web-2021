@@ -5,8 +5,12 @@ const examRouters = {
     component: MainLayout,
     children: [
         {
-            path: "/examples",
+            path: "/exams",
             component: () => import("@/modules/exams/pages/ExamListPage.vue")
+        },
+        {
+            path: "/exams/:id",
+            component: () => import("@/modules/exams/pages/ExamDetailPage.vue")
         },
     ]
 };

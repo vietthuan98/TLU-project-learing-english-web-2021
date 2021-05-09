@@ -1,22 +1,15 @@
 <template>
   <div id="home-page">
     HomePage
-    <DownloadTempFile />
-    <UploadExcelButton />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Prop, Mixins } from "vue-property-decorator";
-import UploadExcelButton from "../../exams/components/UploadExcelButton.vue";
-import DownloadTempFile from "../../exams/components/DownloadTempFile.vue";
+import { Component, Prop } from "vue-property-decorator";
 
 @Component({
-  components: {
-    UploadExcelButton,
-    DownloadTempFile,
-  },
+  components: {},
 })
 export default class HomePage extends Vue {
   @Prop({ default: null }) private value!: string;

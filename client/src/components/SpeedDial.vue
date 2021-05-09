@@ -20,8 +20,8 @@
     <v-btn fab dark small color="green" @click="openArticleCreationPopup">
       <v-icon>mdi-pencil</v-icon>
     </v-btn>
-    <v-btn fab dark small color="indigo">
-      <v-icon>mdi-plus</v-icon>
+    <v-btn fab dark small color="indigo" @click="openUploadExcel">
+      <v-icon>mdi-microsoft-excel</v-icon>
     </v-btn>
     <v-btn fab dark small color="red">
       <v-icon>mdi-delete</v-icon>
@@ -42,6 +42,10 @@ export default class SpeedDial extends Vue {
 
   openArticleCreationPopup() {
     bus.$emit(BUS_EVENTS.OPEN_ARTICLE_FORM_POPUP);
+  }
+
+  openUploadExcel() {
+    bus.$emit(BUS_EVENTS.OPEN_EXAM_UPLOAD_EXCEL);
   }
 }
 </script>

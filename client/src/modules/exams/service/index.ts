@@ -1,37 +1,37 @@
 import axios, { Response } from "@/plugins/axios";
 import BaseAPI from "@/plugins/service.base";
-import { ExampleDetail, ExampleForm } from "../constants";
+import { ExamDetail, ExamForm, ExamParams } from "../constants";
 
 const API_URL = process.env.VUE_APP_API_URL;
-export interface ExampleResponse extends Response {
+
+export interface ExamResponse extends Response {
     data: {
-        items: ExampleDetail[];
+        items: ExamDetail[];
         total: number;
     };
 }
 
-export interface ArticleParams {
-    page?: number;
-    limit?: number;
+export interface ExamDetailResponse extends Response {
+    data: ExamDetail;
 }
 
-class ExampleAPI extends BaseAPI {
-    async fetch(params: ArticleParams): Promise<ExampleResponse> {
+class ExamAPI extends BaseAPI {
+    async fetch(params: ExamParams): Promise<ExamResponse> {
         return await axios.get(this.url, { params });
     }
 
-    async detail(id: string): Promise<Response> {
+    async detail(id: string): Promise<ExamDetailResponse> {
         return await axios.get(this.url + "/" + id);
     }
 
-    async create(data: ExampleForm): Promise<Response> {
+    async create(data: ExamForm): Promise<ExamResponse> {
         return await axios.post(this.url, data);
     }
 
-    async update(id: string, data: ExampleForm): Promise<Response> {
+    async update(id: string, data: ExamForm): Promise<ExamResponse> {
         return await axios.patch(this.url + "/" + id, data);
     }
 }
 
-const exampleAPI = new ExampleAPI("/examples");
-export default exampleAPI;
+const examAPI = new ExamAPI("/exams");
+export default examAPI;

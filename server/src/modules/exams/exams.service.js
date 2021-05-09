@@ -20,6 +20,7 @@ export async function findExams(attr, limit, page, query) {
         const _skip = _limit * (+page - 1 || 0);
 
         const exams = await Exam.find(query)
+            .populate('author', ['phone', 'name', 'email'])
             .limit(_limit)
             .skip(_skip)
             .select(attr);

@@ -10,7 +10,14 @@ export enum EXCEL_HEADERS {
 
 export const ANSWERS = ['A', 'B', 'C', 'D'];
 
-export interface ExampleDetail {
+export enum ExamMutations {
+  SET_PARAMS = "SET_PARAMS",
+  SET_LIST = "SET_LIST",
+  SET_TOTAL = "SET_TOTAL",
+  SET_DETAIL = "SET_DETAIL"
+}
+
+export interface ExamDetail {
   _id: string,
   title: string,
   description: string,
@@ -34,6 +41,8 @@ export interface ExampleDetail {
   },
   createdAt: string,
   updatedAt: string,
+  score?: number | null;
+  yours?: boolean;
 }
 
 export interface QuestionDetail {
@@ -42,10 +51,22 @@ export interface QuestionDetail {
   answer: number,
   explanation: string,
 }
-export interface ExampleForm {
+export interface ExamForm {
   title?: string,
   description?: string,
   questions?: QuestionDetail[];
   deletedCommentId?: null,
   score?: 1
+}
+
+export interface ExamParams {
+  page: number,
+  limit: number
+}
+
+export interface ExamState {
+  examList: ExamDetail[],
+  params: ExamParams,
+  examDetail?: ExamDetail,
+  total: number
 }
