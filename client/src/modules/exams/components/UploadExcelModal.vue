@@ -38,13 +38,6 @@
       </v-card-text>
       <v-card-actions>
         <v-btn class="white ml-auto" @click="close">Close</v-btn>
-        <v-btn
-          class="primary"
-          v-if="!errors.length"
-          @click="submit"
-          :disabled="disabled"
-          >Submit</v-btn
-        >
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -99,10 +92,6 @@ export default class UploadExcelModal extends Vue {
 
   close() {
     this.dialog = false;
-  }
-
-  submit() {
-    this.$emit("on-submit");
   }
 }
 </script>

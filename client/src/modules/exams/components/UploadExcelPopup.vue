@@ -8,7 +8,6 @@
           :excelData="excelData"
           :title="title"
           :description="description"
-          @on-submit="onSubmit"
         />
         <v-text-field
           label="Title"
@@ -45,6 +44,13 @@
         <v-card-actions class="d-flex">
           <DownloadTempFile class="ml-auto mr-4" />
           <v-btn class="white" @click="close">Close</v-btn>
+          <v-btn
+            class="primary"
+            v-if="!errors.length"
+            @click="submit"
+            :disabled="disabled"
+            >Submit</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -108,6 +114,7 @@ export default class UploadExcelPopup extends Mixins(ExamMixins) {
   }
 
   async uploadExel(file: any) {
+    this.errors = [];
     const reader = new FileReader();
 
     reader.onload = (e) => {
@@ -153,16 +160,27 @@ export default class UploadExcelPopup extends Mixins(ExamMixins) {
     return true;
   }
 
-  async onSubmit() {
+  async submit() {
+    if (this.previewModal.errors.length || this.errors.length) return;
     const params = this.makeParams();
     await this.$store.dispatch("setLoading", true);
     const response = await examAPI.create(params);
     await this.$store.dispatch("setLoading", false);
     if (response.success) {
+      await this.fetchExamList();
       this.showPopupMessage("Your exam has been uploaded", true);
       this.dialog = false;
     } else {
       this.showPopupMessage("Your exam uploaded fail", true);
+    }
+  }
+
+  async fetchExamList() {
+    if (this.$route.path === "/exams") {
+      const params = this.$store.state?.exams.params || {};
+      await this.$store.dispatch("setLoading", true);
+      await this.$store.dispatch("exams/getExamList", params);
+      await this.$store.dispatch("setLoading", false);
     }
   }
 }

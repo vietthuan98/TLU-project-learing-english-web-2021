@@ -22,9 +22,12 @@
     <template v-slot:extension>
       <v-tabs align-with-title>
         <template v-for="tab in tabs">
-          <v-tab :key="tab.name" @click="changeTab(tab.to)">{{
-            tab.name
-          }}</v-tab>
+          <v-tab
+            :key="tab.name"
+            @click="changeTab(tab.to)"
+            :class="{ 'v-tab--active': isActiveTab(tab.segment) }"
+            >{{ tab.name }}</v-tab
+          >
         </template>
       </v-tabs>
     </template>
@@ -36,24 +39,39 @@ import Vue from "vue";
 import { Component, Watch } from "vue-property-decorator";
 import SearchEngine from "./SearchEngine.vue";
 
+interface Tab {
+  id: number;
+  name: string;
+  to: string;
+  segment: string;
+}
+
 @Component({
   components: {
-    SearchEngine
-  }
+    SearchEngine,
+  },
 })
 export default class AppBar extends Vue {
   isShowSeachInput = false;
-  tabs = [
-    { id: 0, name: "Home", to: "/home" },
-    { id: 1, name: "Artical", to: "/articles" },
-    { id: 2, name: "Exams", to: "/exams" },
-    { id: 3, name: "Video", to: "/videos" }
+  tabs: Tab[] = [
+    { id: 0, name: "Home", to: "/home", segment: "home" },
+    { id: 1, name: "Artical", to: "/articles", segment: "articles" },
+    { id: 2, name: "Exams", to: "/exams", segment: "exams" },
+    { id: 3, name: "Video", to: "/videos", segment: "videos" },
   ];
+  // v-tab--active
+  get currentPathName(): string {
+    return this.$route.fullPath;
+  }
 
   changeTab(to: string) {
-    this.$router.push(to).catch(err => {
+    this.$router.push(to).catch((err) => {
       //
     });
+  }
+
+  isActiveTab(segment: string) {
+    return this.currentPathName.includes(segment);
   }
 }
 </script>

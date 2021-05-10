@@ -5,6 +5,7 @@
     </v-container>
     <ExamEditorPopup
       v-model="examEditorPopup.isShow"
+      @search="fetchExamList"
       :id="examEditorPopup.id"
     />
   </div>
@@ -30,10 +31,14 @@ export default class ExamListPage extends Vue {
   };
 
   get params() {
-    return this.$store.state?.params || {};
+    return this.$store.state?.exams.params || {};
   }
 
   async created() {
+    await this.fetchExamList();
+  }
+
+  async fetchExamList() {
     await this.$store.dispatch("setLoading", true);
     await this.$store.dispatch("exams/getExamList", this.params);
     await this.$store.dispatch("setLoading", false);

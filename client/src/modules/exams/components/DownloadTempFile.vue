@@ -1,7 +1,7 @@
 <template>
-  <v-btn :href="link" class="primary"
-    ><v-icon class="mr-2">mdi-cloud-download</v-icon> Download template</v-btn
-  >
+  <v-btn :href="link" class="primary" text>
+    <v-icon class="mr-2">mdi-cloud-download</v-icon> Download excel template
+  </v-btn>
 </template>
 
 <script lang="ts">

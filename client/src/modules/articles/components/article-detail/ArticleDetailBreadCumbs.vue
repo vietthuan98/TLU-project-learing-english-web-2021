@@ -4,7 +4,7 @@
       <v-icon>mdi-chevron-right</v-icon>
     </template>
     <template v-slot:item="{ item }">
-      <v-breadcrumbs-item>
+      <v-breadcrumbs-item @click="changeRoute(item)" :disabled="item.disabled">
         {{ item.text.toUpperCase() }}
       </v-breadcrumbs-item>
     </template>
@@ -21,15 +21,18 @@ export default class ArticleDetailBreadCrumbs extends Vue {
   items = [
     {
       text: "Article list",
-      to: "/articles"
+      to: "/articles",
+      disabled: false,
     },
     {
-      text: "Article detail"
-    }
+      text: "Article detail",
+      to: "#",
+      disabled: true,
+    },
   ];
 
-  toArticlePage() {
-    this.$router.push("/articles");
+  changeRoute(item: Record<string, string>) {
+    this.$router.push(item.to);
   }
 }
 </script>

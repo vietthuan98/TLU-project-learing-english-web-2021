@@ -26,6 +26,7 @@ export default class ExampleMixins extends Vue {
     isShow: false,
     errors: []
   };
+  errors: string[] = [];
   isShowPreviewModal = false;
   excelData: RowData[] = [];
   headers: string[] = [];
@@ -57,7 +58,7 @@ export default class ExampleMixins extends Vue {
     this.isShowPreviewModal = false;
     this.excelData = [];
     this.headers = [];
-
+    this.errors = [];
   }
 
   onUploadFile({
@@ -90,10 +91,12 @@ export default class ExampleMixins extends Vue {
   makeRowData(data: string[]): RowData {
     const rowData: RowData = {};
     this.rowDataKey.forEach((key, index) => {
+      const error = validateCellData({ key, value: data[index] });
       rowData[key] = {
         value: data[index],
-        error: validateCellData({ key, value: data[index] })
-      }
+        error,
+      };
+      if (error) this.errors.push(error);
     })
     return rowData;
   }

@@ -241,6 +241,7 @@ export default class ExamEditorPopup extends Vue {
     await this.$store.dispatch("setLoading", false);
     if (response.success) {
       this.showPopupMessage("Your exam has been updated", true);
+      this.$emit("search");
       this.close();
     } else {
       this.showPopupMessage("Something's wrong. Please try again", false);

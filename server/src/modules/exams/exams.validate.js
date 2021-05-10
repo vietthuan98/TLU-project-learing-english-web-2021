@@ -3,7 +3,7 @@ import Response from '../../helpers/commonResponse';
 
 export const createExamSchema = Joi.object({
     title: Joi.string().min(3).max(100).required(),
-    description: Joi.string().min(3).max(500),
+    description: Joi.string().min(3).max(500).allow(null).allow(''),
     questions: Joi.array()
         .items(
             Joi.object({
@@ -13,7 +13,7 @@ export const createExamSchema = Joi.object({
                     .length(4)
                     .required(),
                 answer: Joi.number().integer().min(0).max(3),
-                explanation: Joi.string().min(3).max(500),
+                explanation: Joi.string().min(3).max(500).allow(null).allow(''),
             })
         )
         .required(),
@@ -21,8 +21,8 @@ export const createExamSchema = Joi.object({
 
 export const updateExamSchema = Joi.object({
     title: Joi.string().min(3).max(100),
-    description: Joi.string().min(3).max(500),
-    comment: Joi.string().min(1).max(500),
+    description: Joi.string().min(3).max(500).allow(null).allow(''),
+    comment: Joi.string().min(1).max(500).allow(null),
     questions: Joi.array().items(
         Joi.object({
             question: Joi.string().required(),
@@ -31,7 +31,7 @@ export const updateExamSchema = Joi.object({
                 .length(4)
                 .required(),
             answer: Joi.number().integer().min(0).max(3),
-            explanation: Joi.string().min(3).max(500),
+            explanation: Joi.string().min(3).max(500).allow(null).allow(''),
         }).required()
     ),
     deletedCommentId: Joi.string().allow(null),

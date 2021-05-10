@@ -41,7 +41,6 @@
         <td>{{ item.score }}</td>
         <td>
           <v-icon
-            v-if="item.description"
             @click="expand(!isExpanded)"
             class="expand"
             :class="{ isRotate: isExpanded }"
