@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mt-4">
+  <v-card class="mt-4" width="90%">
     <v-card-title>Comments</v-card-title>
     <v-card-text>
       <template v-if="comments.length">
@@ -35,8 +35,8 @@ import articleService from "../../service";
 
 @Component({
   components: {
-    ArticleComment
-  }
+    ArticleComment,
+  },
 })
 export default class ArticleDetailAction extends Vue {
   @Prop({ default: null }) private value!: string;
@@ -52,7 +52,7 @@ export default class ArticleDetailAction extends Vue {
 
   addComment() {
     this.updateArticle({
-      comment: this.comment
+      comment: this.comment,
     });
     this.comment = "";
   }
