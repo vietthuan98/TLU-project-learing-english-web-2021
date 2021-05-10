@@ -38,7 +38,11 @@
         <td>{{ item.questions.length }}</td>
         <td>{{ getParticipants(item) }}</td>
         <td>{{ getComments(item) }}</td>
-        <td>{{ item.score }}</td>
+        <td>
+          <span v-if="item.score">
+            {{ item.score }}/{{ item.questions.length }}
+          </span>
+        </td>
         <td>
           <v-icon
             @click="expand(!isExpanded)"

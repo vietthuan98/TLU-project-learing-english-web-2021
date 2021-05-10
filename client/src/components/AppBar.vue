@@ -25,7 +25,7 @@
           <v-tab
             :key="tab.name"
             @click="changeTab(tab.to)"
-            :class="{ 'v-tab--active': isActiveTab(tab.segment) }"
+            :class="{ 'tab--active': isActiveTab(tab.segment) }"
             >{{ tab.name }}</v-tab
           >
         </template>
@@ -87,9 +87,17 @@ header {
   position: sticky;
   top: 0;
 }
-// header,
-// ::v-deep .v-slide-group__wrapper .v-slide-group__content,
-// .v-icon {
-//   color: #fff !important;
-// }
+
+::v-deep .v-tabs-slider {
+  display: none !important;
+}
+
+::v-deep .v-tab--active {
+  color: #0000008a !important;
+}
+
+::v-deep .tab--active {
+  color: #1976d2 !important;
+  border-bottom: medium solid #1976d2;
+}
 </style>

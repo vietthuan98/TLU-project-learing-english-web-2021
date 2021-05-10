@@ -4,6 +4,8 @@ import TextInput from "@/commonComponents/TextInput.vue";
 import Heart from "@/commonComponents/Heart.vue";
 import Comment from "@/commonComponents/Comment.vue";
 import VImage from "@/commonComponents/VImage.vue";
+import VBreadCrumbs from '@/commonComponents/VBreadCrumbs.vue';
+import { component } from "vue/types/umd";
 
 const components = [
   {
@@ -25,6 +27,10 @@ const components = [
   {
     name: "VImage",
     component: VImage
+  },
+  {
+    name: 'VBreadCrumbs',
+    component: VBreadCrumbs
   }
 ];
 
