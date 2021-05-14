@@ -63,7 +63,7 @@ export default class ArticleListPage extends Vue {
   }
 
   get totalPage() {
-    return Math.ceil(this.articleList.length / this.total);
+    return Math.ceil(this.total / (this.params.limit as number));
   }
 
   get articleList() {

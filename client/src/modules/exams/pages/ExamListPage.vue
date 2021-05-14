@@ -8,6 +8,14 @@
       @search="fetchExamList"
       :id="examEditorPopup.id"
     />
+    <div class="text-center">
+      <v-pagination
+        v-if="totalPage > 1"
+        :value="page"
+        @input="onChangePage"
+        :length="totalPage"
+      ></v-pagination>
+    </div>
   </div>
 </template>
 
@@ -16,6 +24,7 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import ExamTable from "../components/exam-table/ExamTable.vue";
 import ExamEditorPopup from "../components/exam-detail/ExamEditorPopup.vue";
+import { ExamParams, ExamMutations } from "../constants";
 
 @Component({
   components: {
@@ -30,8 +39,24 @@ export default class ExamListPage extends Vue {
     id: "",
   };
 
-  get params() {
+  get page() {
+    return this.params.page as number;
+  }
+
+  get total() {
+    return this.$store.state?.exams?.total as number;
+  }
+
+  get totalPage() {
+    return Math.ceil(this.total / this.params.limit);
+  }
+
+  get params(): ExamParams {
     return this.$store.state?.exams.params || {};
+  }
+
+  get examList() {
+    return this.$store.state?.exams.examList || [];
   }
 
   async created() {
@@ -47,6 +72,14 @@ export default class ExamListPage extends Vue {
   onEditExam(id: string) {
     this.examEditorPopup.isShow = true;
     this.examEditorPopup.id = id;
+  }
+
+  async onChangePage(page: number) {
+    this.$store.commit(`exams/${ExamMutations.SET_PARAMS}`, {
+      ...this.params,
+      page,
+    });
+    await this.fetchExamList();
   }
 }
 </script>

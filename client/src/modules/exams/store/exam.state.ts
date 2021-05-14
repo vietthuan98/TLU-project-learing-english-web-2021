@@ -4,7 +4,7 @@ const state: ExamState = {
   examList: [],
   params: {
     page: 1,
-    limit: 8
+    limit: 10
   },
   total: 0
 };
