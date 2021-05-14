@@ -35,4 +35,8 @@ export default class VBreadCrumbs extends Vue {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+::v-deep .v-breadcrumbs__item {
+  cursor: pointer;
+}
+</style>
