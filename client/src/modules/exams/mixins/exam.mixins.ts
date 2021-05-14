@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component, Watch } from "vue-property-decorator";
 import { EXCEL_HEADERS, ANSWERS, ExamForm } from "../constants";
 import camelCase from "lodash/camelCase";
 import { validateCellData } from '../constants/utils';
@@ -46,6 +46,11 @@ export default class ExampleMixins extends Vue {
   close() {
     this.dialog = false;
     this.resetDialog();
+  }
+
+  @Watch('dialog')
+  onCloseDialog(value: boolean) {
+    if (!value) this.resetDialog();
   }
 
   resetDialog() {
