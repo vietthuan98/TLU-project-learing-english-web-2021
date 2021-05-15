@@ -6,10 +6,14 @@ const examSchema = new mongoose.Schema(
             type: String,
             required: true,
             trim: true,
+            minLength: 3,
+            maxLength: 100,
         },
         description: {
             type: String,
             trim: true,
+            minLength: 3,
+            maxLength: 500,
         },
         comments: [
             {
@@ -32,22 +36,30 @@ const examSchema = new mongoose.Schema(
                     type: String,
                     required: true,
                     trim: true,
+                    minLength: 3,
+                    maxLength: 500,
                 },
                 options: [
                     {
                         type: String,
                         trim: true,
                         required: true,
+                        minLength: 3,
+                        maxLength: 500,
                     },
                 ],
                 answer: {
                     type: Number,
                     required: true,
                     trim: true,
+                    min: 0,
+                    max: 3,
                 },
                 explanation: {
                     type: String,
                     trim: true,
+                    minLength: 3,
+                    maxLength: 500,
                 },
             },
         ],

@@ -39,10 +39,15 @@ export async function uploadImage(file) {
 }
 
 export async function uploadVideo(file) {
-    const response = await cloudinary.uploader.upload(file, {
-        folder: 'video',
-    });
-    return response;
+    try {
+        const response = await cloudinary.uploader.upload(file, {
+            unique_filename: true,
+        });
+        return response;
+    } catch (err) {
+        console.log('Error in uploadVideo in plugins cloudinary func: ', err);
+        throw new Error(err);
+    }
 }
 
 export default cloudinary;

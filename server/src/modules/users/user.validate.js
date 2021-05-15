@@ -6,7 +6,7 @@ const PHONE_REGEX = /\d{10,11}/;
 const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
 export const updateUserSchema = Joi.object({
-    name: Joi.string().max(50),
+    name: Joi.string().min(3).max(50),
     phone: Joi.string().pattern(PHONE_REGEX),
     address: Joi.string().allow(null),
     email: Joi.string().pattern(EMAIL_REGEX),

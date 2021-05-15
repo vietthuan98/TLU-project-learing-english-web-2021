@@ -6,16 +6,21 @@ const articleSchema = new mongoose.Schema(
             type: String,
             required: true,
             trim: true,
+            minLength: 3,
+            maxLength: 100,
         },
         description: {
             type: String,
             trim: true,
+            minLength: 3,
+            maxLength: 150,
         },
         paragraph: [
             {
                 type: String,
                 required: true,
                 trim: true,
+                maxLength: 700,
             },
         ],
         author: {

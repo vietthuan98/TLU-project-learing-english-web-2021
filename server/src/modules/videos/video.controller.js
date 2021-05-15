@@ -1,0 +1,139 @@
+import Response from '../../helpers/commonResponse';
+import Article from './video.model';
+import {
+    findVideos,
+    attrVideos,
+    findVideoDetail,
+    updateArticleToDB,
+} from './video.service';
+import { uploadVideo as uploadVidePlugin } from '../../plugins/cloudinary';
+
+export const getVideos = async (req, res) => {
+    try {
+        const { query } = req;
+
+        const [items, total] = await Promise.all([
+            findVideos(attrVideos, query.limit, query.page),
+            Article.count(),
+        ]);
+        res.status(200).send(
+            new Response(200, 'Get video list successfully', {
+                items,
+                total,
+            })
+        );
+    } catch (err) {
+        console.log('Error in getVideos func', err);
+        res.status(400).send(new Response(400, err.message));
+    }
+};
+
+export const createVideo = async (req, res) => {
+    try {
+        const { body, user } = req;
+        const article = new Video(body);
+        article.author = user._id;
+        user.articles.push(article._id);
+        await Promise.all([article.save(), user.save()]);
+
+        return res.status(200).send(
+            new Response(200, 'Video created successfully', {
+                user,
+                article,
+            })
+        );
+    } catch (err) {
+        console.log('Error in createVideo func', err);
+        return res.status(400).send(new Response(400, err.message));
+    }
+};
+
+export const getMyVideos = async (req, res) => {
+    try {
+        const { user, query } = req;
+        const _query = {
+            author: user._id,
+        };
+
+        const [items, total] = await Promise.all([
+            findVideos(attrVideos, query.limit, query.page, _query),
+            Video.count(_query),
+        ]);
+        return res.status(200).send(
+            new Response(200, 'Get video list successfully', {
+                items,
+                total,
+            })
+        );
+    } catch (err) {
+        console.log('Error in getMyVideos func', err);
+        return res.status(400).send(new Response(400, err.message));
+    }
+};
+
+export const getVideoDetail = async (req, res) => {
+    try {
+        const video = await findVideoDetail({
+            _id: req.params.id,
+        });
+        if (!video) {
+            return res
+                .status(404)
+                .send(new Response(404, 'Video is not found'));
+        }
+        return res
+            .status(200)
+            .send(new Response(200, 'Your video here', video));
+    } catch (err) {
+        console.log('Error in getVideoDetail func', err);
+        return res.status(500).send(new Response(500, err.message));
+    }
+};
+
+export const updateVideo = async (req, res) => {
+    try {
+        const { user, body } = req;
+        body.user = user;
+        const video = await Video.findOne({
+            _id: req.params.id,
+            author: user._id,
+        });
+        if (!video) {
+            return res
+                .status(404)
+                .send(new Response(404, 'Video is not found'));
+        }
+
+        if (body.title || body.description || body.paragraph?.length) {
+            if (video.author.toString() !== user._id.toString())
+                return res
+                    .status(403)
+                    .send(new Response(403, 'You do not have permission'));
+        }
+
+        const videoData = await updateVideoToDB(body, article);
+        return res
+            .status(200)
+            .send(new Response(200, 'Your article updated', videoData));
+    } catch (err) {
+        console.log('Error in updateVideo func', err);
+        return res.status(500).send(new Response(500, err.message));
+    }
+};
+
+export const uploadVideoToCloud = async (req, res) => {
+    try {
+        const { file } = req;
+        if (!file) {
+            return res.status(500).send(new Response(500, 'Something wrongs'));
+        }
+        const { url } = await uploadVidePlugin(file.buffer);
+
+        return res
+            .status(200)
+            .send(new Response(200, 'Video uploaded.', { url }));
+    } catch (err) {
+        console.log('Error in uploadVideoToCloud func: ', err);
+        return res.status(500).send(new Response(500, err));
+    }
+};
