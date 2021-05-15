@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <CommonVBreadCrumbs :items="breadCrumbs" />
-    <ExamPractice />
+    <ExamPractice @rework="onRework" :key="examPracticeKey" />
   </v-container>
 </template>
 
@@ -19,6 +19,7 @@ import examApi from "../service";
 })
 export default class ExamDetailPage extends Vue {
   @Prop({ default: null }) private value!: string;
+  examPracticeKey = Date.now();
 
   get examDetail(): ExamDetail {
     return this.$store.state.exams?.examDetail || {};
@@ -43,6 +44,11 @@ export default class ExamDetailPage extends Vue {
     await this.$store.dispatch("setLoading", true);
     await this.$store.dispatch("exams/getExamDetail", this.$route.params.id);
     await this.$store.dispatch("setLoading", false);
+  }
+
+  onRework() {
+    this.examPracticeKey = Date.now();
+    console.log("reowkr", this.examPracticeKey);
   }
 }
 </script>

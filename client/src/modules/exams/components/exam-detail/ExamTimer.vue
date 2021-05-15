@@ -4,7 +4,7 @@
       Time out!
     </div>
     <template v-for="(item, index) in times">
-      <div class="time" :key="index" v-if="item.isShow">
+      <div class="time" :class="{ timeOut }" :key="index" v-if="item.isShow">
         <div class="number">{{ item.time }}</div>
         <div class="label">{{ item.label }}</div>
       </div>
@@ -110,5 +110,9 @@ export default class ExamTimer extends Vue {
   .label {
     font-size: 11px;
   }
+}
+
+.timeOut {
+  background: #ff0266;
 }
 </style>

@@ -100,7 +100,7 @@ export async function updateArticleToDB(data, exam) {
         if (deletedCommentId && exam.comments?.length) {
             exam.comments.pull({ _id: deletedCommentId });
         }
-        if (score) await calculateScore(user._id, score, exam);
+        if (score >= 0) await calculateScore(user._id, score, exam);
 
         await exam.save();
         return await findExamDetail({ _id: exam._id });

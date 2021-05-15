@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex, { ActionContext, ActionTree } from "vuex";
 import { RootState } from "@/store";
-import { ExamState, ExamParams, ExamMutations } from "../constants";
+import { ExamState, ExamParams, ExamMutations, ExamForm } from "../constants";
 import examAPI from "../service";
 import TokenServices from "../../../helpers/token";
 
@@ -14,7 +14,7 @@ const actions: ActionTree<ExamState, RootState> = {
     const examList = response?.data?.items || [];
     examList.forEach(item => {
       const foundUser = item.users.find(_item => _item.user === TokenServices.getUser()._id);
-      if (foundUser) item.score = foundUser.score || null;
+      if (foundUser && foundUser.score >= 0) item.score = foundUser.score;
       const authorId = item?.author?._id;
       if (authorId && authorId === TokenServices.getUser()._id) item.yours = true;
     });
@@ -35,13 +35,18 @@ const actions: ActionTree<ExamState, RootState> = {
     return response;
   },
 
-  // async updateArticleDetail(
-  //   context: ActionContext<ArticleState, RootState>,
-  //   data: { id: string; data: ArticleForm }
-  // ) {
-  //   const response = await articleAPI.update(data.id, data.data);
-  //   context.commit("setDetail", response?.data || {});
-  //   return response;
-  // }
+  async updateExamDetail(
+    context: ActionContext<ExamState, RootState>,
+    data: { id: string; data: ExamForm }
+  ) {
+    const response = await examAPI.update(data.id, data.data);
+    const examDetail = response?.data || {};
+    const foundUser = examDetail.users.find(_item => _item.user._id === TokenServices.getUser()._id);
+    if (foundUser && foundUser.score >= 0) examDetail.score = foundUser.score;
+    const authorId = examDetail?.author?._id;
+    if (authorId && authorId === TokenServices.getUser()._id) examDetail.yours = true;
+    context.commit(`${ExamMutations.SET_DETAIL}`, examDetail);
+    return response;
+  }
 };
 export default actions;

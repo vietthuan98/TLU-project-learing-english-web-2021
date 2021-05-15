@@ -101,11 +101,7 @@ export const updateExam = async (req, res) => {
                     .status(404)
                     .send(new Response(403, 'You do not have permission'));
         }
-        if (
-            body.score &&
-            ((body.questions.length && body.score > body.questions.length) ||
-                (!body.questions.length && body.score > exam.questions.length))
-        ) {
+        if (body.score >= 0 && body.score > exam.questions.length) {
             return res
                 .status(422)
                 .send(

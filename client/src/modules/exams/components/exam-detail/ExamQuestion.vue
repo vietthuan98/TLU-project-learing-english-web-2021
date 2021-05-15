@@ -83,13 +83,13 @@ export default class ExamQuestion extends Vue {
 
   onTimeOut() {
     this.isShowResult = true;
-    console.log("onTimeOut");
   }
 
   @Watch("isShowResult")
   onShowResult(value: boolean) {
     if (value) {
-      this.$emit("result", { index: this.index, isRight: true });
+      const isRight = this.selected.length === 1;
+      this.$emit("result", { index: this.index, isRight });
       this.stopTime = true;
     }
   }

@@ -28,7 +28,7 @@ class ExamAPI extends BaseAPI {
         return await axios.post(this.url, data);
     }
 
-    async update(id: string, data: ExamForm): Promise<ExamResponse> {
+    async update(id: string, data: ExamForm): Promise<ExamDetailResponse> {
         return await axios.patch(this.url + "/" + id, data);
     }
 }

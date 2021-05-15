@@ -35,7 +35,10 @@ export const updateExamSchema = Joi.object({
         }).required()
     ),
     deletedCommentId: Joi.string().allow(null),
-    score: Joi.number().min(0).allow(null),
+    score: Joi.when('questions', {
+        is: null,
+        then: Joi.number().min(0).allow(null),
+    }),
 });
 
 export function validateCreateExam(req, res, next) {

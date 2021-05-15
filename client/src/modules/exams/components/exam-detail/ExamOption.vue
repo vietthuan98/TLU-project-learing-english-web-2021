@@ -36,12 +36,12 @@ export default class ExamOption extends Vue {
     //
   }
   &:hover {
-    background: #0336ff5e;
+    background: #0336ff;
+    color: white;
   }
 
   &.right {
-    color: white;
-    background: #0336ff;
+    background: #4caf50;
   }
 
   &.wrong {

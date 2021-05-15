@@ -39,7 +39,7 @@
         <td>{{ getParticipants(item) }}</td>
         <td>{{ getComments(item) }}</td>
         <td>
-          <span v-if="item.score">
+          <span v-if="item.score >= 0">
             {{ item.score }}/{{ item.questions.length }}
           </span>
         </td>
