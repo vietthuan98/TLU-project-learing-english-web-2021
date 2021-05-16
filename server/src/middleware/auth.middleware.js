@@ -5,17 +5,26 @@ import jwt from 'jsonwebtoken';
 export const authenticate = async (req, res, next) => {
     try {
         const accessToken = req.header('Authorization').replace('Bearer ', '');
-        const { _id, email } = jwt.verify(accessToken, process.env.SECRET_KEY);
-        const user = await User.findOne({ _id, email, accessToken });
-        if (!user) {
-            res.status(408).send(new Response(401, 'Unauthorized'));
-            return;
+        if (accessToken) {
+            const { _id, email } = jwt.verify(
+                accessToken,
+                process.env.SECRET_KEY
+            );
+            if (_id && email) {
+                const user = await User.findOne({ _id, email, accessToken });
+                if (!user) {
+                    return res
+                        .status(401)
+                        .send(new Response(401, 'Unauthorized'));
+                }
+                req.user = user;
+                req.token = accessToken;
+                return next();
+            }
         }
-        req.user = user;
-        req.token = accessToken;
-        next();
+        return res.status(401).send(new Response(401, 'Unauthorized'));
     } catch (err) {
         console.log('Error on authenticate func: ', err);
-        res.status(400).send(new Response(401, err.message));
+        return res.status(401).send(new Response(401, 'Unauthorized'));
     }
 };

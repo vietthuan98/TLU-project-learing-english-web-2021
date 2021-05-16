@@ -6,11 +6,17 @@ const authRouters = {
   children: [
     {
       path: "/login",
-      component: () => import("@/modules/auth/pages/LoginPage.vue")
+      component: () => import("@/modules/auth/pages/LoginPage.vue"),
+      meta: {
+        isPublic: true
+      }
     },
     {
       path: "/register",
-      component: () => import("@/modules/auth/pages/RegisterPage.vue")
+      component: () => import("@/modules/auth/pages/RegisterPage.vue"),
+      meta: {
+        isPublic: true
+      }
     }
   ]
 };

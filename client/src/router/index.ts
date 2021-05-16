@@ -17,6 +17,10 @@ const routes: Array<RouteConfig> = [
     path: "/",
     redirect: "/home"
   },
+  {
+    path: "/index.html",
+    redirect: "/home"
+  },
   { path: "*", redirect: "/errors/404" },
   authRouters,
   homeRouters,
@@ -32,21 +36,25 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const isPrivate = to?.meta?.private || false;
-  const loggedIn = TokenServices.getUser();
+  const isPublic = to?.meta?.isPublic || false;
+  const loggedIn = !!TokenServices.getToken();
 
-  // if (isPrivate && !loggedIn) {
-  //   return next('/');
-  // }
+  if (!isPublic && !loggedIn) {
+    //show popup check confirm LOGIN or HOME page
+    return next({
+      path: '/login',
+      query: { redirect: to.fullPath }
+    });
+  }
 
-  // if (loggedIn) {
-  //   //TODO: check permission
-  //   const roles = to?.meta?.roles || [];
-  //   const userType = TokenServices.getUserType();
-  //   if (!intersection(roles, userType).length) {
-  //     return next('/error/403')
-  //   }
-  // }
+  if (loggedIn) {
+    //TODO: check permission
+    // const roles = to?.meta?.roles || [];
+    // const userType = TokenServices.getUserType();
+    // if (!intersection(roles, userType).length) {
+    //   return next('/error/403')
+    // }
+  }
   return next();
 });
 
