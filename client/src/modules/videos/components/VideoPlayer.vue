@@ -8,21 +8,21 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
-import videojs, { VideoJsPlayerOptions } from "video.js";
+import videojs, { VideoJsPlayerOptions, VideoJsPlayer } from "video.js";
 
 @Component({})
 export default class extends Vue {
   @Prop({ default: () => ({}) }) private options!: VideoJsPlayerOptions;
-  player = null;
+  player: VideoJsPlayer | null = null;
 
   mounted() {
     this.player = videojs(
       this.$refs.videoPlayer,
       this.options,
       function onPlayerReady() {
-        console.log("onPlayerReady", this);
+        console.log("onPlayerReady");
       }
-    );
+    ) as VideoJsPlayer;
   }
 
   beforeDestroy() {

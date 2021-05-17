@@ -15,22 +15,8 @@ export interface ExamDetailResponse extends Response {
     data: ExamDetail;
 }
 
-class ExamAPI extends BaseAPI {
-    async fetch(params: ExamParams): Promise<ExamResponse> {
-        return await axios.get(this.url, { params });
-    }
-
-    async detail(id: string): Promise<ExamDetailResponse> {
-        return await axios.get(this.url + "/" + id);
-    }
-
-    async create(data: ExamForm): Promise<ExamResponse> {
-        return await axios.post(this.url, data);
-    }
-
-    async update(id: string, data: ExamForm): Promise<ExamDetailResponse> {
-        return await axios.patch(this.url + "/" + id, data);
-    }
+class ExamAPI extends BaseAPI<ExamParams, ExamForm, ExamDetailResponse, ExamResponse> {
+    //
 }
 
 const examAPI = new ExamAPI("/exams");

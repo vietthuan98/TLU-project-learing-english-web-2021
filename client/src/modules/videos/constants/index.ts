@@ -1,4 +1,20 @@
-export interface ArticleDetail {
+import { CueItem } from '../../../plugins/webvtt';
+
+export interface Translation {
+  valid?: boolean;
+  meta?: {
+    Kind: 'subtitles',
+    Language: 'en'
+  }
+  cues: CueItem[];
+}
+
+export interface VideoDetail {
+  _id?: string;
+  title?: string;
+  description?: string | null;
+  src: string;
+  translation: Translation;
   author?: {
     name?: string;
     _id?: string;
@@ -7,36 +23,27 @@ export interface ArticleDetail {
     _id?: string;
     message?: string;
   }[];
-  image?: string;
-  likes?: {
-    _id?: string;
-    userId?: string;
-  }[];
-  title?: string;
-  _id?: string;
-  paragraph?: string[];
-  description?: string | null;
   yours?: boolean;
 }
 
-export interface ArticleForm {
+export interface VideoForm {
   _id?: string | null;
   title?: string | null;
-  paragraph?: string[];
+  src?: string | null;
   description?: string | null;
-  image?: string | null;
+  translation?: Translation;
   deletedCommentId?: string | null;
   comment?: string;
 }
 
-export interface ArticleState {
-  articleList: ArticleDetail[];
-  articleDetail: ArticleDetail;
-  params: ArticleParams;
+export interface VideoState {
+  videoList: VideoDetail[];
+  videoDetail: VideoDetail | null;
+  params: VideoParams;
   total: number;
 }
 
-export interface ArticleParams {
-  page?: number;
-  limit?: number;
+export interface VideoParams {
+  page: number;
+  limit: number;
 }

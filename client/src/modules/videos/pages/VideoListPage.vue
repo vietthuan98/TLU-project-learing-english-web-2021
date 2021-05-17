@@ -1,6 +1,6 @@
 <template>
-  <div id="article-page">
-    <v-container v-if="articleList.length">
+  <div id="video-list-page">
+    <!-- <v-container v-if="articleList.length">
       <v-row>
         <template v-for="(article, index) in articleList">
           <v-col :key="index" class="col-md-3 col-sm-6 col-12">
@@ -26,22 +26,22 @@
         @input="onChangePage"
         :length="totalPage"
       ></v-pagination>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
-import ArticleItem from "../components/ArticleItem.vue";
-import { ArticleDetail, ArticleParams } from "../constants";
+// import ArticleItem from "../components/ArticleItem.vue";
+import { VideoDetail, VideoParams } from "../constants";
 
 @Component({
   components: {
-    ArticleItem,
+    // ArticleItem,
   },
 })
-export default class ArticleListPage extends Vue {
+export default class VideoListPage extends Vue {
   @Prop({ default: null }) private value!: string;
 
   async created() {
@@ -51,7 +51,7 @@ export default class ArticleListPage extends Vue {
   }
 
   get params() {
-    return (this.$store.state?.articles.params as ArticleParams) || {};
+    return this.$store.state?.articles.params || ({} as VideoParams);
   }
 
   get page() {
@@ -67,7 +67,7 @@ export default class ArticleListPage extends Vue {
   }
 
   get articleList() {
-    return this.$store.state?.articles?.articleList as ArticleDetail[];
+    return this.$store.state?.articles?.articleList as VideoDetail[];
   }
 
   async getArticleList() {

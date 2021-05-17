@@ -1,18 +1,18 @@
 import MainLayout from "@/components/layouts/MainLayout.vue";
 
-const articleRouters = {
+const videoRouters = {
   path: "/",
   component: MainLayout,
   children: [
     {
-      path: "/articles",
-      component: () => import("@/modules/articles/pages/ArticleListPage.vue")
+      path: "/videos",
+      component: () => import("@/modules/videos/pages/VideoListPage.vue")
     },
     {
-      path: "/articles/:id",
-      component: () => import("@/modules/articles/pages/ArticleDetailPage.vue")
+      path: "/videos/:id",
+      component: () => import("@/modules/videos/pages/VideoDetailPage.vue")
     }
   ]
 };
 
-export default articleRouters;
+export default videoRouters;

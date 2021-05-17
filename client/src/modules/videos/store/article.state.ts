@@ -1,12 +1,12 @@
-import { ArticleState } from "../constants";
+import { VideoState } from "../constants";
 
-const state: ArticleState = {
-  articleList: [],
+const state: VideoState = {
+  videoList: [],
   params: {
     page: 1,
     limit: 8
   },
-  articleDetail: {},
+  videoDetail: null,
   total: 0
 };
 

@@ -1,17 +1,17 @@
 import Vue from "vue";
-import { ArticleState, ArticleParams, ArticleDetail } from "../constants";
+import { VideoState, VideoParams, VideoDetail } from "../constants";
 
 const mutations = {
-  setParams(state: ArticleState, params: ArticleParams) {
+  setParams(state: VideoState, params: VideoParams) {
     Vue.set(state, "params", params);
   },
-  setList(state: ArticleState, data: ArticleDetail[]) {
+  setList(state: VideoState, data: VideoDetail[]) {
     Vue.set(state, "articleList", data);
   },
-  setTotal(state: ArticleState, total: number) {
+  setTotal(state: VideoState, total: number) {
     Vue.set(state, "total", total);
   },
-  setDetail(state: ArticleState, data: ArticleDetail) {
+  setDetail(state: VideoState, data: VideoDetail) {
     Vue.set(state, "articleDetail", data);
   }
 };

@@ -1,22 +1,22 @@
 <template>
   <v-container>
     <common-v-bread-crumbs :items="breadCrumbs" />
-    <ArticleDetailContent @update-article="updateArticle" />
-    <ArticleDetailAction @update-article="updateArticle" />
+    <!-- <ArticleDetailContent @update-article="updateArticle" />
+    <ArticleDetailAction @update-article="updateArticle" /> -->
   </v-container>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-import ArticleDetailContent from "../components/article-detail/ArticleDetailContent.vue";
-import ArticleDetailAction from "../components/article-detail/ArticleDetailAction.vue";
-import { ArticleForm } from "../constants";
+// import ArticleDetailContent from "../components/article-detail/ArticleDetailContent.vue";
+// import ArticleDetailAction from "../components/article-detail/ArticleDetailAction.vue";
+// import { ArticleForm } from "../constants";
 
 @Component({
   components: {
-    ArticleDetailContent,
-    ArticleDetailAction,
+    // ArticleDetailContent,
+    // ArticleDetailAction,
   },
 })
 export default class ArticleDetailPage extends Vue {
@@ -48,12 +48,12 @@ export default class ArticleDetailPage extends Vue {
     );
   }
 
-  async updateArticle(data: ArticleForm) {
-    const id = this.$store.state.articles.articleDetail._id as string;
-    await this.$store.dispatch("setLoading", true);
-    await this.$store.dispatch("articles/updateArticleDetail", { id, data });
-    await this.$store.dispatch("setLoading", false);
-  }
+  // async updateArticle(data: ArticleForm) {
+  //   const id = this.$store.state.articles.articleDetail._id as string;
+  //   await this.$store.dispatch("setLoading", true);
+  //   await this.$store.dispatch("articles/updateArticleDetail", { id, data });
+  //   await this.$store.dispatch("setLoading", false);
+  // }
 }
 </script>
 

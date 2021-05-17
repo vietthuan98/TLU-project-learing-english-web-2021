@@ -8,6 +8,7 @@ export interface Response extends AxiosResponse {
   code: number;
 }
 
+
 const axiosInstance = axios.create({
   baseURL: "/",
   headers: {}
