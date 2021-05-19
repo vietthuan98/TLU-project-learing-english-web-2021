@@ -33,27 +33,27 @@ export const uploadImage = (req, res, next) => {
 
 export const uploadVideo = (req, res, next) => {
     try {
-        // const upload = multer({
-        //     limits: { fileSize: 15000000 },
-        //     fileFilter: (req, file, cb) => {
-        //         const fileTypes = /jpeg|jpg|png/;
-        //         const extname = fileTypes.test(
-        //             path.extname(file.originalname).toLowerCase()
-        //         );
-        //         const mimetype = fileTypes.test(file.mimetype);
-        //         if (mimetype && extname) {
-        //             return cb(null, true);
-        //         } else {
-        //             cb('Image type must be jpeg, jpg or png.', false);
-        //         }
-        //     },
-        // }).single('image');
-        // upload(req, res, function (err) {
-        //     if (err) {
-        //         return res.status(422).send(new Response(422, err));
-        //     }
-        //     next();
-        // });
+        const upload = multer({
+            limits: { fileSize: 50000000 },
+            fileFilter: (req, file, cb) => {
+                const fileTypes = /mp4/;
+                const extname = fileTypes.test(
+                    path.extname(file.originalname).toLowerCase()
+                );
+                const mimetype = fileTypes.test(file.mimetype);
+                if (mimetype && extname) {
+                    return cb(null, true);
+                } else {
+                    cb('Video type must be mp4.', false);
+                }
+            },
+        }).single('video');
+        upload(req, res, function (err) {
+            if (err) {
+                return res.status(422).send(new Response(422, err));
+            }
+            next();
+        });
     } catch (err) {
         console.log('Error in uploadVideo func', err);
         res.status(500).send(new Response(500, err));

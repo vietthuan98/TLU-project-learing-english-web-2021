@@ -30,7 +30,6 @@ export async function uploadImage(file) {
             folder: 'articleImages',
             unique_filename: true,
         });
-        console.log('response', response);
         return response;
     } catch (err) {
         console.log('Error in uploadImage func: ', err);
@@ -41,11 +40,25 @@ export async function uploadImage(file) {
 export async function uploadVideo(file) {
     try {
         const response = await cloudinary.uploader.upload(file, {
+            folder: 'videos',
             unique_filename: true,
         });
         return response;
     } catch (err) {
         console.log('Error in uploadVideo in plugins cloudinary func: ', err);
+        throw new Error(err);
+    }
+}
+
+export async function uploadVttFile(file) {
+    try {
+        const response = await cloudinary.uploader.upload(file, {
+            folder: 'vttFiles',
+            unique_filename: true,
+        });
+        return response;
+    } catch (err) {
+        console.log('Error in uploadVttFile in plugins cloudinary func: ', err);
         throw new Error(err);
     }
 }
