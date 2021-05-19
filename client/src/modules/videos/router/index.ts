@@ -9,9 +9,13 @@ const videoRouters = {
       component: () => import("@/modules/videos/pages/VideoListPage.vue")
     },
     {
+      path: "/videos/upload",
+      component: () => import("@/modules/videos/pages/VideoUploadPage.vue")
+    },
+    {
       path: "/videos/:id",
       component: () => import("@/modules/videos/pages/VideoDetailPage.vue")
-    }
+    },
   ]
 };
 

@@ -6,6 +6,7 @@ import { genId } from "../helpers/functions";
 import auth from "@/modules/auth/store";
 import articles from "@/modules/articles/store";
 import exams from "@/modules/exams/store";
+import videos from "@/modules/videos/store";
 
 Vue.use(Vuex);
 
@@ -82,6 +83,7 @@ export default new Vuex.Store<RootState>({
   modules: {
     auth,
     articles,
-    exams
+    exams,
+    videos
   }
 });

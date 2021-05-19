@@ -22,8 +22,15 @@ class WebVtt {
         return webvtt.parse(string, { strict: this.strict });
     }
 
-    compile(json: unknown) {
-        return webvtt.compile(json, { strict: this.strict });
+    compile(cues: CueItem[]) {
+        return webvtt.compile({
+            meta: {
+                Kind: 'subtitles',
+                Language: 'en'
+            },
+            cues,
+            valid: true
+        }, { strict: this.strict });
     }
 }
 

@@ -25,11 +25,22 @@ const Rules = {
 
   //Exam
   eTitleLength: (value: string) =>
-    (value.length > 3 && value.length < 500) ||
+    (!value || value.length > 3 && value.length < 500) ||
     "Exam title must be 3-500 characters.",
   eDescriptionLength: (value: string) =>
     (!value || value.length > 3 && value.length < 500) ||
     "Exam description must be 3-500 characters.",
+
+  //Video
+  vSubtitleLength: (value: string) =>
+    (!value || value.length > 3 && value.length < 500) ||
+    "Subtitle must be 3-500 characters.",
+  vTitleLength: (value: string) =>
+    (!value || value.length > 3 && value.length < 100) ||
+    "Title must be 3-100 characters.",
+  vDescriptionLength: (value: string) =>
+    (!value || value.length > 3 && value.length < 500) ||
+    "Description must be 3-500 characters.",
 };
 
 export default Rules;

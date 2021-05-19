@@ -1,5 +1,5 @@
 <template>
-  <div class="login-page">
+  <div class="login-page" :tabindex="-1" @keypress.enter="signIn">
     <v-card width="500px">
       <common-error-text
         class="ma-3 pa-1"

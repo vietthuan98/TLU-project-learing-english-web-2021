@@ -14,7 +14,7 @@
         <div class="no-data">
           <p>
             Nothing here,
-            <a href="#">let's creates a new one.</a>
+            <a @click="createNewArticle">let's creates a new one.</a>
           </p>
         </div>
       </v-row>
@@ -35,6 +35,8 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import ArticleItem from "../components/ArticleItem.vue";
 import { ArticleDetail, ArticleParams } from "../constants";
+import bus from "../../../helpers/bus";
+import { BUS_EVENTS } from "../../../helpers/constants";
 
 @Component({
   components: {
@@ -82,6 +84,10 @@ export default class ArticleListPage extends Vue {
       page,
     });
     await this.getArticleList();
+  }
+
+  createNewArticle() {
+    bus.$emit(BUS_EVENTS.OPEN_ARTICLE_FORM_POPUP);
   }
 }
 </script>

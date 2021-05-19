@@ -23,6 +23,9 @@
     <v-btn fab dark small color="indigo" @click="openUploadExcel">
       <v-icon>mdi-microsoft-excel</v-icon>
     </v-btn>
+    <v-btn fab dark small color="blue" @click="openUploadVideo">
+      <v-icon>mdi-camera-account</v-icon>
+    </v-btn>
     <v-btn fab dark small color="red">
       <v-icon>mdi-delete</v-icon>
     </v-btn>
@@ -46,6 +49,10 @@ export default class SpeedDial extends Vue {
 
   openUploadExcel() {
     bus.$emit(BUS_EVENTS.OPEN_EXAM_UPLOAD_EXCEL);
+  }
+
+  openUploadVideo() {
+    this.$router.push("/videos/upload");
   }
 }
 </script>

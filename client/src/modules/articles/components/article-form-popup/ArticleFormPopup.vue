@@ -101,7 +101,7 @@ import bus from "../../../../helpers/bus";
 import { BUS_EVENTS } from "../../../../helpers/constants";
 import { ArticleDetail, ArticleForm } from "../../constants";
 import Rules from "../../../../helpers/rules";
-import articleAPI from "../../service";
+import articleAPI from "../../service/index";
 
 @Component({})
 export default class ArticleFormPopup extends Vue {
@@ -138,7 +138,7 @@ export default class ArticleFormPopup extends Vue {
     const isValid = this.form.validate();
     if (!isValid) return;
     await this.$store.dispatch("setLoading", true);
-    const params = { ...this.article };
+    const params = { ...this.article, image: this.article.image || null };
     delete params._id;
     const response = !this.article._id
       ? await articleAPI.create(params)

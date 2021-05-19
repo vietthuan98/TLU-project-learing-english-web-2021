@@ -1,10 +1,10 @@
 // import { Module } from 'vuex';
-import state from "./article.state";
-import mutations from "./article.mutations";
-import actions from "./article.actions";
-import getters from "./article.getters";
+import state from "./video.state";
+import mutations from "./video.mutations";
+import actions from "./video.actions";
+import getters from "./video.getters";
 
-const article = {
+const video = {
   namespaced: true,
   state,
   mutations,
@@ -12,4 +12,4 @@ const article = {
   getters
 };
 
-export default article;
+export default video;

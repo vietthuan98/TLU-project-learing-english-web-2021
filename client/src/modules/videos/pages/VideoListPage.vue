@@ -1,10 +1,11 @@
 <template>
   <div id="video-list-page">
-    <!-- <v-container v-if="articleList.length">
+    <v-container v-if="videoList.length">
       <v-row>
-        <template v-for="(article, index) in articleList">
+        <template v-for="(video, index) in videoList">
           <v-col :key="index" class="col-md-3 col-sm-6 col-12">
-            <ArticleItem :article="article" />
+            <!-- <VideoItem :video="video" /> -->
+            <p>Video {{ index }}</p>
           </v-col>
         </template>
       </v-row>
@@ -14,7 +15,7 @@
         <div class="no-data">
           <p>
             Nothing here,
-            <a href="#">let's creates a new one.</a>
+            <a href="/videos/upload">let's creates a new one.</a>
           </p>
         </div>
       </v-row>
@@ -26,7 +27,7 @@
         @input="onChangePage"
         :length="totalPage"
       ></v-pagination>
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -45,13 +46,11 @@ export default class VideoListPage extends Vue {
   @Prop({ default: null }) private value!: string;
 
   async created() {
-    await this.$store.dispatch("setLoading", true);
-    await this.getArticleList();
-    await this.$store.dispatch("setLoading", false);
+    await this.getVideoList();
   }
 
   get params() {
-    return this.$store.state?.articles.params || ({} as VideoParams);
+    return (this.$store.state?.videos.params || {}) as VideoParams;
   }
 
   get page() {
@@ -59,35 +58,35 @@ export default class VideoListPage extends Vue {
   }
 
   get total() {
-    return this.$store.state?.articles?.total as number;
+    return this.$store.state?.videos?.total as number;
   }
 
   get totalPage() {
     return Math.ceil(this.total / (this.params.limit as number));
   }
 
-  get articleList() {
-    return this.$store.state?.articles?.articleList as VideoDetail[];
+  get videoList() {
+    return this.$store.state?.videos?.videoList as VideoDetail[];
   }
 
-  async getArticleList() {
+  async getVideoList() {
     await this.$store.dispatch("setLoading", true);
-    await this.$store.dispatch("articles/getArticleList", this.params);
+    await this.$store.dispatch("videos/getVideoList", this.params);
     await this.$store.dispatch("setLoading", false);
   }
 
   async onChangePage(page: number) {
-    this.$store.commit("articles/setParams", {
+    this.$store.commit("videos/setParams", {
       ...this.params,
       page,
     });
-    await this.getArticleList();
+    await this.getVideoList();
   }
 }
 </script>
 
 <style lang="scss" scoped>
-#article-page {
+#video-list-page {
   width: 100vw;
 
   .no-data {
