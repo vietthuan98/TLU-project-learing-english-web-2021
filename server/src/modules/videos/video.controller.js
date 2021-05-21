@@ -1,10 +1,10 @@
 import Response from '../../helpers/commonResponse';
-import Article from './video.model';
+import Video from './video.model';
 import {
     findVideos,
     attrVideos,
     findVideoDetail,
-    updateArticleToDB,
+    updateVideoToDB,
 } from './video.service';
 import { uploadVideo as uploadVidePlugin } from '../../plugins/cloudinary';
 
@@ -14,7 +14,7 @@ export const getVideos = async (req, res) => {
 
         const [items, total] = await Promise.all([
             findVideos(attrVideos, query.limit, query.page),
-            Article.count(),
+            Video.count(),
         ]);
         res.status(200).send(
             new Response(200, 'Get video list successfully', {
@@ -31,10 +31,10 @@ export const getVideos = async (req, res) => {
 export const createVideo = async (req, res) => {
     try {
         const { body, user } = req;
-        const article = new Video(body);
-        article.author = user._id;
-        user.articles.push(article._id);
-        await Promise.all([article.save(), user.save()]);
+        const video = new Video(body);
+        video.author = user._id;
+        user.videos.push(video._id);
+        await Promise.all([video.save(), user.save()]);
 
         return res.status(200).send(
             new Response(200, 'Video created successfully', {
@@ -60,7 +60,7 @@ export const getMyVideos = async (req, res) => {
             Video.count(_query),
         ]);
         return res.status(200).send(
-            new Response(200, 'Get video list successfully', {
+            new Response(200, 'Get your videos list successfully', {
                 items,
                 total,
             })
@@ -103,18 +103,16 @@ export const updateVideo = async (req, res) => {
                 .status(404)
                 .send(new Response(404, 'Video is not found'));
         }
-
         if (body.title || body.description || body.paragraph?.length) {
             if (video.author.toString() !== user._id.toString())
                 return res
                     .status(403)
                     .send(new Response(403, 'You do not have permission'));
         }
-
-        const videoData = await updateVideoToDB(body, article);
+        const videoData = await updateVideoToDB(body, video);
         return res
             .status(200)
-            .send(new Response(200, 'Your article updated', videoData));
+            .send(new Response(200, 'Your video updated', videoData));
     } catch (err) {
         console.log('Error in updateVideo func', err);
         return res.status(500).send(new Response(500, err.message));
@@ -125,7 +123,14 @@ export const uploadVideoToCloud = async (req, res) => {
     try {
         const { file } = req;
         if (!file) {
-            return res.status(500).send(new Response(500, 'Something wrongs'));
+            return res
+                .status(500)
+                .send(
+                    new Response(
+                        500,
+                        'Something wrongs when upload video to cloud'
+                    )
+                );
         }
         const { url } = await uploadVidePlugin(file.buffer);
 

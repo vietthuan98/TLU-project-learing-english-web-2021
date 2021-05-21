@@ -50,17 +50,4 @@ export async function uploadVideo(file) {
     }
 }
 
-export async function uploadVttFile(file) {
-    try {
-        const response = await cloudinary.uploader.upload(file, {
-            folder: 'vttFiles',
-            unique_filename: true,
-        });
-        return response;
-    } catch (err) {
-        console.log('Error in uploadVttFile in plugins cloudinary func: ', err);
-        throw new Error(err);
-    }
-}
-
 export default cloudinary;

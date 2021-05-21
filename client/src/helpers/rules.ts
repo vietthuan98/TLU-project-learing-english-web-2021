@@ -33,10 +33,10 @@ const Rules = {
 
   //Video
   vSubtitleLength: (value: string) =>
-    (!value || value.length > 3 && value.length < 500) ||
+    (!value || value.length > 3 && value.length < 300) ||
     "Subtitle must be 3-500 characters.",
   vTitleLength: (value: string) =>
-    (!value || value.length > 3 && value.length < 100) ||
+    (!value || value.length > 3 && value.length < 150) ||
     "Title must be 3-100 characters.",
   vDescriptionLength: (value: string) =>
     (!value || value.length > 3 && value.length < 500) ||

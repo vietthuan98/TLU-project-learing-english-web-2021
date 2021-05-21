@@ -1,18 +1,9 @@
-export interface Translation {
-  valid?: boolean;
-  meta?: {
-    Kind: 'subtitles',
-    Language: 'en'
-  }
-  cues: CueItem[];
-}
-
 export interface VideoDetail {
   _id?: string;
   title?: string;
   description?: string | null;
   src: string;
-  translation: Translation;
+  cues: CueItem[];
   author?: {
     name?: string;
     _id?: string;
@@ -29,7 +20,7 @@ export interface VideoForm {
   title?: string | null;
   src?: string | null;
   description?: string | null;
-  translation?: Translation;
+  translation?: CueItem[];
   deletedCommentId?: string | null;
   comment?: string;
 }

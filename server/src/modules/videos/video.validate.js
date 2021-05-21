@@ -2,24 +2,23 @@ import Joi from 'joi';
 import Response from '../../helpers/commonResponse';
 
 export const videoSchema = Joi.object({
-    title: Joi.string().min(3).max(100).required(),
-    description: Joi.string().min(3).max(150),
-    paragraph: Joi.array().items(Joi.string().max(700)).required(),
-    image: Joi.string().allow(null),
-    likes: Joi.array().items(Joi.string()),
-    comments: Joi.array().items(
+    title: Joi.string().min(3).max(150).required(),
+    description: Joi.string().min(3).max(500),
+    src: Joi.string().allow(null),
+    cues: Joi.array().Joi.items(
         Joi.object({
-            message: Joi.string().min(1).max(500).required(),
-            userId: Joi.string().allow(null),
+            identifier: Joi.string().allow('').required(),
+            start: Joi.number().min(0).required(),
+            end: Joi.number().min(0).required(),
+            text: Joi.string().min(3).max(500).required(),
+            styles: Joi.string().allow('').required(),
         })
     ),
 });
 
 export const updateVideoSchema = Joi.object({
-    title: Joi.string().min(3).max(100),
-    description: Joi.string().min(3).max(150),
-    paragraph: Joi.array().items(Joi.string().max(700)),
-    image: Joi.string().allow(null),
+    title: Joi.string().min(3).max(150),
+    description: Joi.string().min(3).max(500),
     like: Joi.boolean(),
     comment: Joi.string().min(1).max(500),
     deletedCommentId: Joi.string().allow(null),

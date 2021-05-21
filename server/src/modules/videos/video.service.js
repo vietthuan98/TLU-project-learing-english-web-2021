@@ -1,14 +1,14 @@
 import Video from './video.model';
 
-export const attrArticles = [
+export const attrVideos = [
     '_id',
     'title',
-    'paragraph',
+    'src',
     'description',
     'likes',
-    'image',
-    'comments',
     'author',
+    'comments',
+    'cues',
     'createdAt',
     'updatedAt',
 ];
@@ -43,56 +43,49 @@ export async function findVideoDetail(data) {
     }
 }
 
-export async function updateVideoToDB(data, article) {
+export async function updateVideoToDB(data, video) {
     try {
         const {
             title,
-            paragraph,
             description,
-            image,
+            src,
             like,
             comment,
             deletedCommentId,
             user,
         } = data;
         if (typeof like === 'boolean') {
-            if (!article.likes.includes(user._id) && like) {
-                article.likes.push(user._id);
-            } else if (article.likes.length) {
-                article.likes.pull({ _id: user._id });
+            if (!video.likes.includes(user._id) && like) {
+                video.likes.push(user._id);
+            } else if (video.likes.length) {
+                video.likes.pull({ _id: user._id });
             }
         }
 
         if (comment) {
-            article.comments.push({
+            video.comments.push({
                 message: comment,
                 userId: user._id,
             });
         }
 
-        if (deletedCommentId && article.comments.length) {
-            article.comments.pull({ _id: deletedCommentId });
+        if (deletedCommentId && video.comments.length) {
+            video.comments.pull({ _id: deletedCommentId });
         }
-
         if (title) {
-            article.title = title;
+            video.title = title;
         }
         if (description) {
-            article.description = description;
+            video.description = description;
         }
-        if (paragraph) {
-            article.paragraph = paragraph;
+        if (src) {
+            video.src = src;
         }
-        if (image) {
-            article.image = image;
-        }
-        await article.save();
-        const articleData = await findArticleDetail({
-            _id: article._id,
-            author: article.author._id,
+        await video.save();
+        return await findArticleDetail({
+            _id: video._id,
+            author: video.author._id,
         });
-
-        return articleData;
     } catch (error) {
         console.log(`Error in updateVideoToDB func: ${error.stack}`);
         throw new Error();
