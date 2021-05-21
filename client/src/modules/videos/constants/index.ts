@@ -1,5 +1,3 @@
-import { CueItem } from '../../../plugins/webvtt';
-
 export interface Translation {
   valid?: boolean;
   meta?: {
@@ -46,4 +44,12 @@ export interface VideoState {
 export interface VideoParams {
   page: number;
   limit: number;
+}
+
+export interface CueItem {
+  identifier: string,
+  start: number,
+  end: number,
+  text: string,
+  styles: string
 }

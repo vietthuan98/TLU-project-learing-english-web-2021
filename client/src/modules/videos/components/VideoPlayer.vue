@@ -2,6 +2,7 @@
   <div>
     <video ref="videoPlayer" class="video-js">
       <slot name="track"></slot>
+      Your browser does not support HTML5 video.
     </video>
     <div class="time-action">
       <div class="caption">
@@ -56,16 +57,22 @@ import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import videojs, { VideoJsPlayerOptions, VideoJsPlayer } from "video.js";
 import { configUserActions } from "../constants/utils";
+import { CueItem } from "../constants";
+import last from "lodash/last";
 import moment from "moment";
 
 @Component({})
 export default class extends Vue {
+  @Prop({ default: () => [] }) private cues!: CueItem[];
   @Prop({ default: -1 }) skipTime!: number;
   @Prop({ default: () => ({}) }) private options!: VideoJsPlayerOptions;
   @Prop({ required: true }) start!: number | null;
   @Prop({ required: true }) end!: number | null;
+  @Prop({ default: "" }) title!: string;
+  @Prop({ default: false }) isCreate!: boolean;
   player: VideoJsPlayer | null = null;
   curTime = 0;
+  track: TextTrack | null = null;
 
   get currentTime() {
     return this.player ? this.player.currentTime() : 0;
@@ -131,25 +138,16 @@ export default class extends Vue {
   }
 
   mounted() {
-    this.player = videojs(
-      this.$refs.videoPlayer,
-      {
-        ...this.options,
-        userActions: {
-          hotkeys: (e) => {
-            if (this.player) configUserActions(e, this.player);
-          },
-        },
-      },
-      () => {
-        if (this.player) this.player.volume(0);
-      }
-    ) as VideoJsPlayer;
+    this.initVideo();
+    this.initTrack();
   }
 
   beforeDestroy() {
     if (this.player) {
       this.player.dispose();
+    }
+    if (this.track) {
+      this.track = null;
     }
   }
 
@@ -166,6 +164,54 @@ export default class extends Vue {
     if (this.player) {
       this.$emit("set-current-time", val);
     }
+  }
+
+  get cuesLength() {
+    return this.cues.length;
+  }
+
+  initVideo() {
+    this.player = videojs(
+      this.$refs.videoPlayer,
+      {
+        ...this.options,
+        userActions: {
+          hotkeys: (e) => {
+            if (this.player) configUserActions(e, this.player);
+          },
+        },
+      },
+      () => {
+        if (this.player) this.player.volume(0);
+      }
+    ) as VideoJsPlayer;
+  }
+
+  initTrack() {
+    const video = document.querySelector("video");
+    if (video) {
+      this.track = video.addTextTrack("subtitles", this.title, "en");
+      this.track.mode = "showing";
+    }
+  }
+
+  @Watch("cuesLength", { immediate: true })
+  onCuesChange() {
+    if (this.track && this.cues && this.cues.length) {
+      if (this.isCreate)
+        this.addLastCueToTrack(last(this.cues) as CueItem, this.track);
+      else this.addCuesToTrack(this.cues, this.track);
+    }
+  }
+
+  addCuesToTrack(cues: CueItem[], track: TextTrack) {
+    for (let i = 0; i < cues.length; i++) {
+      track.addCue(new VTTCue(cues[i].start, cues[i].end, cues[i].text));
+    }
+  }
+
+  addLastCueToTrack(cue: CueItem, track: TextTrack) {
+    track.addCue(new VTTCue(cue.start, cue.end, cue.text));
   }
 }
 </script>

@@ -3,10 +3,13 @@
     <v-row>
       <v-col cols="12" sm="8">
         <VideoPlayer
+          :title="title"
+          :cues="cues"
           :skip-time="skipTime"
           :options="videoOption"
           :start="start"
           :end="end"
+          :isCreate="true"
           @set-start="setStart"
           @set-end="setEnd"
           @set-skip-time="setSkipTime"
@@ -16,7 +19,7 @@
         <div class="input-subtitle">
           <v-textarea
             outlined
-            label="Translator"
+            label="Translator*"
             v-model="transText"
             class="mt-4"
             :rules="[rules.required, rules.vSubtitleLength]"
@@ -33,7 +36,7 @@
             class="mt-4"
             dense
             outlined
-            label="Title"
+            label="Title*"
             v-model="title"
             :rules="[rules.required, rules.vTitleLength]"
           />
@@ -76,7 +79,7 @@ import { Component, Prop } from "vue-property-decorator";
 import VideoPlayer from "../components/VideoPlayer.vue";
 import VideoTranslation from "../components/video-translation/VideoTranslation.vue";
 import Rules from "../../../helpers/rules";
-import WebVtt, { CueItem } from "../../../plugins/webvtt";
+import { CueItem } from "../constants";
 
 @Component({
   components: {
@@ -96,20 +99,18 @@ export default class VideoUploadPage extends Vue {
   start: number | null = null;
   end: number | null = null;
 
-  get videoOption() {
-    return {
-      autoplay: true,
-      controls: true,
-      height: 500,
-      sources: [
-        {
-          src:
-            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-          type: "video/mp4",
-        },
-      ],
-    };
-  }
+  videoOption = {
+    autoplay: true,
+    controls: true,
+    height: 500,
+    sources: [
+      {
+        src:
+          "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+        type: "video/mp4",
+      },
+    ],
+  };
 
   get disabledAddSubtitle() {
     return !this.start || !this.end || !this.transText;
@@ -179,7 +180,6 @@ export default class VideoUploadPage extends Vue {
     const isValid = this.form.validate();
     if (!isValid) return;
     const params = this.makeParams();
-    const vttFile = WebVtt.compile(this.cues);
     //upload vttFile to cloud return url
     //save video
   }
