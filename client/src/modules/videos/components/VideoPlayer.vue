@@ -217,7 +217,7 @@ export default class extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../../node_modules/video.js/dist/video-js.min.css";
+@import "../../../plugins/css/video-js.min.css";
 
 .video-js {
   width: 100% !important;

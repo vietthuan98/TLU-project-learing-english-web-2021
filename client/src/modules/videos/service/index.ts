@@ -11,6 +11,8 @@ export interface VideoResponse extends Response {
 }
 
 export interface FileResponse extends Response {
+  success: boolean;
+  message: string;
   data: {
     url: string;
   };
@@ -22,7 +24,7 @@ export interface VideoDetailResponse extends Response {
 
 class VideoAPI extends BaseAPI<VideoParams, VideoForm, VideoDetailResponse, VideoResponse> {
   async uploadVideo(file: FormData): Promise<FileResponse> {
-    return await axios.post(`${this.url}/image`, file, {
+    return await axios.post(`${this.url}/upload-to-cloud`, file, {
       headers: {
         "Content-Type": "multipart/form-data"
       }

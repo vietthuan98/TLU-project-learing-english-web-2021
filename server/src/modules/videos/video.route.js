@@ -15,7 +15,7 @@ const videoRoute = (router) => {
     router.get('/videos/me', authenticate, getMyVideos);
     router.get('/videos/:id', authenticate, getVideoDetail);
     router.post(
-        '/videos-to-cloud',
+        '/videos/upload-to-cloud',
         authenticate,
         uploadVideoMiddleware,
         uploadVideoToCloud

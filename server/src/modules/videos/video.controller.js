@@ -39,7 +39,7 @@ export const createVideo = async (req, res) => {
         return res.status(200).send(
             new Response(200, 'Video created successfully', {
                 user,
-                article,
+                video,
             })
         );
     } catch (err) {

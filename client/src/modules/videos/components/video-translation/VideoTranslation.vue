@@ -42,6 +42,7 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import { CueItem } from "../../constants";
 import moment from "moment";
+import orderBy from "lodash/orderBy";
 
 interface DisplayCue extends CueItem {
   title: string;
@@ -54,15 +55,16 @@ export default class VideoTranslation extends Vue {
   @Prop({ default: 0 }) private currentTime!: number;
 
   get items(): DisplayCue[] {
-    return this.cues.map((item) => ({
+    const parsedItems = this.cues.map((item) => ({
       ...item,
       title: `${this.formatTime(item.start)} ~ ${this.formatTime(item.end)}`,
       selected: this.checkActiveScript(item),
     }));
+    return orderBy(parsedItems, ["start", "end"], ["asc", "asc"]);
   }
 
   formatTime(time: number) {
-    return moment.utc(time * 1000).format("mm:ss");
+    return moment.utc(time * 1000).format("mm:ss:SS");
   }
 
   setCue(item: CueItem) {

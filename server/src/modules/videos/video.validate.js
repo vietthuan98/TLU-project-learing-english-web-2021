@@ -3,9 +3,9 @@ import Response from '../../helpers/commonResponse';
 
 export const videoSchema = Joi.object({
     title: Joi.string().min(3).max(150).required(),
-    description: Joi.string().min(3).max(500),
+    description: Joi.string().min(3).max(500).allow('').allow(null),
     src: Joi.string().allow(null),
-    cues: Joi.array().Joi.items(
+    cues: Joi.array().items(
         Joi.object({
             identifier: Joi.string().allow('').required(),
             start: Joi.number().min(0).required(),

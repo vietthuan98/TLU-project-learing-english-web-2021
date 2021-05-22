@@ -1,76 +1,82 @@
 <template>
-  <v-container id="video-upload-page">
-    <v-row>
-      <v-col cols="12" sm="8">
-        <VideoPlayer
-          :title="title"
-          :cues="cues"
-          :skip-time="skipTime"
-          :options="videoOption"
-          :start="start"
-          :end="end"
-          :isCreate="true"
-          @set-start="setStart"
-          @set-end="setEnd"
-          @set-skip-time="setSkipTime"
-          @set-current-time="setCurrentTime"
-        />
+  <div>
+    <VideoUpload
+      @on-video-uploaded="onVideoUploaded"
+      v-if="!this.videoOption.sources[0].src"
+    />
+    <v-container id="video-upload-page" v-else>
+      <v-row>
+        <v-col cols="12" sm="8">
+          <VideoPlayer
+            :title="title"
+            :cues="cues"
+            :skip-time="skipTime"
+            :options="videoOption"
+            :start="start"
+            :end="end"
+            :isCreate="true"
+            @set-start="setStart"
+            @set-end="setEnd"
+            @set-skip-time="setSkipTime"
+            @set-current-time="setCurrentTime"
+          />
 
-        <div class="input-subtitle">
-          <v-textarea
-            outlined
-            label="Translator*"
-            v-model="transText"
-            class="mt-4"
-            :rules="[rules.required, rules.vSubtitleLength]"
-          />
-          <v-btn
-            :disabled="disabledAddSubtitle"
-            class="primary btn-add-sub"
-            @click="addSubtitle"
-            >Add subtitle</v-btn
-          >
-        </div>
-        <v-form ref="form">
-          <v-text-field
-            class="mt-4"
-            dense
-            outlined
-            label="Title*"
-            v-model="title"
-            :rules="[rules.required, rules.vTitleLength]"
-          />
-          <v-textarea
-            dense
-            outlined
-            label="Description"
-            v-model="description"
-            :rules="[rules.vDescriptionLength]"
-          />
-          <div class="d-flex">
+          <div class="input-subtitle">
+            <v-textarea
+              outlined
+              label="Translator*"
+              v-model="transText"
+              class="mt-4"
+              :rules="[rules.required, rules.vSubtitleLength]"
+            />
             <v-btn
-              :disabled="disabledCreateVideo"
-              class="primary ml-auto"
-              @click="create"
-              >Create video</v-btn
+              :disabled="disabledAddSubtitle"
+              class="primary btn-add-sub"
+              @click="addSubtitle"
+              >Add subtitle</v-btn
             >
           </div>
-        </v-form>
-      </v-col>
-      <v-col cols="12" sm="4">
-        <VideoTranslation
-          :cues="cues"
-          @set-cue="setCue"
-          :currentTime="currentTime"
-        />
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="12">
-        comments
-      </v-col>
-    </v-row>
-  </v-container>
+          <v-form ref="form">
+            <v-text-field
+              class="mt-4"
+              dense
+              outlined
+              label="Title*"
+              v-model="title"
+              :rules="[rules.required, rules.vTitleLength]"
+            />
+            <v-textarea
+              dense
+              outlined
+              label="Description"
+              v-model="description"
+              :rules="[rules.vDescriptionLength]"
+            />
+            <div class="d-flex">
+              <v-btn
+                :disabled="disabledCreateVideo"
+                class="primary ml-auto"
+                @click="create"
+                >Create video</v-btn
+              >
+            </div>
+          </v-form>
+        </v-col>
+        <v-col cols="12" sm="4">
+          <VideoTranslation
+            :cues="cues"
+            @set-cue="setCue"
+            :currentTime="currentTime"
+          />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          comments
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script lang="ts">
@@ -78,13 +84,16 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import VideoPlayer from "../components/VideoPlayer.vue";
 import VideoTranslation from "../components/video-translation/VideoTranslation.vue";
+import VideoUpload from "../components/video-upload/VideoUpload.vue";
 import Rules from "../../../helpers/rules";
 import { CueItem } from "../constants";
+import videoAPI from "../service";
 
 @Component({
   components: {
     VideoPlayer,
     VideoTranslation,
+    VideoUpload,
   },
 })
 export default class VideoUploadPage extends Vue {
@@ -105,8 +114,9 @@ export default class VideoUploadPage extends Vue {
     height: 500,
     sources: [
       {
-        src:
-          "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+        // src:
+        //   "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+        src: "",
         type: "video/mp4",
       },
     ],
@@ -172,6 +182,7 @@ export default class VideoUploadPage extends Vue {
       title: this.title,
       description: this.description,
       cues: this.cues,
+      src: this.videoOption.sources[0].src,
     };
     return params;
   }
@@ -180,8 +191,19 @@ export default class VideoUploadPage extends Vue {
     const isValid = this.form.validate();
     if (!isValid) return;
     const params = this.makeParams();
-    //upload vttFile to cloud return url
-    //save video
+    await this.$store.dispatch("setLoading", true);
+    const response = await videoAPI.create(params);
+    await this.$store.dispatch("setLoading", false);
+    if (response.success) {
+      this.showPopupMessage("Your video has been created", true);
+      this.$router.push("/videos");
+    } else {
+      this.showPopupMessage(response?.message?.toString() || "", false);
+    }
+  }
+
+  onVideoUploaded(src: string) {
+    this.videoOption.sources[0].src = src;
   }
 }
 </script>
