@@ -29,14 +29,14 @@ import { ExamParams, ExamMutations } from "../constants";
 @Component({
   components: {
     ExamTable,
-    ExamEditorPopup,
-  },
+    ExamEditorPopup
+  }
 })
 export default class ExamListPage extends Vue {
   @Prop({ default: null }) private value!: string;
   examEditorPopup = {
     isShow: false,
-    id: "",
+    id: ""
   };
 
   get page() {
@@ -77,7 +77,7 @@ export default class ExamListPage extends Vue {
   async onChangePage(page: number) {
     this.$store.commit(`exams/${ExamMutations.SET_PARAMS}`, {
       ...this.params,
-      page,
+      page
     });
     await this.fetchExamList();
   }

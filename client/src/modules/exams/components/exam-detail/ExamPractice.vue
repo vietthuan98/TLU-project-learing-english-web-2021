@@ -39,8 +39,8 @@ import { ExamDetail } from "../../constants";
     ExamResult,
     ExamQuestion,
     ExamNextButton,
-    ExamProgress,
-  },
+    ExamProgress
+  }
 })
 export default class ExamPractice extends Vue {
   @Prop({ default: null }) private value!: string;
@@ -82,7 +82,7 @@ export default class ExamPractice extends Vue {
     const { index, isRight } = data;
     this.result = {
       ...this.result,
-      [index]: isRight,
+      [index]: isRight
     };
     this.isDisabledButton = false;
   }
@@ -97,8 +97,8 @@ export default class ExamPractice extends Vue {
     const response = await this.$store.dispatch("exams/updateExamDetail", {
       id: this.examDetail._id,
       data: {
-        score,
-      },
+        score
+      }
     });
     await this.$store.dispatch("setLoading", false);
   }

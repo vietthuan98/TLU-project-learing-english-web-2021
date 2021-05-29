@@ -84,7 +84,7 @@ import { Component, Prop } from "vue-property-decorator";
 import { ExamDetail } from "../../constants";
 
 @Component({
-  components: {},
+  components: {}
 })
 export default class ExamTable extends Vue {
   @Prop({ default: null }) private value!: string;
@@ -97,7 +97,7 @@ export default class ExamTable extends Vue {
       { text: "Participants", name: "participants", width: "5%" },
       { text: "Comments", name: "comments", width: "5%" },
       { text: "Your score", name: "score", width: "15%" },
-      { name: "expand", width: "5%" },
+      { name: "expand", width: "5%" }
     ];
   }
 

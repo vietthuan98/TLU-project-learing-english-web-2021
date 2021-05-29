@@ -15,6 +15,10 @@ const videoSchema = new mongoose.Schema(
             minLength: 3,
             maxLength: 500,
         },
+        duration: {
+            type: Number,
+            minLength: 0,
+        },
         author: {
             type: Schema.Types.ObjectId,
             ref: 'User',

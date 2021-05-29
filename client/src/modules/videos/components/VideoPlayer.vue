@@ -4,7 +4,7 @@
       <slot name="track"></slot>
       Your browser does not support HTML5 video.
     </video>
-    <div class="time-action">
+    <div v-if="isCreate" class="time-action">
       <div class="caption">
         <div><strong>Note: </strong></div>
         <div class="pl-2">
@@ -66,8 +66,8 @@ export default class extends Vue {
   @Prop({ default: () => [] }) private cues!: CueItem[];
   @Prop({ default: -1 }) skipTime!: number;
   @Prop({ default: () => ({}) }) private options!: VideoJsPlayerOptions;
-  @Prop({ required: true }) start!: number | null;
-  @Prop({ required: true }) end!: number | null;
+  @Prop({ default: 0 }) start!: number | null;
+  @Prop({ default: 0 }) end!: number | null;
   @Prop({ default: "" }) title!: string;
   @Prop({ default: false }) isCreate!: boolean;
   player: VideoJsPlayer | null = null;
@@ -140,6 +140,9 @@ export default class extends Vue {
   mounted() {
     this.initVideo();
     this.initTrack();
+    if (!this.isCreate && this.cues && this.track) {
+      this.addCuesToTrack(this.cues, this.track);
+    }
   }
 
   beforeDestroy() {
@@ -176,13 +179,15 @@ export default class extends Vue {
       {
         ...this.options,
         userActions: {
-          hotkeys: (e) => {
+          hotkeys: e => {
             if (this.player) configUserActions(e, this.player);
-          },
-        },
+          }
+        }
       },
       () => {
-        if (this.player) this.player.volume(0);
+        if (this.player) {
+          this.player.volume(0); //TODO set volumn
+        }
       }
     ) as VideoJsPlayer;
   }
@@ -190,9 +195,16 @@ export default class extends Vue {
   initTrack() {
     const video = document.querySelector("video");
     if (video) {
+      this.emitDuration(video);
       this.track = video.addTextTrack("subtitles", this.title, "en");
       this.track.mode = "showing";
     }
+  }
+
+  emitDuration(video: HTMLVideoElement) {
+    video.onloadedmetadata = () => {
+      this.$emit("set-duration", video.duration);
+    };
   }
 
   @Watch("cuesLength", { immediate: true })

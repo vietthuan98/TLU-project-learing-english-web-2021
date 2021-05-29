@@ -35,8 +35,8 @@ import articleService from "../../service";
 
 @Component({
   components: {
-    ArticleComment,
-  },
+    ArticleComment
+  }
 })
 export default class ArticleDetailAction extends Vue {
   @Prop({ default: null }) private value!: string;
@@ -52,7 +52,7 @@ export default class ArticleDetailAction extends Vue {
 
   addComment() {
     this.updateArticle({
-      comment: this.comment,
+      comment: this.comment
     });
     this.comment = "";
   }

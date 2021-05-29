@@ -5,6 +5,7 @@ export const attrVideos = [
     'title',
     'src',
     'description',
+    'duration',
     'likes',
     'author',
     'comments',
@@ -82,7 +83,7 @@ export async function updateVideoToDB(data, video) {
             video.src = src;
         }
         await video.save();
-        return await findArticleDetail({
+        return await findVideoDetail({
             _id: video._id,
             author: video.author._id,
         });

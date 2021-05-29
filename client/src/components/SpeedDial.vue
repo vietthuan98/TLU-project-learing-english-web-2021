@@ -6,6 +6,7 @@
     transition="slide-y-reverse-transition"
     :bottom="true"
     :right="true"
+    class="c-speed-dial"
   >
     <template v-slot:activator>
       <v-btn v-model="fab" color="blue darken-2" dark fab>
@@ -57,4 +58,8 @@ export default class SpeedDial extends Vue {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.c-speed-dial {
+  z-index: 999;
+}
+</style>

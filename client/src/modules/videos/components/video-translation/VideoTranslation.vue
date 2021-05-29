@@ -1,7 +1,8 @@
 <template>
-  <v-card>
-    <v-toolbar color="pink" dark>
+  <v-card class="video-translation" ref="videoTranslation">
+    <v-toolbar class="video-translation__title" color="pink" dark>
       <v-toolbar-title>All script</v-toolbar-title>
+      <VideoTranslationCheckbox v-model="allowFocus" />
     </v-toolbar>
     <v-list>
       <v-list-item-group>
@@ -13,6 +14,7 @@
               @click="setCue(item)"
               v-model="item.selected"
               :input-value="item.selected"
+              :class="item.selected ? 'active-cue' : ''"
             >
               <v-list-item-content>
                 <v-list-item-title v-text="item.title"></v-list-item-title>
@@ -43,22 +45,28 @@ import { Component, Prop } from "vue-property-decorator";
 import { CueItem } from "../../constants";
 import moment from "moment";
 import orderBy from "lodash/orderBy";
+import VideoTranslationCheckbox from "./VideoTranslationCheckbox.vue";
 
 interface DisplayCue extends CueItem {
   title: string;
   selected: boolean;
 }
 
-@Component({})
+@Component({
+  components: {
+    VideoTranslationCheckbox
+  }
+})
 export default class VideoTranslation extends Vue {
   @Prop({ default: () => [] }) private cues!: CueItem[];
   @Prop({ default: 0 }) private currentTime!: number;
+  allowFocus = true;
 
   get items(): DisplayCue[] {
-    const parsedItems = this.cues.map((item) => ({
+    const parsedItems = this.cues.map(item => ({
       ...item,
       title: `${this.formatTime(item.start)} ~ ${this.formatTime(item.end)}`,
-      selected: this.checkActiveScript(item),
+      selected: this.checkActiveScript(item)
     }));
     return orderBy(parsedItems, ["start", "end"], ["asc", "asc"]);
   }
@@ -72,16 +80,52 @@ export default class VideoTranslation extends Vue {
   }
 
   checkActiveScript(item: CueItem) {
+    let isActive = false;
     if (
       this.currentTime >= 0 &&
       item.start <= this.currentTime &&
       this.currentTime <= item.end
     ) {
-      return true;
+      isActive = true;
     }
-    return false;
+    if (isActive) {
+      this.handleScroll();
+    }
+    return isActive;
+  }
+
+  handleScroll() {
+    const container = document.querySelector(
+      ".video-translation"
+    ) as HTMLElement;
+    const activedEl = document.querySelector(".active-cue") as HTMLElement;
+
+    if (container && activedEl) {
+      if (this.allowFocus) {
+        const distance = activedEl.offsetTop;
+        container.scrollTop = distance;
+      }
+    }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.video-translation {
+  max-height: 620px;
+  overflow: auto;
+  position: relative;
+  scroll-behavior: smooth;
+
+  &__title {
+    position: sticky;
+    top: 0;
+    z-index: 99;
+  }
+}
+
+.v-list-item__subtitle {
+  overflow: visible;
+  white-space: normal;
+}
+</style>

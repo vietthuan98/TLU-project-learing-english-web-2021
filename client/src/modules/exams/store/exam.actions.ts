@@ -13,10 +13,13 @@ const actions: ActionTree<ExamState, RootState> = {
     const response = await examAPI.fetch(params);
     const examList = response?.data?.items || [];
     examList.forEach(item => {
-      const foundUser = item.users.find(_item => _item.user === TokenServices.getUser()._id);
+      const foundUser = item.users.find(
+        _item => _item.user === TokenServices.getUser()._id
+      );
       if (foundUser && foundUser.score >= 0) item.score = foundUser.score;
       const authorId = item?.author?._id;
-      if (authorId && authorId === TokenServices.getUser()._id) item.yours = true;
+      if (authorId && authorId === TokenServices.getUser()._id)
+        item.yours = true;
     });
     context.commit(`${ExamMutations.SET_LIST}`, examList);
     context.commit(`${ExamMutations.SET_TOTAL}`, response?.data?.total || 0);
@@ -41,10 +44,13 @@ const actions: ActionTree<ExamState, RootState> = {
   ) {
     const response = await examAPI.update(data.id, data.data);
     const examDetail = response?.data || {};
-    const foundUser = examDetail.users.find(_item => _item.user._id === TokenServices.getUser()._id);
+    const foundUser = examDetail.users.find(
+      _item => _item.user._id === TokenServices.getUser()._id
+    );
     if (foundUser && foundUser.score >= 0) examDetail.score = foundUser.score;
     const authorId = examDetail?.author?._id;
-    if (authorId && authorId === TokenServices.getUser()._id) examDetail.yours = true;
+    if (authorId && authorId === TokenServices.getUser()._id)
+      examDetail.yours = true;
     context.commit(`${ExamMutations.SET_DETAIL}`, examDetail);
     return response;
   }

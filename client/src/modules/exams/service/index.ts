@@ -5,18 +5,23 @@ import { ExamDetail, ExamForm, ExamParams } from "../constants";
 const API_URL = process.env.VUE_APP_API_URL;
 
 export interface ExamResponse extends Response {
-    data: {
-        items: ExamDetail[];
-        total: number;
-    };
+  data: {
+    items: ExamDetail[];
+    total: number;
+  };
 }
 
 export interface ExamDetailResponse extends Response {
-    data: ExamDetail;
+  data: ExamDetail;
 }
 
-class ExamAPI extends BaseAPI<ExamParams, ExamForm, ExamDetailResponse, ExamResponse> {
-    //
+class ExamAPI extends BaseAPI<
+  ExamParams,
+  ExamForm,
+  ExamDetailResponse,
+  ExamResponse
+> {
+  //
 }
 
 const examAPI = new ExamAPI("/exams");

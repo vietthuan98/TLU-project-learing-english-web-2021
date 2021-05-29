@@ -2,7 +2,6 @@ import axios, { Response } from "@/plugins/axios";
 import BaseAPI from "@/plugins/service.base";
 import { VideoDetail, VideoForm, VideoParams } from "../constants";
 
-const API_URL = process.env.VUE_APP_API_URL;
 export interface VideoResponse extends Response {
   data: {
     items: VideoDetail[];
@@ -19,10 +18,15 @@ export interface FileResponse extends Response {
 }
 
 export interface VideoDetailResponse extends Response {
-  data: VideoDetail
+  data: VideoDetail;
 }
 
-class VideoAPI extends BaseAPI<VideoParams, VideoForm, VideoDetailResponse, VideoResponse> {
+class VideoAPI extends BaseAPI<
+  VideoParams,
+  VideoForm,
+  VideoDetailResponse,
+  VideoResponse
+> {
   async uploadVideo(file: FormData): Promise<FileResponse> {
     return await axios.post(`${this.url}/upload-to-cloud`, file, {
       headers: {

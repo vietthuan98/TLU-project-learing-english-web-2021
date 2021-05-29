@@ -72,8 +72,8 @@ import { BUS_EVENTS } from "../../../helpers/constants";
 @Component({
   components: {
     UploadExcelModal,
-    DownloadTempFile,
-  },
+    DownloadTempFile
+  }
 })
 export default class UploadExcelPopup extends Mixins(ExamMixins) {
   @Prop({ default: null }) private value!: string;
@@ -117,7 +117,7 @@ export default class UploadExcelPopup extends Mixins(ExamMixins) {
     this.errors = [];
     const reader = new FileReader();
 
-    reader.onload = (e) => {
+    reader.onload = e => {
       const excel = XLSX.read(e?.target?.result, { type: "buffer" });
       const [sheetName] = excel.SheetNames;
       const sheet = excel.Sheets[sheetName];
@@ -140,7 +140,7 @@ export default class UploadExcelPopup extends Mixins(ExamMixins) {
 
       this.onUploadFile({
         headers,
-        data,
+        data
       });
     };
 

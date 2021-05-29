@@ -8,7 +8,6 @@ export interface Response extends AxiosResponse {
   code: number;
 }
 
-
 const axiosInstance = axios.create({
   baseURL: "/",
   headers: {}
@@ -36,7 +35,8 @@ axiosInstance.interceptors.response.use(
   },
   error => {
     if (error.response) {
-      if (error.response.data.code === 401) {//"Unauthorized"
+      if (error.response.data.code === 401) {
+        //"Unauthorized"
         logout();
       }
       //check code unauthorized -> call logout()

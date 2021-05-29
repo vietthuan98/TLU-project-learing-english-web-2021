@@ -1,5 +1,5 @@
 export interface VideoDetail {
-  _id?: string;
+  _id: string;
   title?: string;
   description?: string | null;
   src: string;
@@ -8,11 +8,24 @@ export interface VideoDetail {
     name?: string;
     _id?: string;
   };
+  duration?: number;
   comments?: {
     _id?: string;
     message?: string;
+    userId: {
+      _id: string;
+      name: string;
+    };
+    isShow?: boolean;
+    yours: boolean;
   }[];
   yours?: boolean;
+  createdAt?: string;
+  poster?: string;
+  likes?: {
+    _id: string;
+    name: string;
+  }[];
 }
 
 export interface VideoForm {
@@ -23,6 +36,7 @@ export interface VideoForm {
   translation?: CueItem[];
   deletedCommentId?: string | null;
   comment?: string;
+  like?: boolean;
 }
 
 export interface VideoState {
@@ -38,9 +52,9 @@ export interface VideoParams {
 }
 
 export interface CueItem {
-  identifier: string,
-  start: number,
-  end: number,
-  text: string,
-  styles: string
+  identifier: string;
+  start: number;
+  end: number;
+  text: string;
+  styles: string;
 }

@@ -8,7 +8,7 @@ export enum EXCEL_HEADERS {
   EXPLANATION = "Explanation"
 }
 
-export const ANSWERS = ['A', 'B', 'C', 'D'];
+export const ANSWERS = ["A", "B", "C", "D"];
 
 export enum ExamMutations {
   SET_PARAMS = "SET_PARAMS",
@@ -18,55 +18,55 @@ export enum ExamMutations {
 }
 
 export interface ExamDetail {
-  _id: string,
-  title: string,
-  description: string,
-  questions: QuestionDetail[],
-  comments: [],
+  _id: string;
+  title: string;
+  description: string;
+  questions: QuestionDetail[];
+  comments: [];
   users: [
     {
-      _id: string,
+      _id: string;
       user: {
-        _id: string,
-        name: string
-      },
-      score: 1
+        _id: string;
+        name: string;
+      };
+      score: 1;
     }
-  ],
+  ];
   author: {
-    _id: string,
-    email: string,
-    name: string,
-    phone: string
-  },
-  createdAt: string,
-  updatedAt: string,
+    _id: string;
+    email: string;
+    name: string;
+    phone: string;
+  };
+  createdAt: string;
+  updatedAt: string;
   score?: number | null;
   yours?: boolean;
 }
 
 export interface QuestionDetail {
-  question: string,
-  options: string[]
-  answer: number,
-  explanation: string,
+  question: string;
+  options: string[];
+  answer: number;
+  explanation: string;
 }
 export interface ExamForm {
-  title?: string,
-  description?: string,
+  title?: string;
+  description?: string;
   questions?: QuestionDetail[];
-  deletedCommentId?: null,
-  score?: 1
+  deletedCommentId?: null;
+  score?: 1;
 }
 
 export interface ExamParams {
-  page: number,
-  limit: number
+  page: number;
+  limit: number;
 }
 
 export interface ExamState {
-  examList: ExamDetail[],
-  params: ExamParams,
-  examDetail?: ExamDetail,
-  total: number
+  examList: ExamDetail[];
+  params: ExamParams;
+  examDetail?: ExamDetail;
+  total: number;
 }

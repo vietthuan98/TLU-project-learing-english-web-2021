@@ -6,13 +6,13 @@ const mutations = {
     Vue.set(state, "params", params);
   },
   setList(state: VideoState, data: VideoDetail[]) {
-    Vue.set(state, "articleList", data);
+    Vue.set(state, "videoList", data);
   },
   setTotal(state: VideoState, total: number) {
     Vue.set(state, "total", total);
   },
   setDetail(state: VideoState, data: VideoDetail) {
-    Vue.set(state, "articleDetail", data);
+    Vue.set(state, "videoDetail", data);
   }
 };
 

@@ -15,7 +15,7 @@ const videoRouters = {
     {
       path: "/videos/:id",
       component: () => import("@/modules/videos/pages/VideoDetailPage.vue")
-    },
+    }
   ]
 };
 

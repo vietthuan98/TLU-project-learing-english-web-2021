@@ -2,10 +2,9 @@
   <div id="video-list-page">
     <v-container v-if="videoList.length">
       <v-row>
-        <template v-for="(video, index) in videoList">
-          <v-col :key="index" class="col-md-3 col-sm-6 col-12">
-            <!-- <VideoItem :video="video" /> -->
-            <p>Video {{ index }}</p>
+        <template v-for="video in videoList">
+          <v-col :key="video._id" class="col-md-4 col-sm-6 col-12">
+            <VideoListItem :video="video" />
           </v-col>
         </template>
       </v-row>
@@ -34,13 +33,13 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
-// import ArticleItem from "../components/ArticleItem.vue";
+import VideoListItem from "../components/video-list/VideoListItem.vue";
 import { VideoDetail, VideoParams } from "../constants";
 
 @Component({
   components: {
-    // ArticleItem,
-  },
+    VideoListItem
+  }
 })
 export default class VideoListPage extends Vue {
   @Prop({ default: null }) private value!: string;
@@ -78,7 +77,7 @@ export default class VideoListPage extends Vue {
   async onChangePage(page: number) {
     this.$store.commit("videos/setParams", {
       ...this.params,
-      page,
+      page
     });
     await this.getVideoList();
   }

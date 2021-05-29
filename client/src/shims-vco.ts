@@ -1,3 +1,2 @@
 declare module "v-click-outside";
-declare module 'node-webvtt'
-
+declare module "node-webvtt";

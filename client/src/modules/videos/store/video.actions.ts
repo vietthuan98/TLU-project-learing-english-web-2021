@@ -1,5 +1,4 @@
-import Vue from "vue";
-import Vuex, { ActionContext, ActionTree } from "vuex";
+import { ActionContext, ActionTree } from "vuex";
 import { RootState } from "@/store";
 import { VideoState, VideoParams, VideoForm } from "../constants";
 import videoAPI from "../service/index";
@@ -12,8 +11,8 @@ const actions: ActionTree<VideoState, RootState> = {
   ) {
     const response = await videoAPI.fetch(params);
     const videoList = response?.data?.items || [];
-    videoList.forEach(article => {
-      article.yours = TokenServices.getUser()._id === article.author?._id;
+    videoList.forEach(video => {
+      video.yours = TokenServices.getUser()._id === video.author?._id;
     });
     context.commit("setList", videoList);
     context.commit("setTotal", response?.data?.total || 0);
@@ -33,7 +32,13 @@ const actions: ActionTree<VideoState, RootState> = {
     id: string
   ) {
     const response = await videoAPI.detail(id);
-    context.commit("setDetail", response?.data || {});
+    const video = response?.data || {};
+    if (video.comments)
+      video.comments.forEach(comment => {
+        if (comment?.userId?._id)
+          comment.yours = comment.userId._id === TokenServices.getUser()._id;
+      });
+    context.commit("setDetail", video);
     return response;
   },
 
@@ -42,7 +47,13 @@ const actions: ActionTree<VideoState, RootState> = {
     data: { id: string; data: VideoForm }
   ) {
     const response = await videoAPI.update(data.id, data.data);
-    context.commit("setDetail", response?.data || {});
+    const video = response?.data || {};
+    if (video.comments)
+      video.comments.forEach(comment => {
+        if (comment?.userId?._id)
+          comment.yours = comment.userId._id === TokenServices.getUser()._id;
+      });
+    context.commit("setDetail", video);
     return response;
   }
 };

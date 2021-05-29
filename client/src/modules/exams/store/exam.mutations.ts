@@ -13,7 +13,7 @@ const mutations = {
   },
   [ExamMutations.SET_DETAIL]: (state: ExamState, data: ExamDetail) => {
     Vue.set(state, "examDetail", data);
-  },
+  }
 };
 
 export default mutations;

@@ -9,7 +9,6 @@ import examRouters from "@/modules/exams/router";
 import videoRouters from "@/modules/videos/router";
 
 import TokenServices from "@/helpers/token";
-import intersection from "lodash/intersection";
 
 Vue.use(VueRouter);
 
@@ -44,7 +43,7 @@ router.beforeEach(async (to, from, next) => {
   if (!isPublic && !loggedIn) {
     //show popup check confirm LOGIN or HOME page
     return next({
-      path: '/login',
+      path: "/login",
       query: { redirect: to.fullPath }
     });
   }

@@ -5,6 +5,7 @@ export const videoSchema = Joi.object({
     title: Joi.string().min(3).max(150).required(),
     description: Joi.string().min(3).max(500).allow('').allow(null),
     src: Joi.string().allow(null),
+    duration: Joi.number().min(0),
     cues: Joi.array().items(
         Joi.object({
             identifier: Joi.string().allow('').required(),

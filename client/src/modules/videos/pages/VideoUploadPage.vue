@@ -19,6 +19,7 @@
             @set-end="setEnd"
             @set-skip-time="setSkipTime"
             @set-current-time="setCurrentTime"
+            @set-duration="setDuration"
           />
 
           <div class="input-subtitle">
@@ -93,8 +94,8 @@ import videoAPI from "../service";
   components: {
     VideoPlayer,
     VideoTranslation,
-    VideoUpload,
-  },
+    VideoUpload
+  }
 })
 export default class VideoUploadPage extends Vue {
   @Prop({ default: null }) private value!: string;
@@ -104,6 +105,7 @@ export default class VideoUploadPage extends Vue {
 
   title = "";
   description = "";
+  duration = 0;
   transText = "";
   start: number | null = null;
   end: number | null = null;
@@ -114,12 +116,12 @@ export default class VideoUploadPage extends Vue {
     height: 500,
     sources: [
       {
-        // src:
-        //   "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-        src: "",
-        type: "video/mp4",
-      },
-    ],
+        src:
+          "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+        // src: "",
+        type: "video/mp4"
+      }
+    ]
   };
 
   get disabledAddSubtitle() {
@@ -164,6 +166,10 @@ export default class VideoUploadPage extends Vue {
     this.currentTime = time;
   }
 
+  setDuration(time: number) {
+    this.duration = time;
+  }
+
   addSubtitle() {
     if (this.start && this.end && this.transText) {
       this.cues.push({
@@ -171,7 +177,7 @@ export default class VideoUploadPage extends Vue {
         start: this.start,
         end: this.end,
         text: this.transText,
-        styles: "",
+        styles: ""
       });
       this.clearCurrentData();
     }
@@ -181,8 +187,9 @@ export default class VideoUploadPage extends Vue {
     const params = {
       title: this.title,
       description: this.description,
+      duration: this.duration,
       cues: this.cues,
-      src: this.videoOption.sources[0].src,
+      src: this.videoOption.sources[0].src
     };
     return params;
   }
@@ -191,6 +198,7 @@ export default class VideoUploadPage extends Vue {
     const isValid = this.form.validate();
     if (!isValid) return;
     const params = this.makeParams();
+    console.log("params", params);
     await this.$store.dispatch("setLoading", true);
     const response = await videoAPI.create(params);
     await this.$store.dispatch("setLoading", false);

@@ -44,18 +44,18 @@ export default class ExamTimer extends Vue {
       {
         label: "Hours",
         time: moment(this.end).diff(this.start, "hours") % 24,
-        isShow: this.hours,
+        isShow: this.hours
       },
       {
         label: "Minutes",
         time: moment(this.end).diff(this.start, "minutes") % 60,
-        isShow: this.minutes,
+        isShow: this.minutes
       },
       {
         label: "Seconds",
         time: moment(this.end).diff(this.start, "seconds") % 60,
-        isShow: this.seconds,
-      },
+        isShow: this.seconds
+      }
     ];
   }
 

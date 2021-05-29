@@ -14,8 +14,8 @@ import examApi from "../service";
 
 @Component({
   components: {
-    ExamPractice,
-  },
+    ExamPractice
+  }
 })
 export default class ExamDetailPage extends Vue {
   @Prop({ default: null }) private value!: string;
@@ -30,13 +30,13 @@ export default class ExamDetailPage extends Vue {
       {
         text: "Exam list",
         to: "/exams",
-        disabled: false,
+        disabled: false
       },
       {
         text: "Exam detail",
         to: "#",
-        disabled: true,
-      },
+        disabled: true
+      }
     ];
   }
 

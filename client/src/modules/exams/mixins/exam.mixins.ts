@@ -2,7 +2,7 @@ import Vue from "vue";
 import { Component, Watch } from "vue-property-decorator";
 import { EXCEL_HEADERS, ANSWERS, ExamForm } from "../constants";
 import camelCase from "lodash/camelCase";
-import { validateCellData } from '../constants/utils';
+import { validateCellData } from "../constants/utils";
 
 interface PreviewModal {
   isShow: boolean;
@@ -18,7 +18,6 @@ export interface RowData {
   [key: string]: CellData;
 }
 
-
 @Component({})
 export default class ExampleMixins extends Vue {
   dialog = false;
@@ -31,9 +30,8 @@ export default class ExampleMixins extends Vue {
   excelData: RowData[] = [];
   headers: string[] = [];
 
-  title = '';
-  description = '';
-
+  title = "";
+  description = "";
 
   get rowDataKey() {
     return Object.keys(EXCEL_HEADERS).map(item => camelCase(item));
@@ -48,14 +46,14 @@ export default class ExampleMixins extends Vue {
     this.resetDialog();
   }
 
-  @Watch('dialog')
+  @Watch("dialog")
   onCloseDialog(value: boolean) {
     if (!value) this.resetDialog();
   }
 
   resetDialog() {
-    this.title = '';
-    this.description = '';
+    this.title = "";
+    this.description = "";
     this.previewModal = {
       isShow: false,
       errors: []
@@ -75,7 +73,7 @@ export default class ExampleMixins extends Vue {
   }) {
     this.headers = headers;
     this.excelData = this.parseData(data);
-    this.showPreviewModel({ isShow: true })
+    this.showPreviewModel({ isShow: true });
   }
 
   parseData(data: string[][]) {
@@ -89,7 +87,7 @@ export default class ExampleMixins extends Vue {
     data.forEach(row => {
       const rowData = this.makeRowData(row);
       tableData.push(rowData);
-    })
+    });
     return tableData;
   }
 
@@ -99,10 +97,10 @@ export default class ExampleMixins extends Vue {
       const error = validateCellData({ key, value: data[index] });
       rowData[key] = {
         value: data[index],
-        error,
+        error
       };
       if (error) this.errors.push(error);
-    })
+    });
     return rowData;
   }
 
@@ -116,12 +114,14 @@ export default class ExampleMixins extends Vue {
           item[camelCase(EXCEL_HEADERS.OPTION_1)].value,
           item[camelCase(EXCEL_HEADERS.OPTION_2)].value,
           item[camelCase(EXCEL_HEADERS.OPTION_3)].value,
-          item[camelCase(EXCEL_HEADERS.OPTION_4)].value,
+          item[camelCase(EXCEL_HEADERS.OPTION_4)].value
         ],
-        answer: ANSWERS.findIndex(answer => item[camelCase(EXCEL_HEADERS.ANSWER)].value === answer),
+        answer: ANSWERS.findIndex(
+          answer => item[camelCase(EXCEL_HEADERS.ANSWER)].value === answer
+        ),
         explanation: item[camelCase(EXCEL_HEADERS.EXPLANATION)].value
-      })),
-    }
+      }))
+    };
     return params;
   }
 

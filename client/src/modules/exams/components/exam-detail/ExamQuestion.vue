@@ -44,8 +44,8 @@ import moment from "moment";
 @Component({
   components: {
     ExamOption,
-    ExamTimer,
-  },
+    ExamTimer
+  }
 })
 export default class ExamQuestion extends Vue {
   @Prop({ default: 0 }) index!: number;

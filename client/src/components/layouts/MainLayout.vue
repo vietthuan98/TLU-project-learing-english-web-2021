@@ -24,8 +24,8 @@ import UploadExcelPopup from "../../modules/exams/components/UploadExcelPopup.vu
     Footer,
     SpeedDial,
     ArticleFormPopup,
-    UploadExcelPopup,
-  },
+    UploadExcelPopup
+  }
 })
 export default class MainLayout extends Vue {
   @Prop({ default: null }) private value!: string;

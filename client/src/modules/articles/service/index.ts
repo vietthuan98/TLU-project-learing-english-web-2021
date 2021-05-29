@@ -25,7 +25,12 @@ export interface ArticleParams {
   limit?: number;
 }
 
-class ArticleAPI extends BaseAPI<ArticleParams, ArticleForm, ArticleDetailResponse, ArticleResponse> {
+class ArticleAPI extends BaseAPI<
+  ArticleParams,
+  ArticleForm,
+  ArticleDetailResponse,
+  ArticleResponse
+> {
   async uploadImage(file: FormData): Promise<FileResponse> {
     return await axios.post(`${this.url}/image`, file, {
       headers: {

@@ -16,8 +16,8 @@ import { ArticleForm } from "../constants";
 @Component({
   components: {
     ArticleDetailContent,
-    ArticleDetailAction,
-  },
+    ArticleDetailAction
+  }
 })
 export default class ArticleDetailPage extends Vue {
   get breadCrumbs() {
@@ -25,13 +25,13 @@ export default class ArticleDetailPage extends Vue {
       {
         text: "Article list",
         to: "/articles",
-        disabled: false,
+        disabled: false
       },
       {
         text: "Article detail",
         to: "#",
-        disabled: true,
-      },
+        disabled: true
+      }
     ];
   }
 

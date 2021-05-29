@@ -96,7 +96,7 @@ export default class RegisterPage extends Vue {
       name: this.name,
       phone: this.phone,
       email: this.email,
-      password: this.password,
+      password: this.password
     };
     await this.$store.dispatch("setLoading", true);
     const response = await authApi.register(params);
