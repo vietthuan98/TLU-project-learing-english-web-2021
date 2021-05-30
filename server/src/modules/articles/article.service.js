@@ -13,7 +13,7 @@ export const attrArticles = [
     'updatedAt',
 ];
 
-export async function findArticles(attr, limit, page, query) {
+export async function findArticles(attr = attrArticles, limit, page, query) {
     try {
         const _limit = +limit || 10;
         const _skip = _limit * (+page - 1 || 0);

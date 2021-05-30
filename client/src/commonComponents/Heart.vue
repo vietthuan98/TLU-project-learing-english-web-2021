@@ -1,9 +1,9 @@
 <template>
   <v-btn text icon>
-    {{ like }}
-    <v-icon color="pink">
-      mdi-cards-heart
+    <v-icon color="primary">
+      mdi-thumb-up
     </v-icon>
+    <span class="ml-1">{{ like }}</span>
   </v-btn>
 </template>
 

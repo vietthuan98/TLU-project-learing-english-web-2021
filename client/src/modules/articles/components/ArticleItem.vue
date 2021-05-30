@@ -7,7 +7,10 @@
     <v-card-subtitle class="description" v-if="article.description">
       {{ article.description }}
     </v-card-subtitle>
-    <v-card-subtitle>By {{ author }}</v-card-subtitle>
+    <v-card-subtitle class="pt-0">
+      <div>By {{ author }}</div>
+      <div>{{ createdAt }}</div>
+    </v-card-subtitle>
     <v-card-actions>
       <v-btn link text small @click="viewDetail">Read more...</v-btn>
       <v-icon
@@ -30,6 +33,7 @@ import { Component, Prop } from "vue-property-decorator";
 import { ArticleDetail } from "../constants";
 import bus from "../../../helpers/bus";
 import { BUS_EVENTS } from "../../../helpers/constants";
+import moment from "moment";
 
 @Component({})
 export default class ArticleItem extends Vue {
@@ -51,6 +55,13 @@ export default class ArticleItem extends Vue {
 
   get comments() {
     return this.article?.comments?.length;
+  }
+
+  get createdAt() {
+    const { createdAt } = this.article || {};
+    return moment(createdAt).isValid()
+      ? moment(createdAt).format("DD/MM/YYYY")
+      : "";
   }
 
   editArticle() {

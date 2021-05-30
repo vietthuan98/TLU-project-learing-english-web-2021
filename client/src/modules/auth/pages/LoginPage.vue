@@ -7,7 +7,7 @@
         :messageList="[message]"
       />
       <v-form ref="form">
-        <v-card-title>Register</v-card-title>
+        <v-card-title>Login</v-card-title>
         <v-card-text>
           <v-text-field
             label="Email"
@@ -20,7 +20,7 @@
           <v-text-field
             v-model="password"
             label="Password"
-            :type="showPassword ? 'Password' : 'text'"
+            :type="!showPassword ? 'Password' : 'text'"
             value="Grocery delivery"
             :rules="[Rules.required, Rules.validPassword]"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -76,7 +76,7 @@ export default class LoginPage extends Vue {
     if (!isValid) return;
     const params: ILoginBody = {
       email: this.email,
-      password: this.password
+      password: this.password,
     };
     await this.$store.dispatch("setLoading", true);
     const response = await authApi.login(params);

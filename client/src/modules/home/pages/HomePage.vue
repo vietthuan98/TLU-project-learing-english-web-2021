@@ -9,10 +9,18 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 
 @Component({
-  components: {}
+  components: {},
 })
 export default class HomePage extends Vue {
-  @Prop({ default: null }) private value!: string;
+  async created() {
+    await this.$store.dispatch("setLoading", true);
+    await this.$store.dispatch("home/getHomeList", this.params);
+    await this.$store.dispatch("setLoading", false);
+  }
+
+  get params() {
+    return this.$store.state.home?.params || {};
+  }
 }
 </script>
 

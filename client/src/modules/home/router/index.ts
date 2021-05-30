@@ -6,7 +6,10 @@ const homeRouters = {
   children: [
     {
       path: "/home",
-      component: () => import("@/modules/home/pages/HomePage.vue")
+      component: () => import("@/modules/home/pages/HomePage.vue"),
+      meta: {
+        isPrivate: false,
+      }
     }
   ]
 };

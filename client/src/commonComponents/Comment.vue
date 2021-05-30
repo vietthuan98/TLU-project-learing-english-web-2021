@@ -1,9 +1,9 @@
 <template>
   <v-btn text icon>
-    {{ comment }}
     <v-icon>
       mdi-comment-minus-outline
     </v-icon>
+    <span class="ml-1">{{ comment }}</span>
   </v-btn>
 </template>
 

@@ -17,6 +17,7 @@ export interface ArticleDetail {
   paragraph?: string[];
   description?: string | null;
   yours?: boolean;
+  createdAt?: string;
 }
 
 export interface ArticleForm {

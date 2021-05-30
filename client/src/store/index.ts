@@ -7,6 +7,7 @@ import auth from "@/modules/auth/store";
 import articles from "@/modules/articles/store";
 import exams from "@/modules/exams/store";
 import videos from "@/modules/videos/store";
+import home from "@/modules/home/store";
 
 Vue.use(Vuex);
 
@@ -84,6 +85,7 @@ export default new Vuex.Store<RootState>({
     auth,
     articles,
     exams,
-    videos
+    videos,
+    home
   }
 });
