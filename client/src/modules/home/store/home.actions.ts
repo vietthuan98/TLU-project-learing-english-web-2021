@@ -15,10 +15,8 @@ const actions: ActionTree<HomeState, RootState> = {
     context.commit(HomeMutations.SET_ARTICLE_TOTAL, article?.total || 0);
     context.commit(HomeMutations.SET_VIDEO_LIST, video?.items || []);
     context.commit(HomeMutations.SET_VIDEO_TOTAL, video?.total || 0);
-    context.commit(HomeMutations.SET_EXAM_TOTAL, exam?.items || []);
+    context.commit(HomeMutations.SET_EXAM_LIST, exam?.items || []);
     context.commit(HomeMutations.SET_EXAM_TOTAL, exam?.total || 0);
-
-    console.log('resposnse', response);
     return response;
   },
 };

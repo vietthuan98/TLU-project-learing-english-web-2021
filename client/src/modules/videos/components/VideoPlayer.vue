@@ -179,14 +179,14 @@ export default class extends Vue {
       {
         ...this.options,
         userActions: {
-          hotkeys: e => {
+          hotkeys: (e) => {
             if (this.player) configUserActions(e, this.player);
-          }
-        }
+          },
+        },
       },
       () => {
         if (this.player) {
-          this.player.volume(0); //TODO set volumn
+          this.player.volume(0.8); //TODO set volumn
         }
       }
     ) as VideoJsPlayer;

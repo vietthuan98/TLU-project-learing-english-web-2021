@@ -48,16 +48,16 @@ interface Tab {
 
 @Component({
   components: {
-    SearchEngine
-  }
+    SearchEngine,
+  },
 })
 export default class AppBar extends Vue {
   isShowSeachInput = false;
   tabs: Tab[] = [
     { id: 0, name: "Home", to: "/home", segment: "home" },
-    { id: 1, name: "Artical", to: "/articles", segment: "articles" },
+    { id: 1, name: "Articles", to: "/articles", segment: "articles" },
     { id: 2, name: "Exams", to: "/exams", segment: "exams" },
-    { id: 3, name: "Videos", to: "/videos", segment: "videos" }
+    { id: 3, name: "Videos", to: "/videos", segment: "videos" },
   ];
   // v-tab--active
   get currentPathName(): string {
@@ -65,7 +65,7 @@ export default class AppBar extends Vue {
   }
 
   changeTab(to: string) {
-    this.$router.push(to).catch(err => {
+    this.$router.push(to).catch((err) => {
       //
     });
   }

@@ -4,8 +4,8 @@
     <template v-slot:description>{{ description }}</template>
     <template v-slot:image>
       <v-img
-        v-if="image"
-        :src="image"
+        v-if="image || defaultImage"
+        :src="image || defaultImage"
         aspect-ratio
         max-height="300"
         class="mb-4"
@@ -30,11 +30,12 @@ import TokenService from "../../../../helpers/token";
 
 @Component({
   components: {
-    ArticleDetailLayout
-  }
+    ArticleDetailLayout,
+  },
 })
 export default class ArticleDetailContent extends Vue {
   @Prop({ default: null }) private value!: string;
+  defaultImage = "https://cdn.vuetifyjs.com/images/cards/sunshine.jpg";
 
   get articleDetail(): ArticleDetail {
     return this.$store.state?.articles?.articleDetail || {};
@@ -65,7 +66,7 @@ export default class ArticleDetailContent extends Vue {
   }
 
   get isLiked() {
-    return this.likes.some(like => like._id === TokenService.getUser()._id);
+    return this.likes.some((like) => like._id === TokenService.getUser()._id);
   }
 
   like() {
