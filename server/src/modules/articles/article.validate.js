@@ -3,7 +3,7 @@ import Response from '../../helpers/commonResponse';
 
 export const articleSchema = Joi.object({
     title: Joi.string().min(3).max(100).required(),
-    description: Joi.string().min(3).max(150),
+    description: Joi.string().min(3).max(150).allow('').allow(null),
     paragraph: Joi.array().items(Joi.string().max(700)).required(),
     image: Joi.string().allow(null),
     likes: Joi.array().items(Joi.string()),
@@ -17,7 +17,7 @@ export const articleSchema = Joi.object({
 
 export const updateArticleSchema = Joi.object({
     title: Joi.string().min(3).max(100),
-    description: Joi.string().min(3).max(150),
+    description: Joi.string().min(3).max(150).allow('').allow(null),
     paragraph: Joi.array().items(Joi.string().max(700)),
     image: Joi.string().allow(null),
     like: Joi.boolean(),

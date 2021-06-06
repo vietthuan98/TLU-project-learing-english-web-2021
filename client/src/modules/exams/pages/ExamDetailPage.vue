@@ -1,7 +1,14 @@
 <template>
   <v-container>
     <CommonVBreadCrumbs :items="breadCrumbs" />
-    <ExamPractice @rework="onRework" :key="examPracticeKey" />
+    <ExamPractice v-if="isStart" @rework="onRework" :key="examPracticeKey" />
+    <ExamPracticeIntro v-else>
+      <template v-slot:button-start>
+        <v-btn class="primary" @click="start">
+          START
+        </v-btn>
+      </template>
+    </ExamPracticeIntro>
   </v-container>
 </template>
 
@@ -9,17 +16,20 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import ExamPractice from "../components/exam-detail/ExamPractice.vue";
+import ExamPracticeIntro from "../components/exam-detail/ExamPracticeIntro.vue";
 import { ExamDetail } from "../constants";
 import examApi from "../service";
 
 @Component({
   components: {
-    ExamPractice
-  }
+    ExamPractice,
+    ExamPracticeIntro,
+  },
 })
 export default class ExamDetailPage extends Vue {
   @Prop({ default: null }) private value!: string;
   examPracticeKey = Date.now();
+  isStart = false;
 
   get examDetail(): ExamDetail {
     return this.$store.state.exams?.examDetail || {};
@@ -30,13 +40,13 @@ export default class ExamDetailPage extends Vue {
       {
         text: "Exam list",
         to: "/exams",
-        disabled: false
+        disabled: false,
       },
       {
         text: "Exam detail",
         to: "#",
-        disabled: true
-      }
+        disabled: true,
+      },
     ];
   }
 
@@ -48,7 +58,11 @@ export default class ExamDetailPage extends Vue {
 
   onRework() {
     this.examPracticeKey = Date.now();
-    console.log("reowkr", this.examPracticeKey);
+    this.isStart = false;
+  }
+
+  start() {
+    this.isStart = true;
   }
 }
 </script>
