@@ -1,4 +1,5 @@
-import { authenticate } from '../../middleware/auth.middleware';
+import { authenticate, checkUserRoles } from '../../middleware/auth.middleware';
+import { USER_ROLE } from '../users/user.model';
 import { validateCreateExam, validateUpdateExam } from './exams.validate';
 import {
     createExam,
@@ -12,7 +13,13 @@ const examRoute = (router) => {
     router.get('/exams', authenticate, getExams);
     router.get('/exams/me', authenticate, getMyExams);
     router.get('/exams/:id', authenticate, getExamDetail);
-    router.post('/exams', authenticate, validateCreateExam, createExam);
+    router.post(
+        '/exams',
+        authenticate,
+        checkUserRoles([USER_ROLE.TEACHER]),
+        validateCreateExam,
+        createExam
+    );
     router.patch('/exams/:id', authenticate, validateUpdateExam, updateExam);
 };
 

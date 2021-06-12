@@ -104,8 +104,6 @@ userSchema.statics.findCredentials = async (email, password) => {
             error: 'Please check and verify your email',
         };
     }
-    if (user.roles && typeof user.roles === 'string')
-        user.roles = JSON.parse(user.roles);
     return { user };
 };
 
@@ -134,6 +132,8 @@ userSchema.pre('save', async function (next) {
         const hashedPassword = await bcrypt.hash(this.password, 8);
         user.password = hashedPassword;
     }
+    if (!user.roles) user.roles = [];
+    if (typeof user.roles !== 'string') user.roles = JSON.stringify(user.roles);
     next();
 });
 

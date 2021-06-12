@@ -17,14 +17,37 @@ export const authenticate = async (req, res, next) => {
                         .status(401)
                         .send(new Response(401, 'Unauthorized'));
                 }
+
                 req.user = user;
                 req.token = accessToken;
                 return next();
             }
         }
-        return res.status(401).send(new Response(401, 'Unauthorized'));
+        return res.status(403).send(new Response(403, 'Unauthorized'));
     } catch (err) {
         console.log('Error on authenticate func: ', err);
-        return res.status(401).send(new Response(401, 'Unauthorized'));
+        return res.status(403).send(new Response(403, 'Unauthorized'));
     }
 };
+
+export function checkUserRoles(allowedRoles) {
+    try {
+        return (req, res, next) => {
+            const roles = JSON.parse(req.user.roles);
+            if (roles.some((role) => allowedRoles.includes(role)))
+                return next();
+
+            return res
+                .status(401)
+                .send(
+                    new Response(
+                        401,
+                        'Unauthorized: You have no permission for this action.'
+                    )
+                );
+        };
+    } catch (err) {
+        console.log('Error on checkUserRoles func: ', err);
+        return res.status(401).send(new Response(401, 'Unauthorized'));
+    }
+}

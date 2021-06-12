@@ -6,12 +6,13 @@ import {
     updateArticle,
     uploadArticleImage,
 } from './article.controller';
-import { authenticate } from '../../middleware/auth.middleware';
+import { authenticate, checkUserRoles } from '../../middleware/auth.middleware';
 import {
     validateCreateArticle,
     validateUpdateArticle,
 } from './article.validate';
 import { uploadImage } from '../../middleware/uploadFile.middleware';
+import { USER_ROLE } from '../users/user.model';
 
 const articleRoute = (router) => {
     router.get('/articles', authenticate, getArticles);
@@ -20,12 +21,14 @@ const articleRoute = (router) => {
     router.post(
         '/articles/image',
         authenticate,
+        checkUserRoles([USER_ROLE.TEACHER]),
         uploadImage,
         uploadArticleImage
     );
     router.post(
         '/articles',
         authenticate,
+        checkUserRoles([USER_ROLE.TEACHER]),
         validateCreateArticle,
         createArticle
     );

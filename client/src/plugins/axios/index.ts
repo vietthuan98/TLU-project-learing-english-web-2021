@@ -35,7 +35,7 @@ axiosInstance.interceptors.response.use(
   },
   error => {
     if (error.response) {
-      if (error.response.data.code === 401) {
+      if (error.response.data.code === 403) {
         //"Unauthorized"
         logout();
       }

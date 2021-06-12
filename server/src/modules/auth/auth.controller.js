@@ -16,6 +16,8 @@ export const login = async (req, res) => {
                 .send(new Response(400, 'Please check and verify your email.'));
         const token = await user.generateAuthToken();
         const _user = user.toObject();
+        if (_user.roles && typeof _user.roles === 'string')
+            _user.roles = JSON.parse(_user.roles);
         delete _user.password;
         return res
             .status(200)

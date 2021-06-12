@@ -6,7 +6,8 @@ import {
     createVideo,
     updateVideo,
 } from './video.controller';
-import { authenticate } from '../../middleware/auth.middleware';
+import { authenticate, checkUserRoles } from '../../middleware/auth.middleware';
+import { USER_ROLE } from '../users/user.model';
 import { validateCreateVideo, validateUpdateVideo } from './video.validate';
 import { uploadVideo as uploadVideoMiddleware } from '../../middleware/uploadFile.middleware';
 
@@ -17,10 +18,17 @@ const videoRoute = (router) => {
     router.post(
         '/videos/upload-to-cloud',
         authenticate,
+        checkUserRoles([USER_ROLE.TEACHER]),
         uploadVideoMiddleware,
         uploadVideoToCloud
     );
-    router.post('/videos', authenticate, validateCreateVideo, createVideo);
+    router.post(
+        '/videos',
+        authenticate,
+        checkUserRoles([USER_ROLE.TEACHER]),
+        validateCreateVideo,
+        createVideo
+    );
     router.patch('/videos/:id', authenticate, validateUpdateVideo, updateVideo);
 };
 
