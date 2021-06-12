@@ -52,7 +52,7 @@
                   :key="key"
                   :class="[
                     `td-option${i + 1}`,
-                    { 'has-error': item.options[key].error }
+                    { 'has-error': item.options[key].error },
                   ]"
                 >
                   <v-text-field
@@ -120,12 +120,13 @@ import {
   EXCEL_HEADERS,
   ANSWERS,
   ExamForm,
-  QuestionDetail
+  QuestionDetail,
 } from "../../constants";
 import cloneDeep from "lodash/cloneDeep";
 import get from "lodash/get";
 import { validateCellData } from "../../constants/utils";
 import examAPI from "../../service";
+import swal from "sweetalert2";
 
 interface CellData {
   value: string | number | string[];
@@ -149,34 +150,34 @@ export default class ExamEditorPopup extends Vue {
   rowData: RowData = {
     question: {
       value: "",
-      error: null
+      error: null,
     },
     options: {
       option1: {
         value: "",
-        error: null
+        error: null,
       },
       option2: {
         value: "",
-        error: null
+        error: null,
       },
       option3: {
         value: "",
-        error: null
+        error: null,
       },
       option4: {
         value: "",
-        error: null
-      }
+        error: null,
+      },
     },
     answer: {
       value: "",
-      error: null
+      error: null,
     },
     explanation: {
       value: "",
-      error: null
-    }
+      error: null,
+    },
   };
   tableData: RowData[] = [];
   errors: string[] = [];
@@ -240,11 +241,11 @@ export default class ExamEditorPopup extends Vue {
     const response = await examAPI.update(this.id, params);
     await this.$store.dispatch("setLoading", false);
     if (response.success) {
-      this.showPopupMessage("Your exam has been updated", true);
+      await swal.fire("", "Your exam has been updated", "success");
       this.$emit("search");
       this.close();
     } else {
-      this.showPopupMessage("Something's wrong. Please try again", false);
+      await swal.fire("", "Something's wrong. Please try again", "error");
     }
   }
 
@@ -257,12 +258,12 @@ export default class ExamEditorPopup extends Vue {
             rowData.options.option1.value as string,
             rowData.options.option2.value as string,
             rowData.options.option3.value as string,
-            rowData.options.option4.value as string
+            rowData.options.option4.value as string,
           ],
           answer: ANSWERS.findIndex(
-            item => item === (rowData.answer.value as string).toUpperCase()
+            (item) => item === (rowData.answer.value as string).toUpperCase()
           ),
-          explanation: rowData.explanation.value as string
+          explanation: rowData.explanation.value as string,
         };
         return [...acc, item];
       },
@@ -271,7 +272,7 @@ export default class ExamEditorPopup extends Vue {
     const params: ExamForm = {
       title: this.title,
       description: this.description,
-      questions
+      questions,
     };
     return params;
   }
@@ -290,7 +291,7 @@ export default class ExamEditorPopup extends Vue {
         } else {
           const error = validateCellData({
             key,
-            value: get(rowData, `${key}.value`)
+            value: get(rowData, `${key}.value`),
           }) as string;
           (rowData as Record<string, any>)[key].error = error;
           if (error) this.errors.push(this.formatError(error, index + 1));
@@ -309,34 +310,34 @@ export default class ExamEditorPopup extends Vue {
     this.rowData = {
       question: {
         value: "",
-        error: null
+        error: null,
       },
       options: {
         option1: {
           value: "",
-          error: null
+          error: null,
         },
         option2: {
           value: "",
-          error: null
+          error: null,
         },
         option3: {
           value: "",
-          error: null
+          error: null,
         },
         option4: {
           value: "",
-          error: null
-        }
+          error: null,
+        },
       },
       answer: {
         value: "",
-        error: null
+        error: null,
       },
       explanation: {
         value: "",
-        error: null
-      }
+        error: null,
+      },
     };
     this.tableData = [];
     this.errors = [];

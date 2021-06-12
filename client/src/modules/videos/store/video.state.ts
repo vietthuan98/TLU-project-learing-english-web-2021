@@ -4,7 +4,8 @@ const state: VideoState = {
   videoList: [],
   params: {
     page: 1,
-    limit: 9
+    limit: 9,
+    title: '',
   },
   videoDetail: null,
   total: 0

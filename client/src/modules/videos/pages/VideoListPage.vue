@@ -1,5 +1,17 @@
 <template>
   <div id="video-list-page">
+    <v-container>
+      <v-row>
+        <v-col>
+          <CommonTextSearch
+            style="width: 80%"
+            placeholder="Please enter your title you are looking for"
+            v-model="params.title"
+            @search="searchByTitle"
+          />
+        </v-col>
+      </v-row>
+    </v-container>
     <v-container v-if="videoList.length">
       <v-row>
         <template v-for="video in videoList">
@@ -38,8 +50,8 @@ import { VideoDetail, VideoParams } from "../constants";
 
 @Component({
   components: {
-    VideoListItem
-  }
+    VideoListItem,
+  },
 })
 export default class VideoListPage extends Vue {
   @Prop({ default: null }) private value!: string;
@@ -77,7 +89,16 @@ export default class VideoListPage extends Vue {
   async onChangePage(page: number) {
     this.$store.commit("videos/setParams", {
       ...this.params,
-      page
+      page,
+    });
+    await this.getVideoList();
+  }
+
+  async searchByTitle(title: string) {
+    this.$store.commit("videos/setParams", {
+      ...this.params,
+      page: 1,
+      title,
     });
     await this.getVideoList();
   }

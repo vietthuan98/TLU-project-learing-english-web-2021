@@ -1,6 +1,18 @@
 <template>
   <div>
     <v-container>
+      <v-row>
+        <v-col>
+          <CommonTextSearch
+            style="width: 80%"
+            placeholder="Please enter your title you are looking for"
+            v-model="params.title"
+            @search="searchByTitle"
+          />
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container>
       <ExamTable @edit-exam="onEditExam" />
     </v-container>
     <ExamEditorPopup
@@ -29,14 +41,14 @@ import { ExamParams, ExamMutations } from "../constants";
 @Component({
   components: {
     ExamTable,
-    ExamEditorPopup
-  }
+    ExamEditorPopup,
+  },
 })
 export default class ExamListPage extends Vue {
   @Prop({ default: null }) private value!: string;
   examEditorPopup = {
     isShow: false,
-    id: ""
+    id: "",
   };
 
   get page() {
@@ -77,7 +89,16 @@ export default class ExamListPage extends Vue {
   async onChangePage(page: number) {
     this.$store.commit(`exams/${ExamMutations.SET_PARAMS}`, {
       ...this.params,
-      page
+      page,
+    });
+    await this.fetchExamList();
+  }
+
+  async searchByTitle(title: string) {
+    this.$store.commit(`exams/${ExamMutations.SET_PARAMS}`, {
+      ...this.params,
+      page: 1,
+      title,
     });
     await this.fetchExamList();
   }

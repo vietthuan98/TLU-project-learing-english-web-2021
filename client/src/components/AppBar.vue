@@ -11,7 +11,7 @@
     <v-spacer></v-spacer>
 
     <v-app-bar-title v-if="userName && isLogined" class="caption"
-      >Wellcome <strong>{{ userName }}</strong>
+      >Welcome <strong>{{ userName }}</strong>
     </v-app-bar-title>
     <!-- <v-btn icon @click="goToProfilePage">
       <v-icon>mdi-account-edit</v-icon>

@@ -5,6 +5,7 @@ import Heart from "@/commonComponents/Heart.vue";
 import Comment from "@/commonComponents/Comment.vue";
 import VImage from "@/commonComponents/VImage.vue";
 import VBreadCrumbs from "@/commonComponents/VBreadCrumbs.vue";
+import TextSearch from "@/commonComponents/TextSearch.vue";
 
 const components = [
   {
@@ -30,6 +31,10 @@ const components = [
   {
     name: "VBreadCrumbs",
     component: VBreadCrumbs
+  },
+  {
+    name: "TextSearch",
+    component: TextSearch
   }
 ];
 

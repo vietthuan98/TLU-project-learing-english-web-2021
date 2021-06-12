@@ -102,6 +102,7 @@ import { BUS_EVENTS } from "../../../../helpers/constants";
 import { ArticleDetail, ArticleForm } from "../../constants";
 import Rules from "../../../../helpers/rules";
 import articleAPI from "../../service/index";
+import swal from "sweetalert2";
 
 @Component({})
 export default class ArticleFormPopup extends Vue {
@@ -111,7 +112,7 @@ export default class ArticleFormPopup extends Vue {
     title: "",
     paragraph: [""],
     description: "",
-    image: ""
+    image: "",
   };
 
   get form() {
@@ -130,7 +131,7 @@ export default class ArticleFormPopup extends Vue {
     await this.$store.dispatch("setLoading", false);
     if (response?.success) {
       this.article.image = response.data?.url;
-      this.showPopupMessage("Your image uploaded", true);
+      swal.fire("", "Your image uploaded", "success");
     }
   }
 
@@ -146,13 +147,13 @@ export default class ArticleFormPopup extends Vue {
     await this.$store.dispatch("setLoading", false);
     if (response.success) {
       const message = !this.article._id
-        ? "our article has been created"
+        ? "Your article has been created"
         : "Your article has been updated";
-      this.showPopupMessage(message, true);
+      await swal.fire("", message, "success");
       await this.reloadArticleListIfNeed();
       this.close();
     } else {
-      this.showPopupMessage(response.message.toString(), false);
+      await swal.fire("", response.message.toString(), "error");
     }
   }
 
@@ -161,7 +162,7 @@ export default class ArticleFormPopup extends Vue {
     const response = await articleAPI.detail(_id);
     await this.$store.dispatch("setLoading", false);
     if (!response.success) {
-      this.showPopupMessage(response.message.toString(), false);
+      await swal.fire("", response.message.toString(), "error");
       this.close();
     } else {
       const data = response.data as ArticleDetail;
@@ -170,7 +171,7 @@ export default class ArticleFormPopup extends Vue {
         title: data.title || "",
         paragraph: data.paragraph || [""],
         description: data.description || "",
-        image: data.image || ""
+        image: data.image || "",
       });
     }
   }
@@ -197,7 +198,7 @@ export default class ArticleFormPopup extends Vue {
       title: "",
       paragraph: [""],
       description: "",
-      image: ""
+      image: "",
     };
     this.isVisible = false;
   }

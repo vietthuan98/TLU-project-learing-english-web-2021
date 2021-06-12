@@ -17,6 +17,7 @@ export interface AuthUser {
   email: string;
   name: string;
   phone: string;
+  address: string;
   roles: string[];
   createdAt: string;
   updatedAt: string;

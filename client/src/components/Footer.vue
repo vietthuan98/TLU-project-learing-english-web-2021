@@ -12,7 +12,7 @@
       </v-card-title>
 
       <v-card-text class="py-0 pb-1 caption text-center">
-        {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
+        {{ new Date().getFullYear() }} — <strong>DO AN CUOI NAM</strong>
       </v-card-text>
     </v-card>
   </v-footer>

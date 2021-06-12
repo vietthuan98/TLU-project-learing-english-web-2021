@@ -68,12 +68,13 @@ import Rules from "../../../helpers/rules";
 import examAPI from "../service";
 import bus from "../../../helpers/bus";
 import { BUS_EVENTS } from "../../../helpers/constants";
+import swal from "sweetalert2";
 
 @Component({
   components: {
     UploadExcelModal,
-    DownloadTempFile
-  }
+    DownloadTempFile,
+  },
 })
 export default class UploadExcelPopup extends Mixins(ExamMixins) {
   @Prop({ default: null }) private value!: string;
@@ -117,7 +118,7 @@ export default class UploadExcelPopup extends Mixins(ExamMixins) {
     this.errors = [];
     const reader = new FileReader();
 
-    reader.onload = e => {
+    reader.onload = (e) => {
       const excel = XLSX.read(e?.target?.result, { type: "buffer" });
       const [sheetName] = excel.SheetNames;
       const sheet = excel.Sheets[sheetName];
@@ -140,7 +141,7 @@ export default class UploadExcelPopup extends Mixins(ExamMixins) {
 
       this.onUploadFile({
         headers,
-        data
+        data,
       });
     };
 
@@ -168,10 +169,10 @@ export default class UploadExcelPopup extends Mixins(ExamMixins) {
     await this.$store.dispatch("setLoading", false);
     if (response.success) {
       await this.fetchExamList();
-      this.showPopupMessage("Your exam has been uploaded", true);
+      await swal.fire("", "Your exam has been uploaded", "success");
       this.dialog = false;
     } else {
-      this.showPopupMessage("Your exam uploaded fail", true);
+      await swal.fire("", "Your exam uploaded fail", "error");
     }
   }
 

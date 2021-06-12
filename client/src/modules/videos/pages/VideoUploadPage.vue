@@ -89,13 +89,14 @@ import VideoUpload from "../components/video-upload/VideoUpload.vue";
 import Rules from "../../../helpers/rules";
 import { CueItem } from "../constants";
 import videoAPI from "../service";
+import swal from "sweetalert2";
 
 @Component({
   components: {
     VideoPlayer,
     VideoTranslation,
-    VideoUpload
-  }
+    VideoUpload,
+  },
 })
 export default class VideoUploadPage extends Vue {
   @Prop({ default: null }) private value!: string;
@@ -119,9 +120,9 @@ export default class VideoUploadPage extends Vue {
         src:
           "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
         // src: "",
-        type: "video/mp4"
-      }
-    ]
+        type: "video/mp4",
+      },
+    ],
   };
 
   get disabledAddSubtitle() {
@@ -177,7 +178,7 @@ export default class VideoUploadPage extends Vue {
         start: this.start,
         end: this.end,
         text: this.transText,
-        styles: ""
+        styles: "",
       });
       this.clearCurrentData();
     }
@@ -189,7 +190,7 @@ export default class VideoUploadPage extends Vue {
       description: this.description,
       duration: this.duration,
       cues: this.cues,
-      src: this.videoOption.sources[0].src
+      src: this.videoOption.sources[0].src,
     };
     return params;
   }
@@ -203,10 +204,14 @@ export default class VideoUploadPage extends Vue {
     const response = await videoAPI.create(params);
     await this.$store.dispatch("setLoading", false);
     if (response.success) {
-      this.showPopupMessage("Your video has been created", true);
+      await swal.fire("", "Your video has been created", "success");
       this.$router.push("/videos");
     } else {
-      this.showPopupMessage(response?.message?.toString() || "", false);
+      await swal.fire(
+        "",
+        response?.message?.toString() || "Something went wrong.",
+        "error"
+      );
     }
   }
 

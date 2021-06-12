@@ -4,6 +4,7 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import vClickOutSide from "v-click-outside";
+import swal from 'sweetalert2';
 import "./plugins/commonComponents";
 
 import "./mixins/util.mixin";

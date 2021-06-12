@@ -62,6 +62,7 @@ export interface ExamForm {
 export interface ExamParams {
   page: number;
   limit: number;
+  title: string;
 }
 
 export interface ExamState {

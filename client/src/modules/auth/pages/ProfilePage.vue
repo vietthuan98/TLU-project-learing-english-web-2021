@@ -135,8 +135,9 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import TokenSerive from "../../../helpers/token";
 import Rules from "../../../helpers/rules";
-import { USER_ROLE } from "../constants";
+import { AuthUser, USER_ROLE } from "../constants";
 import authApi from "../service";
+import swal from "sweetalert2";
 
 @Component({})
 export default class ProfilePage extends Vue {
@@ -173,7 +174,7 @@ export default class ProfilePage extends Vue {
   }
 
   get roles() {
-    return this.user.roles || [];
+    return (this.user.roles || []) as string[];
   }
 
   get displayRoles() {
@@ -232,12 +233,13 @@ export default class ProfilePage extends Vue {
         phone,
         address,
         roles,
-      };
+      } as AuthUser;
       TokenSerive.setUser(newUser);
-      this.showPopupMessage("Your profile has been uploaded", true);
+      await swal.fire("", "Your profile has been uploaded", "success");
       this.user = TokenSerive.getUser() || {};
     } else {
-      this.message = response?.message || "Somethings wrong.";
+      const message = response?.message || "Somethings wrong.";
+      await swal.fire("", message, "error");
     }
   }
 }

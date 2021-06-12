@@ -40,4 +40,5 @@ export interface ArticleState {
 export interface ArticleParams {
   page?: number;
   limit?: number;
+  title?: string | null;
 }

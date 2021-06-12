@@ -21,6 +21,7 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import videoApi from "../../service";
+import swal from "sweetalert2";
 
 @Component({})
 export default class extends Vue {
@@ -34,11 +35,11 @@ export default class extends Vue {
     const response = await videoApi.uploadVideo(formData);
     await this.$store.dispatch("setLoading", false);
     if (response?.success) {
-      this.showPopupMessage("Your image uploaded", true);
+      await swal.fire("", "Your image uploaded", "success");
       this.$emit("on-video-uploaded", response.data.url);
       this.dialog = false;
     } else {
-      this.showPopupMessage("Some thing went wrong", false);
+      await swal.fire("", "Some thing went wrong", "error");
     }
   }
 

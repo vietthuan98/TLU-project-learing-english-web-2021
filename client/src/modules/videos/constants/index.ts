@@ -49,6 +49,7 @@ export interface VideoState {
 export interface VideoParams {
   page: number;
   limit: number;
+  title: string;
 }
 
 export interface CueItem {
