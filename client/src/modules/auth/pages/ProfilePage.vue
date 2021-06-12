@@ -135,7 +135,7 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import TokenSerive from "../../../helpers/token";
 import Rules from "../../../helpers/rules";
-import { AuthUser, USER_ROLE } from "../constants";
+import { AuthUser, USER_ROLE, AuthMutations } from "../constants";
 import authApi from "../service";
 import swal from "sweetalert2";
 
@@ -235,6 +235,7 @@ export default class ProfilePage extends Vue {
         roles,
       } as AuthUser;
       TokenSerive.setUser(newUser);
+      this.$store.commit(`auth/${AuthMutations.SET_USER}`, newUser);
       await swal.fire("", "Your profile has been uploaded", "success");
       this.user = TokenSerive.getUser() || {};
     } else {

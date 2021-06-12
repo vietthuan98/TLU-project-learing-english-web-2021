@@ -14,7 +14,7 @@
           mdi-close
         </v-icon>
         <v-icon v-else>
-          mdi-account-circle
+          mdi-school
         </v-icon>
       </v-btn>
     </template>
@@ -24,11 +24,8 @@
     <v-btn fab dark small color="indigo" @click="openUploadExcel">
       <v-icon>mdi-microsoft-excel</v-icon>
     </v-btn>
-    <v-btn fab dark small color="blue" @click="openUploadVideo">
+    <v-btn fab dark small color="orange" @click="openUploadVideo">
       <v-icon>mdi-camera-account</v-icon>
-    </v-btn>
-    <v-btn fab dark small color="red">
-      <v-icon>mdi-delete</v-icon>
     </v-btn>
   </v-speed-dial>
 </template>

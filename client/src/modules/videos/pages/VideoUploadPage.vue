@@ -117,9 +117,9 @@ export default class VideoUploadPage extends Vue {
     height: 500,
     sources: [
       {
-        src:
-          "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-        // src: "",
+        // src:
+        //   "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+        src: "",
         type: "video/mp4",
       },
     ],

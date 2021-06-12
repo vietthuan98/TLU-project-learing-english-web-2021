@@ -2,7 +2,7 @@
   <v-main class="main-layout">
     <AppBar />
     <router-view />
-    <SpeedDial id="speed-dial" />
+    <SpeedDial v-if="isTeacher" id="speed-dial" />
     <ArticleFormPopup />
     <UploadExcelPopup />
     <Footer />
@@ -17,6 +17,7 @@ import AppBar from "../AppBar.vue";
 import Footer from "../Footer.vue";
 import ArticleFormPopup from "../../modules/articles/components/article-form-popup/ArticleFormPopup.vue";
 import UploadExcelPopup from "../../modules/exams/components/UploadExcelPopup.vue";
+import { USER_ROLE, AuthUser } from "../../modules/auth/constants";
 
 @Component({
   components: {
@@ -24,11 +25,19 @@ import UploadExcelPopup from "../../modules/exams/components/UploadExcelPopup.vu
     Footer,
     SpeedDial,
     ArticleFormPopup,
-    UploadExcelPopup
-  }
+    UploadExcelPopup,
+  },
 })
 export default class MainLayout extends Vue {
   @Prop({ default: null }) private value!: string;
+
+  get user(): AuthUser {
+    return this.$store.state?.auth?.user || {};
+  }
+
+  get isTeacher() {
+    return (this.user.roles || []).includes(USER_ROLE.TEACHER);
+  }
 }
 </script>
 

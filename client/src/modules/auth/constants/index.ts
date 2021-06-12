@@ -28,3 +28,12 @@ export enum USER_ROLE {
   TEACHER = 'teacher',
   STUDENT = 'student'
 }
+
+export interface AuthState {
+  userName: string;
+  user: AuthUser | null;
+}
+
+export enum AuthMutations {
+  SET_USER = 'SET_USER'
+}

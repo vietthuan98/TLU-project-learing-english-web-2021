@@ -5,7 +5,7 @@
         <v-col>
           <CommonTextSearch
             style="width: 80%"
-            placeholder="Please enter your title you are looking for"
+            placeholder="Please enter your article you are looking for"
             v-model="params.title"
             @search="searchByTitle"
           />

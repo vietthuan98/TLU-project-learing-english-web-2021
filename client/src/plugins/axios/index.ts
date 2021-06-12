@@ -1,5 +1,7 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import TokenServices from "@/helpers/token";
+import store from '../../store';
+import { AuthMutations } from '../../modules/auth/constants';
 
 export interface Response extends AxiosResponse {
   success: boolean;
@@ -17,6 +19,7 @@ const axiosInstance = axios.create({
 export const logout = () => {
   TokenServices.removeToken();
   TokenServices.removeUser();
+  store.commit(`auth/${AuthMutations.SET_USER}`, null);
 };
 
 axiosInstance.interceptors.request.use(async (request: AxiosRequestConfig) => {
