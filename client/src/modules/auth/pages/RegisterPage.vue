@@ -82,6 +82,7 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import Rules from "../../../helpers/rules";
 import { RegisterBody, USER_ROLE } from "../constants";
+import { errorMessage } from "../../../helpers/functions";
 import authApi from "../service";
 
 @Component({})
@@ -130,7 +131,7 @@ export default class RegisterPage extends Vue {
         query: { name: this.name, email: this.email },
       });
     } else {
-      this.message = response?.message || "Somethings wrong.";
+      await errorMessage(response?.message);
     }
   }
 }

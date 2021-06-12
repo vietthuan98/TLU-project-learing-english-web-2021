@@ -50,9 +50,10 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import Rules from "../../../helpers/rules";
-import { RegisterBody, LoginBody, AuthMutations } from "../constants";
+import { LoginBody, AuthMutations } from "../constants";
 import authApi from "../service";
 import TokenServices from "../../../helpers/token";
+import { errorMessage } from "../../../helpers/functions";
 
 @Component({})
 export default class LoginPage extends Vue {
@@ -86,10 +87,8 @@ export default class LoginPage extends Vue {
       TokenServices.setToken(response.data.token);
       this.$store.commit(`auth/${AuthMutations.SET_USER}`, response.data.user);
       this.$router.push("/");
-
-      //
     } else {
-      this.message = response?.message || "Somethings wrong.";
+      await errorMessage(response?.message);
     }
   }
 }
