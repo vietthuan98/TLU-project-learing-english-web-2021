@@ -87,6 +87,7 @@ userSchema.statics.findCredentials = async (email, password) => {
         'phone',
         'roles',
         'name',
+        'address',
         'createdAt',
         'updatedAt',
         'address',

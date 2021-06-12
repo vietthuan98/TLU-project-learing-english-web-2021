@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 
-import authRouters from "@/modules/auth/router";
+import { publicAuthRouters, privateAuthRouters } from "@/modules/auth/router";
 import homeRouters from "@/modules/home/router";
 import articleRouters from "@/modules/articles/router";
 import commonRouters from "@/modules/common/router";
@@ -22,7 +22,8 @@ const routes: Array<RouteConfig> = [
     redirect: "/home"
   },
   { path: "*", redirect: "/errors/404" },
-  authRouters,
+  publicAuthRouters,
+  privateAuthRouters,
   homeRouters,
   articleRouters,
   commonRouters,

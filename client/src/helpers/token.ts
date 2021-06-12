@@ -13,14 +13,20 @@ const TokenServices = {
     return localStorage.getItem("token");
   },
 
-  getUser() {
+  getUser(): Record<string, string> {
     const userString = localStorage.getItem("user");
     if (userString) return JSON.parse(userString as string);
+    return {};
   },
 
   getUserType() {
     const user = this.getUser();
     return user.type;
+  },
+
+  getUserRoles() {
+    const user = this.getUser();
+    return user.roles;
   },
 
   getHeaders() {

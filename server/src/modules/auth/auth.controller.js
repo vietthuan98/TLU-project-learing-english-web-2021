@@ -2,6 +2,7 @@ import Response from '../../helpers/commonResponse';
 import User from '../users/user.model';
 import UserVerification from './auth.model';
 import { sendVerifyEmail } from '../../plugins/email';
+import bcrypt from 'bcryptjs';
 
 export const login = async (req, res) => {
     try {
@@ -90,6 +91,47 @@ export const verifyEmail = async (req, res) => {
         res.status(200).send(new Response(200, 'Your email is verified'));
     } catch (err) {
         console.log('Error in verifyEmail func', err);
+        res.status(400).send(new Response(400, err.message));
+    }
+};
+
+export const updateProfile = async (req, res) => {
+    try {
+        const { user, body } = req;
+        const userData = await User.findOne({ _id: user._id });
+        if (!userData) {
+            return res
+                .status(422)
+                .send(
+                    new Response(
+                        422,
+                        'Some thing wrongs, you does not exist @@'
+                    )
+                );
+        }
+        const { name, phone, address, password, newPassword, roles } = body;
+        if (name) userData.name = name;
+        if (phone) userData.phone = phone;
+        if (address) userData.address = address;
+        if (roles) userData.roles = JSON.stringify(roles);
+        if (newPassword && password) {
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch)
+                return res
+                    .status(422)
+                    .send(new Response(422, 'Password wrong'));
+            userData.password = newPassword;
+        }
+        await userData.save();
+        const _user = userData.toObject();
+        if (userData.roles && typeof userData.roles === 'string') {
+            _user.roles = JSON.parse(userData.roles);
+        }
+        return res
+            .status(200)
+            .send(new Response(200, 'Your profile updated', _user));
+    } catch (err) {
+        console.log('Error in updateProfile func', err);
         res.status(400).send(new Response(400, err.message));
     }
 };

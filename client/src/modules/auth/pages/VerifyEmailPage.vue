@@ -10,7 +10,7 @@
           We have sent your verification infomation to your email - {{ email }}
         </p>
         <p>Please confirm to join.</p>
-        <p>Regard, Learning EAP.</p>
+        <p>Regard, TEG-English.</p>
       </v-card-text>
       <v-card-actions>
         <v-btn class="ml-auto" depressed color="primary" @click="goLogin">

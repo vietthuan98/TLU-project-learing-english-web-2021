@@ -7,6 +7,8 @@ export interface AuthResponse extends Response {
     token: string;
     user: AuthUser;
   };
+  success: boolean;
+  message: string;
 }
 class AuthAPI {
   prefix: string;
@@ -23,10 +25,13 @@ class AuthAPI {
   }
 
   async register(data: RegisterBody): Promise<AuthResponse> {
-    console.log("BASE_URL: ", process.env);
     const url = `${this.url}/register`;
-    console.log("url:", url);
     return await axios.post(url, data);
+  }
+
+  async updateProfile(data: Record<string, any>): Promise<AuthResponse> {
+    const url = `${this.url}/profile`;
+    return await axios.patch(url, data);
   }
 }
 

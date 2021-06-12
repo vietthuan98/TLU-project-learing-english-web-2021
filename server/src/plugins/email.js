@@ -8,7 +8,7 @@ export const sendVerifyEmail = async (email, user, link) => {
     const result = await sgMail.send({
         to: email,
         from: 'vietthuan98@gmail.com',
-        subject: '[TEG-english] Please verify your email.',
+        subject: '[TEG-English] Please verify your email.',
         html: `<strong>
         <p>Hi, ${name}. Let's verify your email so you can leaning more lessons from TEG-english.</p>
         <a target="_blank" href="${link}">Click here to verify your email.</a>

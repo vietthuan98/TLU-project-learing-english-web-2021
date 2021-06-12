@@ -53,7 +53,6 @@
             v-model="password"
             label="Password"
             :type="showPassword ? 'Password' : 'text'"
-            value="Grocery delivery"
             :rules="[Rules.required, Rules.validPassword]"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             @click:append="showPassword = !showPassword"

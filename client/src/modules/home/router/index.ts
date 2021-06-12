@@ -8,7 +8,7 @@ const homeRouters = {
       path: "/home",
       component: () => import("@/modules/home/pages/HomePage.vue"),
       meta: {
-        isPrivate: false,
+        isPublic: true,
       }
     }
   ]
