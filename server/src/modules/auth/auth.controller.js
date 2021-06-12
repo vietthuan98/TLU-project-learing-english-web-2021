@@ -43,10 +43,11 @@ export const logout = async (req, res) => {
 
 export const register = async (req, res) => {
     try {
-        const { email, name, password, phone } = req.body;
+        const { email, name, roles, password, phone } = req.body;
         const data = {
             email,
             name,
+            roles: JSON.stringify(roles),
             password,
             phone,
         };
@@ -56,7 +57,6 @@ export const register = async (req, res) => {
             const message = 'Your email has been used before';
             return res.status(422).send(new Response(400, message));
         }
-
         const user = new User(data);
         await user.save();
 

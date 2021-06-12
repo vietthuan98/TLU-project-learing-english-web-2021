@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import Response from '../../helpers/commonResponse';
+import { USER_ROLE } from '../users/user.model';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 const PHONE_REGEX = /^\d{10,11}$/;
@@ -10,6 +11,9 @@ export const registerSchema = Joi.object({
     phone: Joi.string().pattern(PHONE_REGEX).required(),
     address: Joi.string().allow(null),
     email: Joi.string().pattern(EMAIL_REGEX).required(),
+    roles: Joi.array()
+        .items(Joi.string().valid(...Object.values(USER_ROLE)))
+        .required(),
     password: Joi.string().pattern(PASSWORD_REGEX).required(),
 });
 

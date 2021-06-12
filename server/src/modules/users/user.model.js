@@ -33,12 +33,13 @@ const userSchema = new mongoose.Schema(
             minlength: 7,
             trim: true,
         },
+        roles: {
+            type: String,
+            required: true,
+        },
         accessToken: {
             type: String,
         },
-        // refreshToken: {
-        //     type: String,
-        // },
         isActive: {
             type: Boolean,
             default: false,
@@ -84,17 +85,14 @@ userSchema.statics.findCredentials = async (email, password) => {
         'isActive',
         'email',
         'phone',
+        'roles',
         'name',
         'createdAt',
         'updatedAt',
         'address',
         'password',
     ]);
-    if (!user) {
-        return {
-            error: 'User does not exist',
-        };
-    }
+    if (!user) return { error: 'User does not exist' };
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
         return {
@@ -106,6 +104,8 @@ userSchema.statics.findCredentials = async (email, password) => {
             error: 'Please check and verify your email',
         };
     }
+    if (user.roles && typeof user.roles === 'string')
+        user.roles = JSON.parse(user.roles);
     return { user };
 };
 
@@ -139,3 +139,8 @@ userSchema.pre('save', async function (next) {
 
 const User = mongoose.model('User', userSchema);
 export default User;
+
+export const USER_ROLE = {
+    TEACHER: 'teacher',
+    STUDENT: 'student',
+};

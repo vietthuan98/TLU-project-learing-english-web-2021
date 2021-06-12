@@ -50,7 +50,7 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import Rules from "../../../helpers/rules";
-import { IRegisterBody, ILoginBody } from "../constants";
+import { RegisterBody, LoginBody } from "../constants";
 import authApi from "../service";
 import TokenServices from "../../../helpers/token";
 
@@ -74,7 +74,7 @@ export default class LoginPage extends Vue {
     this.message = "";
     const isValid = this.form.validate();
     if (!isValid) return;
-    const params: ILoginBody = {
+    const params: LoginBody = {
       email: this.email,
       password: this.password,
     };

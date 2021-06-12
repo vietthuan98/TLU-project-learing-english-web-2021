@@ -13,6 +13,8 @@ const Rules = {
     (value.length > 3 && value.length < 30) ||
     "Your name must be 3-30 characters.",
 
+  requiredRoles: (value: string[]) => !!value.length || 'Required.',
+
   //Article
   aTitleLength: (value: string) =>
     !value ||

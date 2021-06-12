@@ -1,7 +1,7 @@
-import { IAuthUser } from "@/modules/auth/constants";
+import { AuthUser } from "@/modules/auth/constants";
 
 const TokenServices = {
-  setUser(user: IAuthUser) {
+  setUser(user: AuthUser) {
     localStorage.setItem("user", JSON.stringify(user));
   },
 

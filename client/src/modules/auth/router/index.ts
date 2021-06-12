@@ -12,6 +12,13 @@ const authRouters = {
       }
     },
     {
+      path: "/register/verify-email",
+      component: () => import("@/modules/auth/pages/VerifyEmailPage.vue"),
+      meta: {
+        isPublic: true
+      }
+    },
+    {
       path: "/register",
       component: () => import("@/modules/auth/pages/RegisterPage.vue"),
       meta: {
