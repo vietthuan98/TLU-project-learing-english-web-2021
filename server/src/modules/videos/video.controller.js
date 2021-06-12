@@ -146,3 +146,39 @@ export const uploadVideoToCloud = async (req, res) => {
         return res.status(500).send(new Response(500, err));
     }
 };
+
+export const deleteVideo = async (req, res) => {
+    try {
+        const { user, params } = req;
+
+        const video = await Video.findById(params.id);
+        if (!video) {
+            return res.status(200).send(
+                new Response(200, 'This video has been deleted', {
+                    id: params.id,
+                })
+            );
+        }
+        const isAuthor = user._id.toString() === video.author.toString();
+        if (!isAuthor) {
+            return res
+                .status(400)
+                .send(
+                    new Response(
+                        400,
+                        'You have no permission to delete this video.'
+                    )
+                );
+        }
+        await Video.deleteOne({ _id: video._id });
+
+        return res.status(200).send(
+            new Response(200, 'This video has been deleted', {
+                id: params.id,
+            })
+        );
+    } catch (err) {
+        console.log('Error in deleteVideo func: ', err);
+        return res.status(500).send(new Response(500, err));
+    }
+};

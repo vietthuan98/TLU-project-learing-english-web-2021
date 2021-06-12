@@ -7,6 +7,7 @@ import {
     getMyExams,
     getExamDetail,
     updateExam,
+    deleteExam,
 } from './exams.controller';
 
 const examRoute = (router) => {
@@ -21,6 +22,7 @@ const examRoute = (router) => {
         createExam
     );
     router.patch('/exams/:id', authenticate, validateUpdateExam, updateExam);
+    router.delete('/exams/:id', authenticate, deleteExam);
 };
 
 export default examRoute;

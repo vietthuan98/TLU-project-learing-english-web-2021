@@ -13,7 +13,7 @@
       </v-row>
     </v-container>
     <v-container>
-      <ExamTable @edit-exam="onEditExam" />
+      <ExamTable @edit-exam="onEditExam" @delete-exam="onDeleteExam" />
     </v-container>
     <ExamEditorPopup
       v-model="examEditorPopup.isShow"
@@ -37,6 +37,12 @@ import { Component, Prop } from "vue-property-decorator";
 import ExamTable from "../components/exam-table/ExamTable.vue";
 import ExamEditorPopup from "../components/exam-detail/ExamEditorPopup.vue";
 import { ExamParams, ExamMutations } from "../constants";
+import ExamAPI from "../service";
+import {
+  confirmDelete,
+  successMessage,
+  errorMessage,
+} from "../../../helpers/functions";
 
 @Component({
   components: {
@@ -84,6 +90,20 @@ export default class ExamListPage extends Vue {
   onEditExam(id: string) {
     this.examEditorPopup.isShow = true;
     this.examEditorPopup.id = id;
+  }
+
+  async onDeleteExam(id: string) {
+    const confirm = await confirmDelete();
+    if (!confirm) return;
+    await this.$store.dispatch("setLoading", true);
+    const response = await ExamAPI.delete(id);
+    await this.$store.dispatch("setLoading", false);
+    if (response.success) {
+      await successMessage(response.message);
+      await this.fetchExamList();
+    } else {
+      await errorMessage(response.message);
+    }
   }
 
   async onChangePage(page: number) {

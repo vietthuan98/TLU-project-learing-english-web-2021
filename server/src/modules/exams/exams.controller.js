@@ -128,3 +128,39 @@ export const updateExam = async (req, res) => {
         return res.status(500).send(new Response(500, err.message));
     }
 };
+
+export const deleteExam = async (req, res) => {
+    try {
+        const { user, params } = req;
+
+        const exam = await Exam.findById(params.id);
+        if (!exam) {
+            return res.status(200).send(
+                new Response(200, 'This exam has been deleted', {
+                    id: params.id,
+                })
+            );
+        }
+        const isAuthor = user._id.toString() === exam.author.toString();
+        if (!isAuthor) {
+            return res
+                .status(400)
+                .send(
+                    new Response(
+                        400,
+                        'You have no permission to delete this exam.'
+                    )
+                );
+        }
+        await Exam.deleteOne({ _id: exam._id });
+
+        return res.status(200).send(
+            new Response(200, 'This exam has been deleted', {
+                id: params.id,
+            })
+        );
+    } catch (err) {
+        console.log('Error in deleteExam func: ', err);
+        return res.status(500).send(new Response(500, err));
+    }
+};

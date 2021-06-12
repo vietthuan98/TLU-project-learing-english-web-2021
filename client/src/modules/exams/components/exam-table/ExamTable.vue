@@ -58,13 +58,20 @@
       <tr>
         <td :colspan="item.yours ? headers.length - 1 : headers.length">
           <v-card>
-            <v-card-text>
+            <v-card-text class="exam-info">
               <h4>Author: {{ item.author.name }}</h4>
               <h5>
                 Contact: {{ item.author.phone }}/
                 {{ item.author.email }}
               </h5>
               {{ item.description }}
+              <v-icon
+                class="icon-delete"
+                @click="deleteItem(item._id)"
+                color="black"
+              >
+                mdi-trash-can
+              </v-icon>
             </v-card-text>
           </v-card>
         </td>
@@ -84,7 +91,7 @@ import { Component, Prop } from "vue-property-decorator";
 import { ExamDetail } from "../../constants";
 
 @Component({
-  components: {}
+  components: {},
 })
 export default class ExamTable extends Vue {
   @Prop({ default: null }) private value!: string;
@@ -97,7 +104,7 @@ export default class ExamTable extends Vue {
       { text: "Participants", name: "participants", width: "5%" },
       { text: "Comments", name: "comments", width: "5%" },
       { text: "Your score", name: "score", width: "15%" },
-      { name: "expand", width: "5%" }
+      { name: "expand", width: "5%" },
     ];
   }
 
@@ -120,6 +127,10 @@ export default class ExamTable extends Vue {
   getExamDetail(id: string) {
     this.$router.push("/exams/" + id);
   }
+
+  deleteItem(id: string) {
+    this.$emit("delete-exam", id);
+  }
 }
 </script>
 
@@ -133,5 +144,16 @@ table {
 
 .expand.isRotate {
   transform: rotate(180deg);
+}
+
+.exam-info {
+  position: relative;
+}
+
+.icon-delete {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>

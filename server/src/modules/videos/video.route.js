@@ -5,6 +5,7 @@ import {
     uploadVideoToCloud,
     createVideo,
     updateVideo,
+    deleteVideo,
 } from './video.controller';
 import { authenticate, checkUserRoles } from '../../middleware/auth.middleware';
 import { USER_ROLE } from '../users/user.model';
@@ -30,6 +31,7 @@ const videoRoute = (router) => {
         createVideo
     );
     router.patch('/videos/:id', authenticate, validateUpdateVideo, updateVideo);
+    router.delete('/videos/:id', authenticate, deleteVideo);
 };
 
 export default videoRoute;

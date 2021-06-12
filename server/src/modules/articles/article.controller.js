@@ -141,3 +141,39 @@ export const uploadArticleImage = async (req, res) => {
         return res.status(500).send(new Response(500, err));
     }
 };
+
+export const deleteArticle = async (req, res) => {
+    try {
+        const { user, params } = req;
+
+        const article = await Article.findById(params.id);
+        if (!article) {
+            return res.status(200).send(
+                new Response(200, 'This article has been deleted', {
+                    id: params.id,
+                })
+            );
+        }
+        const isAuthor = user._id.toString() === article.author.toString();
+        if (!isAuthor) {
+            return res
+                .status(400)
+                .send(
+                    new Response(
+                        400,
+                        'You have no permission to delete this article'
+                    )
+                );
+        }
+        await Article.deleteOne({ _id: article._id });
+
+        return res.status(200).send(
+            new Response(200, 'This article has been deleted', {
+                id: params.id,
+            })
+        );
+    } catch (err) {
+        console.log('Error in deleteArticle func: ', err);
+        return res.status(500).send(new Response(500, err));
+    }
+};

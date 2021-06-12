@@ -26,6 +26,10 @@ class BaseAPI<P, F, DResponse extends Response, LResponse extends Response> {
   async update(id: string, data: F): Promise<DResponse> {
     return await axios.patch(this.url + "/" + id, data);
   }
+
+  async delete(id: string): Promise<DResponse> {
+    return await axios.delete(this.url + "/" + id);
+  }
 }
 
 export default BaseAPI;

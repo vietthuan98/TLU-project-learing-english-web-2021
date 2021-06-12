@@ -5,6 +5,7 @@ import {
     getArticleDetail,
     updateArticle,
     uploadArticleImage,
+    deleteArticle,
 } from './article.controller';
 import { authenticate, checkUserRoles } from '../../middleware/auth.middleware';
 import {
@@ -38,6 +39,7 @@ const articleRoute = (router) => {
         validateUpdateArticle,
         updateArticle
     );
+    router.delete('/articles/:id', authenticate, deleteArticle);
 };
 
 export default articleRoute;

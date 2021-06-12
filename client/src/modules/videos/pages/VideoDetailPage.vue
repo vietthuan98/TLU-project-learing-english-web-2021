@@ -1,5 +1,11 @@
 <template>
-  <v-container :key="`video-detail-page-${videoDetail._id}`">
+  <v-container
+    class="video-detail-page"
+    :key="`video-detail-page-${videoDetail._id}`"
+  >
+    <v-icon class="icon-delete" @click="deleteItem" color="black"
+      >mdi-trash-can</v-icon
+    >
     <common-v-bread-crumbs :items="breadCrumbs" />
     <v-container id="video-upload-page">
       <v-row>
@@ -103,6 +109,12 @@ import { VideoDetail, CueItem, VideoForm } from "../constants";
 import TokenService from "../../../helpers/token";
 import rules from "../../../helpers/rules";
 import moment from "moment";
+import VideoAPI from "../service";
+import {
+  confirmDelete,
+  successMessage,
+  errorMessage,
+} from "../../../helpers/functions";
 
 @Component({
   components: {
@@ -242,12 +254,34 @@ export default class VideoDetailPage extends Vue {
     await this.$store.dispatch("setLoading", false);
     return resposne;
   }
+
+  async deleteItem() {
+    const confirm = await confirmDelete();
+    if (!confirm) return;
+    const id = this.videoDetail._id as string;
+    await this.$store.dispatch("setLoading", true);
+    const response = await VideoAPI.delete(id);
+    await this.$store.dispatch("setLoading", false);
+    if (response.success) {
+      await successMessage(response.message);
+      this.$router.push("/videos");
+    } else {
+      await errorMessage(response.message);
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-.article-detail-page {
+.video-detail-page {
   height: 100vh;
+  position: relative;
+}
+
+.icon-delete {
+  position: absolute;
+  right: 0;
+  transform: translate(-100%, 50%);
 }
 
 .like-number {
