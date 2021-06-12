@@ -5,6 +5,7 @@ export const attrProfile = [
     'email',
     'name',
     'phone',
+    'roles',
     'articles',
     'exams',
     'doneExams',

@@ -6,6 +6,7 @@ import {
     findExamDetail,
     updateArticleToDB,
 } from './exams.service';
+import User from '../users/user.model';
 
 export const getExams = async (req, res) => {
     try {
@@ -32,12 +33,14 @@ export const createExam = async (req, res) => {
         const { body, user } = req;
         const exam = new Exam(body);
         exam.author = user._id;
-        user.exams.push(exam._id);
-        await Promise.all([exam.save(), user.save()]);
+        const _user = await User.findOne({ _id: user._id });
+        console.log('_user', _user);
+        _user.exams.push(exam._id);
+        await Promise.all([exam.save(), _user.save()]);
 
         return res.status(200).send(
             new Response(200, 'Exam created successfully', {
-                user,
+                _user,
                 exam,
             })
         );

@@ -53,7 +53,7 @@ export interface QuestionDetail {
 }
 export interface ExamForm {
   title?: string;
-  description?: string;
+  description?: string | null;
   questions?: QuestionDetail[];
   deletedCommentId?: null;
   score?: 1;

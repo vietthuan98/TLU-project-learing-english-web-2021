@@ -107,7 +107,7 @@ export default class ExampleMixins extends Vue {
   makeParams() {
     const params: ExamForm = {
       title: this.title,
-      description: this.description,
+      description: this.description || null,
       questions: this.excelData.map(item => ({
         question: item[camelCase(EXCEL_HEADERS.QUESTION)].value,
         options: [

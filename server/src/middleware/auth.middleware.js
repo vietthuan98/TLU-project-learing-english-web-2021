@@ -33,9 +33,13 @@ export const authenticate = async (req, res, next) => {
 export function checkUserRoles(allowedRoles) {
     try {
         return (req, res, next) => {
-            const roles = JSON.parse(req.user.roles);
-            if (roles.some((role) => allowedRoles.includes(role)))
+            let roles = [];
+            if (req.user.roles && typeof req.user.roles === 'string') {
+                roles = JSON.parse(req.user.roles);
+            }
+            if (roles.some((role) => allowedRoles.includes(role))) {
                 return next();
+            }
 
             return res
                 .status(401)
