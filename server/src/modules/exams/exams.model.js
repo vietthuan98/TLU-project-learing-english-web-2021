@@ -83,5 +83,7 @@ const examSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
+examSchema.index({ title: 'text' });
+
 const Exam = mongoose.model('Exam', examSchema);
 export default Exam;

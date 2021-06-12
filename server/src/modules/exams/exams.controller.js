@@ -11,10 +11,14 @@ import User from '../users/user.model';
 export const getExams = async (req, res) => {
     try {
         const { query } = req;
+        let queryItems = undefined;
+        if (query.title) {
+            queryItems = { title: { $regex: query.title, $options: 'i' } };
+        }
 
         const [items, total] = await Promise.all([
-            findExams(attrExams, query.limit, query.page),
-            Exam.count(),
+            findExams(attrExams, query.limit, query.page, queryItems),
+            Exam.countDocuments(queryItems),
         ]);
         res.status(200).send(
             new Response(200, 'Get exam list successfully', {

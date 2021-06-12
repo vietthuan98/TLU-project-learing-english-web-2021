@@ -11,10 +11,14 @@ import { uploadVideo as uploadVidePlugin } from '../../plugins/cloudinary';
 export const getVideos = async (req, res) => {
     try {
         const { query } = req;
+        let queryItems = undefined;
+        if (query.title) {
+            queryItems = { title: { $regex: query.title, $options: 'i' } };
+        }
 
         const [items, total] = await Promise.all([
-            findVideos(attrVideos, query.limit, query.page),
-            Video.count(),
+            findVideos(attrVideos, query.limit, query.page, queryItems),
+            Video.countDocuments(queryItems),
         ]);
         res.status(200).send(
             new Response(200, 'Get video list successfully', {

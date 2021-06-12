@@ -11,10 +11,14 @@ import { uploadImage } from '../../plugins/cloudinary';
 export const getArticles = async (req, res) => {
     try {
         const { query } = req;
+        let queryItems = undefined;
+        if (query.title) {
+            queryItems = { title: { $regex: query.title, $options: 'i' } };
+        }
 
         const [items, total] = await Promise.all([
-            findArticles(attrArticles, query.limit, query.page),
-            Article.count(),
+            findArticles(attrArticles, query.limit, query.page, queryItems),
+            Article.countDocuments(queryItems),
         ]);
         res.status(200).send(
             new Response(200, 'Get article list successfully', {
