@@ -10,7 +10,7 @@ import router from './route';
 
 const app = express();
 const port = process.env.PORT || 3000;
-const whiteList = process.env.CORS_WHITE_LIST;
+const whiteList = process.env.CORS_WHITE_LIST || 'tes1.com,test2.com';
 
 const corsOptions = {
     origin: whiteList.split(','), // allow cors in local
