@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="articles.length">
     <v-carousel
       class="article-list"
       cycle

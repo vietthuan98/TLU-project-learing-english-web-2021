@@ -2,6 +2,7 @@ import Response from '../../helpers/commonResponse';
 import User from '../users/user.model';
 import UserVerification from './auth.model';
 import { sendVerifyEmail } from '../../plugins/email';
+import { findUserDetail } from '../users/user.service';
 import bcrypt from 'bcryptjs';
 
 export const login = async (req, res) => {
@@ -132,6 +133,23 @@ export const updateProfile = async (req, res) => {
             .send(new Response(200, 'Your profile updated', _user));
     } catch (err) {
         console.log('Error in updateProfile func', err);
+        res.status(400).send(new Response(400, err.message));
+    }
+};
+
+export const getProfile = async (req, res) => {
+    try {
+        const { user } = req;
+        const foundUser = await findUserDetail({ _id: user._id });
+        if (!foundUser)
+            return res
+                .status(400)
+                .send(new Response(400, 'You does not exist @@'));
+        return res
+            .status(200)
+            .send(new Response(200, 'You profile here', foundUser));
+    } catch (err) {
+        console.log('Error in getProfile func', err);
         res.status(400).send(new Response(400, err.message));
     }
 };

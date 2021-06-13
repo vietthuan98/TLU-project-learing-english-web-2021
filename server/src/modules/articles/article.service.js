@@ -19,6 +19,7 @@ export async function findArticles(attr = attrArticles, limit, page, query) {
         const _skip = _limit * (+page - 1 || 0);
 
         const articles = await Article.find(query)
+            .sort({ createdAt: 'desc' })
             .limit(_limit)
             .skip(_skip)
             .select(attr)

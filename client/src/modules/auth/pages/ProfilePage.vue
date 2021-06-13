@@ -127,19 +127,102 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+    <h2 class="mb-4">Yours</h2>
+    <v-row>
+      <v-col>
+        <ProfilePageList
+          title="Articles"
+          :total="article.total"
+          :items="article.items"
+        >
+          <template v-slot:default="{ item }">
+            <v-list-item @click="getArticleDetail(item._id)">
+              <v-list-item-title v-text="item.title" />
+              <v-list-item-subtitle>
+                <p>
+                  <strong>Created at:</strong>
+                  {{ getCreatedAt(item.createdAt) }}
+                </p>
+                <p>
+                  <span class="mr-4"
+                    ><strong>Likes:</strong> {{ item.likes.length }}</span
+                  >
+                  <span
+                    ><strong>Comments:</strong> {{ item.comments.length }}</span
+                  >
+                </p>
+              </v-list-item-subtitle>
+            </v-list-item>
+          </template>
+        </ProfilePageList>
+      </v-col>
+      <v-col>
+        <ProfilePageList title="Exams" :total="exam.total" :items="exam.items">
+          <template v-slot:default="{ item }">
+            <v-list-item @click="getExamDetail(item._id)">
+              <v-list-item-title v-text="item.title" />
+              <v-list-item-subtitle>
+                <p>
+                  <strong>Created at:</strong>
+                  {{ getCreatedAt(item.createdAt) }}
+                </p>
+                <p>
+                  <span
+                    ><strong>Comments:</strong> {{ item.comments.length }}</span
+                  >
+                </p>
+              </v-list-item-subtitle>
+            </v-list-item>
+          </template>
+        </ProfilePageList>
+      </v-col>
+      <v-col>
+        <ProfilePageList
+          title="Videos"
+          :total="video.total"
+          :items="video.items"
+        >
+          <template v-slot:default="{ item }">
+            <v-list-item @click="getVideoDetail(item._id)">
+              <v-list-item-title v-text="item.title" />
+              <v-list-item-subtitle>
+                <p>
+                  <strong>Created at:</strong>
+                  {{ getCreatedAt(item.createdAt) }}
+                </p>
+                <p>
+                  <span class="mr-4"
+                    ><strong>Likes:</strong>{{ item.likes.length }}</span
+                  >
+                  <span
+                    ><strong>Comments:</strong> {{ item.comments.length }}</span
+                  >
+                </p>
+              </v-list-item-subtitle>
+            </v-list-item>
+          </template>
+        </ProfilePageList>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import ProfilePageList from "../components/ProfilePageList.vue";
 import { Component, Prop } from "vue-property-decorator";
 import TokenSerive from "../../../helpers/token";
 import Rules from "../../../helpers/rules";
-import { AuthUser, USER_ROLE, AuthMutations } from "../constants";
+import { AuthUser, USER_ROLE, AuthMutations, AuthParams } from "../constants";
 import authApi from "../service";
 import swal from "sweetalert2";
+import moment from "moment";
 
-@Component({})
+@Component({
+  components: {
+    ProfilePageList,
+  },
+})
 export default class ProfilePage extends Vue {
   @Prop({ default: null }) private value!: string;
   Rules = Rules;
@@ -156,6 +239,35 @@ export default class ProfilePage extends Vue {
   userRoles: string[] | null = [];
 
   user = TokenSerive.getUser() || {};
+
+  async created() {
+    await this.$store.dispatch("setLoading", true);
+    await Promise.all([this.getProfile(), this.getListBelongToProfile()]);
+    await this.$store.dispatch("setLoading", false);
+  }
+
+  async getProfile() {
+    await this.$store.dispatch("auth/getProfile");
+  }
+
+  async getListBelongToProfile() {
+    await this.$store.dispatch(
+      "auth/getListBelongToProfile",
+      this.$store?.state?.auth.params || {}
+    );
+  }
+
+  get video() {
+    return this.$store?.state.auth.video || {};
+  }
+
+  get article() {
+    return this.$store?.state.auth.article || {};
+  }
+
+  get exam() {
+    return this.$store?.state.auth.exam || {};
+  }
 
   get name() {
     return this.user.name || "";
@@ -192,6 +304,22 @@ export default class ProfilePage extends Vue {
 
   get form() {
     return this.$refs.form as Vue & { validate: () => boolean };
+  }
+
+  getCreatedAt(time: string) {
+    return moment(time).isValid() ? moment(time).format("DD/MM/YYYY") : "";
+  }
+
+  getVideoDetail(id: string) {
+    this.$router.push("/videos/" + id);
+  }
+
+  getExamDetail(id: string) {
+    this.$router.push("/exams/" + id);
+  }
+
+  getArticleDetail(id: string) {
+    this.$router.push("/articles/" + id);
   }
 
   toggleEditProfile() {
@@ -246,4 +374,19 @@ export default class ProfilePage extends Vue {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+::v-deep .v-list-item {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  display: block;
+  .v-list-item__title {
+    margin-bottom: 0.7rem;
+  }
+
+  .v-list-item__subtitle {
+    p {
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+</style>

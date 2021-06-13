@@ -150,7 +150,10 @@ export default class ArticleFormPopup extends Vue {
         ? "Your article has been created"
         : "Your article has been updated";
       await swal.fire("", message, "success");
-      await this.reloadArticleListIfNeed();
+      await Promise.all([
+        this.reloadProfileListIfNeed(),
+        this.reloadArticleListIfNeed(),
+      ]);
       this.close();
     } else {
       await swal.fire("", response.message.toString(), "error");
@@ -229,6 +232,15 @@ export default class ArticleFormPopup extends Vue {
         this.$store.state.articles.params
       );
       await this.$store.dispatch("setLoading", false);
+    }
+  }
+
+  async reloadProfileListIfNeed() {
+    if (this.$route.path === "/profile") {
+      await this.$store.dispatch(
+        "auth/getListBelongToProfile",
+        this.$store?.state?.auth.params || {}
+      );
     }
   }
 }

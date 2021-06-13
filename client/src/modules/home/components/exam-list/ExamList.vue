@@ -1,5 +1,5 @@
 <template>
-  <v-card class="exam-list mx-auto" max-width="100%">
+  <v-card v-if="examList.length" class="exam-list mx-auto" max-width="100%">
     <v-toolbar>
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 

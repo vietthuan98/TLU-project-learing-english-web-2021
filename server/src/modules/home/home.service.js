@@ -12,11 +12,11 @@ class HomeService extends HomeModel {
         super(...args);
     }
 
-    async getArticleList(limit = 10, page = 1, attr = attrArticles) {
+    async getArticleList(limit = 10, page = 1, attr = attrArticles, query) {
         try {
             const [items, total] = await Promise.all([
-                findArticles(attr, limit, page),
-                this.article.countDocuments(),
+                findArticles(attr, limit, page, query),
+                this.article.countDocuments(query),
             ]);
             return { items, total };
         } catch (e) {
@@ -25,11 +25,11 @@ class HomeService extends HomeModel {
         }
     }
 
-    async getVideoList(limit = 10, page = 1, attr = attrVideos) {
+    async getVideoList(limit = 10, page = 1, attr = attrVideos, query) {
         try {
             const [items, total] = await Promise.all([
                 findVideos(attr, limit, page),
-                this.video.countDocuments(),
+                this.video.countDocuments(query),
             ]);
             return { items, total };
         } catch (e) {
@@ -38,11 +38,11 @@ class HomeService extends HomeModel {
         }
     }
 
-    async getExamList(limit = 10, page = 1, attr = attrExams) {
+    async getExamList(limit = 10, page = 1, attr = attrExams, query) {
         try {
             const [items, total] = await Promise.all([
-                findExams(attr, limit, page),
-                this.exam.countDocuments(),
+                findExams(attr, limit, page, query),
+                this.exam.countDocuments(query),
             ]);
             return { items, total };
         } catch (e) {

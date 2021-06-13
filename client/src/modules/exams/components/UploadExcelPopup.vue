@@ -168,7 +168,7 @@ export default class UploadExcelPopup extends Mixins(ExamMixins) {
     const response = await examAPI.create(params);
     await this.$store.dispatch("setLoading", false);
     if (response.success) {
-      await this.fetchExamList();
+      await Promise.all([this.fetchExamList(), this.fetchProfileListItem()]);
       await swal.fire("", "Your exam has been uploaded", "success");
       this.dialog = false;
     } else {
@@ -182,6 +182,15 @@ export default class UploadExcelPopup extends Mixins(ExamMixins) {
       await this.$store.dispatch("setLoading", true);
       await this.$store.dispatch("exams/getExamList", params);
       await this.$store.dispatch("setLoading", false);
+    }
+  }
+
+  async fetchProfileListItem() {
+    if (this.$route.path === "/profile") {
+      await this.$store.dispatch(
+        "auth/getListBelongToProfile",
+        this.$store?.state?.auth.params || {}
+      );
     }
   }
 }

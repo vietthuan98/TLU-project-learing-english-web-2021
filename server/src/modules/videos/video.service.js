@@ -20,6 +20,7 @@ export async function findVideos(attr, limit, page, query) {
         const _skip = _limit * (+page - 1 || 0);
 
         const videos = await Video.find(query)
+            .sort({ createdAt: 'desc' })
             .limit(_limit)
             .skip(_skip)
             .select(attr)

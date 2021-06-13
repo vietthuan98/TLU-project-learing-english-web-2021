@@ -18,7 +18,7 @@ export interface HomeState {
     params: HomeParams,
 }
 
-interface CommonParams {
+export interface CommonParams {
     page: number,
     limit: number
 }
