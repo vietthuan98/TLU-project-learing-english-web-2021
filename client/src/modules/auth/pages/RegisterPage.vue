@@ -54,7 +54,7 @@
             label="Password"
             :type="showPassword ? 'Password' : 'text'"
             :rules="[Rules.required, Rules.validPassword]"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :append-icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             @click:append="showPassword = !showPassword"
             persistent-hint
             outlined
