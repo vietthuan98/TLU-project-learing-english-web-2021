@@ -35,6 +35,10 @@ export default class App extends Vue {
   get popupMessage() {
     return this.$store.state?.popupMessage;
   }
+
+  created() {
+    document.title = "TEG English";
+  }
 }
 </script>
 
