@@ -69,7 +69,7 @@ export const register = async (req, res) => {
         });
         await verification.save();
 
-        const link = `${req.protocol}://${req.hostname}:${process.env.PORT}/api/auth/verify?token=${verification.token}`; //TODO check here on production
+        const link = `${req.protocol}'://'${req.hostname}/api/auth/verify?token=${verification.token}`;
         const sendEmailResponse = await sendVerifyEmail(user.email, user, link);
 
         res.status(200).send(
@@ -89,10 +89,12 @@ export const verifyEmail = async (req, res) => {
     try {
         const { token } = req.query;
         await UserVerification.compareToken(token);
-        res.status(200).send(new Response(200, 'Your email is verified'));
+        return res.redirect(
+            'https://tlu-learning-english-client.herokuapp.com/login'
+        );
     } catch (err) {
         console.log('Error in verifyEmail func', err);
-        res.status(400).send(new Response(400, err.message));
+        return res.status(400).send(new Response(400, err.message));
     }
 };
 
