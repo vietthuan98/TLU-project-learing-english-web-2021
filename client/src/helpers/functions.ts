@@ -25,3 +25,16 @@ export async function successMessage(message = "It's ok.") {
 export async function errorMessage(message = "Something went wrong.") {
   return await swal.fire('', message, 'error');
 }
+
+export async function guestConfirmation() {
+  return await swal.fire({
+    text: 'You must be logged in to view this feature.',
+    showDenyButton: true,
+    showCancelButton: true,
+    confirmButtonText: `Register`,
+    denyButtonText: `Login`,
+    customClass: {
+      popup: 'guest-confirmation',
+    }
+  });
+}
