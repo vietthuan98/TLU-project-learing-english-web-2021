@@ -69,7 +69,7 @@ export const register = async (req, res) => {
         });
         await verification.save();
 
-        const link = `${req.protocol}'://'${req.hostname}/api/auth/verify?token=${verification.token}`;
+        const link = `${req.protocol}://${req.hostname}/api/auth/verify?token=${verification.token}`;
         const sendEmailResponse = await sendVerifyEmail(user.email, user, link);
 
         res.status(200).send(
