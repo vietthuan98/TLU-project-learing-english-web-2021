@@ -52,9 +52,9 @@
           <v-text-field
             v-model="password"
             label="Password"
-            :type="showPassword ? 'Password' : 'text'"
+            :type="!showPassword ? 'Password' : 'text'"
             :rules="[Rules.required, Rules.validPassword]"
-            :append-icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :append-icon="!showPassword ? 'mdi-eye-off' : 'mdi-eye'"
             @click:append="showPassword = !showPassword"
             persistent-hint
             outlined
