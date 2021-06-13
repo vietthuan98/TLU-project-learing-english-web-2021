@@ -31,7 +31,7 @@
                   v-text="`${item.questions.length} questions`"
                 ></v-list-item-action-text>
                 <v-list-item-action-text
-                  v-text="`${item.users.length} users did`"
+                  v-text="`${item.users.length} participants`"
                 ></v-list-item-action-text>
               </v-list-item-action>
             </template>
