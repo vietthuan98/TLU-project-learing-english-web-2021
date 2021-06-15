@@ -35,17 +35,51 @@
         </p>
       </v-col>
     </v-row>
-    <div class="font-weight-medium">
-      Your score: {{ examDetail.score || 0 }}/{{ questions.length }}
-    </div>
-    <div class="d-flex pr-10">
-      <v-btn class="rework ml-auto" @click="rework">
-        Rework, do it again
-      </v-btn>
-      <v-btn class="primary ml-4" @click="back">
-        Back to exam list
-      </v-btn>
-    </div>
+    <v-row>
+      <v-col>
+        <div class="font-weight-medium">
+          Your score: {{ examDetail.score || 0 }}/{{ questions.length }}
+        </div>
+      </v-col>
+      <v-col>
+        <div class="d-flex pr-10">
+          <v-btn class="rework ml-auto" @click="rework">
+            Rework, do it again
+          </v-btn>
+          <v-btn class="primary ml-4" @click="back">
+            Back to exam list
+          </v-btn>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row v-if="comments.length">
+      <v-col cols="10">
+        <ExamComment
+          v-for="(item, index) in comments"
+          :key="index"
+          :comment="item"
+          @delete-comment="updateExam"
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="8">
+        <v-textarea
+          solo
+          name="input-7-4"
+          label="Leave your comment"
+          v-model="comment"
+          @keyup.enter="addComment"
+        ></v-textarea>
+      </v-col>
+    </v-row>
+    <v-row class="mt-0">
+      <v-col class="pt-0"
+        ><v-btn class="primary" @click="addComment">
+          Submit
+        </v-btn></v-col
+      >
+    </v-row>
   </div>
 </template>
 
@@ -53,10 +87,16 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import { ExamDetail, ANSWERS } from "../../constants";
+import ExamComment from "./ExamComment.vue";
 
-@Component({})
+@Component({
+  components: {
+    ExamComment,
+  },
+})
 export default class ExamResult extends Vue {
   @Prop({ default: () => ({}) }) result!: Record<string, boolean>;
+  comment = "";
 
   get examDetail(): ExamDetail {
     return this.$store.state.exams?.examDetail || {};
@@ -64,6 +104,10 @@ export default class ExamResult extends Vue {
 
   get questions() {
     return this.examDetail.questions || [];
+  }
+
+  get comments() {
+    return this.examDetail.comments || [];
   }
 
   get ANSWERS() {
@@ -76,6 +120,22 @@ export default class ExamResult extends Vue {
 
   back() {
     this.$router.push("/exams");
+  }
+
+  async addComment() {
+    await this.updateExam({
+      comment: this.comment,
+    });
+    this.comment = "";
+  }
+
+  async updateExam(data: any) {
+    await this.$store.dispatch("setLoading", true);
+    const response = await this.$store.dispatch("exams/updateExamDetail", {
+      id: this.examDetail._id,
+      data,
+    });
+    await this.$store.dispatch("setLoading", false);
   }
 }
 </script>
