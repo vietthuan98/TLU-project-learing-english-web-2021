@@ -105,10 +105,7 @@ export default class ArticleList extends Vue {
 
 .description {
   overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  padding-bottom: 0;
-  margin-bottom: 1rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>
