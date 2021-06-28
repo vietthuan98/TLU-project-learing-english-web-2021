@@ -38,7 +38,6 @@ export const createExam = async (req, res) => {
         const exam = new Exam(body);
         exam.author = user._id;
         const _user = await User.findOne({ _id: user._id });
-        console.log('_user', _user);
         _user.exams.push(exam._id);
         await Promise.all([exam.save(), _user.save()]);
 

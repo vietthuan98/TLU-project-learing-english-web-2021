@@ -79,5 +79,6 @@ export default class ArticleDetailContent extends Vue {
 .paragraph {
   text-indent: 3%;
   text-align: justify;
+  white-space: pre-line;
 }
 </style>

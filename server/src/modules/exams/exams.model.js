@@ -44,7 +44,7 @@ const examSchema = new mongoose.Schema(
                         type: String,
                         trim: true,
                         required: true,
-                        minLength: 3,
+                        minLength: 1,
                         maxLength: 500,
                     },
                 ],

@@ -135,7 +135,6 @@ export default class VideoDetailPage extends Vue {
   }
 
   async getVideoDetail(id: string) {
-    console.log("id", id);
     this.isLoading = true;
     await this.$store.dispatch("setLoading", true);
     const response = await this.$store.dispatch("videos/getVideoDetail", id);

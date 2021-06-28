@@ -19,7 +19,6 @@ const actions: ActionTree<ExamState, RootState> = {
           return userId === TokenServices.getUser()._id
         }
       );
-      console.log('item.users', item.users);
       if (foundUser && foundUser.score >= 0) item.score = foundUser.score;
       const authorId = item?.author?._id;
       if (authorId && authorId === TokenServices.getUser()._id)

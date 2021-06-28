@@ -17,8 +17,8 @@ export function validateCellData(data: {
     case camelCase(EXCEL_HEADERS.OPTION_3):
     case camelCase(EXCEL_HEADERS.OPTION_4):
       if (!value) return "Option is required.";
-      if ((value as string).length < 3 || (value as string).length > 500)
-        return "Option must be 3 - 500 characters.";
+      if ((value as string).length < 1 || (value as string).length > 500)
+        return "Option must be 1 - 500 characters.";
       break;
     case camelCase(EXCEL_HEADERS.ANSWER):
       if (!value) return "Answer is required.";
