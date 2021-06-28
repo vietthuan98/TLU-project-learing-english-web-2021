@@ -9,7 +9,7 @@ export const createExamSchema = Joi.object({
             Joi.object({
                 question: Joi.string().min(3).max(500).required(),
                 options: Joi.array()
-                    .items(Joi.string().min(3).max(500))
+                    .items(Joi.string().min(1).max(500))
                     .length(4)
                     .required(),
                 answer: Joi.number().integer().min(0).max(3),
