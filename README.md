@@ -2,8 +2,6 @@
 
 Website project to learning english to graduate from TLU university.
 
-_Level: beginner_ :))
-
 ## Tool
 
 Client side: [VueJs](https://vuejs.org/) & [Typescript](https://www.typescriptlang.org/)
