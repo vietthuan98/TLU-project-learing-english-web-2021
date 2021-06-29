@@ -1,5 +1,8 @@
 import Response from '../../helpers/commonResponse';
 import homeService from './home.service';
+import { attrArticles } from '../articles/article.service';
+import { attrExams } from '../exams/exams.service';
+import { attrVideos } from '../videos/video.service';
 
 function getQuery(videoQ, examQ, articleQ) {
     let videoQuery;
@@ -14,7 +17,10 @@ function getQuery(videoQ, examQ, articleQ) {
 export const getHomeList = async (req, res) => {
     try {
         const { query } = req;
-        const { video: videoQ, exam: examQ, article: articleQ } = query;
+        let { video: videoQ, exam: examQ, article: articleQ } = query;
+        videoQ = typeof videoQ === 'string' ? JSON.parse(videoQ) : {};
+        examQ = typeof examQ === 'string' ? JSON.parse(examQ) : {};
+        articleQ = typeof articleQ === 'string' ? JSON.parse(articleQ) : {};
 
         const { videoQuery, examQuery, articleQuery } = getQuery(
             videoQ,
@@ -26,10 +32,21 @@ export const getHomeList = async (req, res) => {
             homeService.getArticleList(
                 articleQ.limit,
                 articleQ.page,
+                attrArticles,
                 videoQuery
             ),
-            homeService.getExamList(examQ.limit, examQ.page, examQuery),
-            homeService.getVideoList(videoQ.limit, videoQ.page, articleQuery),
+            homeService.getExamList(
+                examQ.limit,
+                examQ.page,
+                attrExams,
+                examQuery
+            ),
+            homeService.getVideoList(
+                videoQ.limit,
+                videoQ.page,
+                attrVideos,
+                articleQuery
+            ),
         ]);
 
         return res.status(200).send(
