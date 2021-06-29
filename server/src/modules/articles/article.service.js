@@ -90,7 +90,6 @@ export async function updateArticleToDB(data, article) {
         await article.save();
         const articleData = await findArticleDetail({
             _id: article._id,
-            author: article.author._id,
         });
 
         return articleData;

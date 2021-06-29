@@ -100,7 +100,6 @@ export const updateArticle = async (req, res) => {
         body.user = user;
         const article = await Article.findOne({
             _id: req.params.id,
-            author: user._id,
         });
         if (!article) {
             return res

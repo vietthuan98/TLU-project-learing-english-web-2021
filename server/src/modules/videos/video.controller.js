@@ -100,7 +100,6 @@ export const updateVideo = async (req, res) => {
         body.user = user;
         const video = await Video.findOne({
             _id: req.params.id,
-            author: user._id,
         });
         if (!video) {
             return res

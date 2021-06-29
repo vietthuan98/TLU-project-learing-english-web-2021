@@ -86,7 +86,6 @@ export async function updateVideoToDB(data, video) {
         await video.save();
         return await findVideoDetail({
             _id: video._id,
-            author: video.author._id,
         });
     } catch (error) {
         console.log(`Error in updateVideoToDB func: ${error.stack}`);
