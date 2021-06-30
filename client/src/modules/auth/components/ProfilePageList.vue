@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="list-item">
     <v-card-title>
       {{ title }}
       <v-spacer />

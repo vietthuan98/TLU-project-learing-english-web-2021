@@ -129,7 +129,7 @@
     </v-card>
     <h2 class="mb-4">Yours</h2>
     <v-row>
-      <v-col>
+      <v-col cols="4">
         <ProfilePageList
           title="Articles"
           :total="article.total"
@@ -156,7 +156,7 @@
           </template>
         </ProfilePageList>
       </v-col>
-      <v-col>
+      <v-col cols="4">
         <ProfilePageList title="Exams" :total="exam.total" :items="exam.items">
           <template v-slot:default="{ item }">
             <v-list-item @click="getExamDetail(item._id)">
@@ -176,7 +176,7 @@
           </template>
         </ProfilePageList>
       </v-col>
-      <v-col>
+      <v-col cols="4">
         <ProfilePageList
           title="Videos"
           :total="video.total"
