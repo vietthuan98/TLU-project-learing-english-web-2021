@@ -28,7 +28,7 @@ class HomeService extends HomeModel {
     async getVideoList(limit = 10, page = 1, attr = attrVideos, query) {
         try {
             const [items, total] = await Promise.all([
-                findVideos(attr, limit, page),
+                findVideos(attr, limit, page, query),
                 this.video.countDocuments(query),
             ]);
             return { items, total };
