@@ -10,12 +10,13 @@ import router from './route';
 
 const app = express();
 const port = process.env.PORT || 3000;
-const whiteList = process.env.CORS_WHITE_LIST || 'tes1.com,test2.com';
+const whiteList = process.env.CORS_WHITE_LIST;
 
 const corsOptions = {
-    origin: whiteList.split(','), // allow cors in local
+    origin: whiteList, // allow cors in local
     methods: ['POST', 'GET', 'PUT', 'PATCH', 'DELETE'],
 };
+console.log('corsOptions', corsOptions);
 app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
