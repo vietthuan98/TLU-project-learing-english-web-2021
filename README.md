@@ -2,6 +2,8 @@
 
 Website project to learning english to graduate from TLU university.
 
+Link demo: https://tlu-learning-english-client.herokuapp.com/home
+
 ## Tool
 
 Client side: [VueJs](https://vuejs.org/) & [Typescript](https://www.typescriptlang.org/)
