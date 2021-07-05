@@ -16,7 +16,7 @@ const corsOptions = {
     origin: whiteList, // allow cors in local
     methods: ['POST', 'GET', 'PUT', 'PATCH', 'DELETE'],
 };
-console.log('corsOptions', corsOptions);
+
 app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
